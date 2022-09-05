@@ -9,12 +9,15 @@ const allClientsController = new AllClientsController();
 export default class ClientRouter {
     constructor() {
         this.router = express.Router();
+        this.createRoutes();
     }
 
-    createRouters() {
+    createRoutes() {
         this.router.get(`/client`, clientController.execute);
         this.router.get(`/clients`, allClientsController.execute);
+    }
 
+    getRouter() {
         return this.router;
     }
 }

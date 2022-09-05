@@ -9,12 +9,15 @@ const allServiceCentersController = new AllServiceCentersController();
 export default class ServiceCenterRouter {
     constructor() {
         this.router = express.Router();
+        this.createRoutes();
     }
 
-    createRouters() {
+    createRoutes() {
         this.router.get(`/service_center`, serviceCenterController.execute);
         this.router.get(`/service_centers`, allServiceCentersController.execute);
+    }
 
+    getRouter() {
         return this.router;
     }
 }

@@ -12,17 +12,16 @@ const __filename = fileURLToPath(import.meta.url);
 global.__dirname = dirname(__filename);
 
 const app = new App();
+const routers = [];
 
-const clientRouter = new ClientRouter();
-const masterRouter = new MasterRouter();
-const carRouter = new CarRouter();
-const serviceCenterRouter = new ServiceCenterRouter();
-const serviceRecordRouter = new ServiceRecordRouter();
+routers.push(new ClientRouter());
+routers.push(new MasterRouter());
+routers.push(new CarRouter());
+routers.push(new ServiceCenterRouter());
+routers.push(new ServiceRecordRouter());
 
-app.initRouter(clientRouter.createRouters());
-app.initRouter(masterRouter.createRouters());
-app.initRouter(carRouter.createRouters());
-app.initRouter(serviceCenterRouter.createRouters());
-app.initRouter(serviceRecordRouter.createRouters());
+routers.forEach((router) => {
+    app.initRouter(router.getRouter());
+})
 
 app.listen(3020);

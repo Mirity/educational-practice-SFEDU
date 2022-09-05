@@ -9,12 +9,15 @@ const allCarsController = new AllCarsController();
 export default class CarRouter {
     constructor() {
         this.router = express.Router();
+        this.createRoutes();
     }
 
-    createRouters() {
+    createRoutes() {
         this.router.get(`/car`, carController.execute);
         this.router.get(`/cars`, allCarsController.execute.bind(allCarsController));
+    }
 
+    getRouter() {
         return this.router;
     }
 }

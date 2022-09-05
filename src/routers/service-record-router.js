@@ -8,12 +8,15 @@ const allServiceRecordsController = new AllServiceRecordsController();
 export default class ServiceRecordRouter {
     constructor() {
         this.router = express.Router();
+        this.createRoutes();
     }
 
-    createRouters() {
+    createRoutes() {
         this.router.get(`/service_record`, serviceRecordController.execute);
         this.router.get(`/service_records`, allServiceRecordsController.execute);
+    }
 
+    getRouter() {
         return this.router;
     }
 }

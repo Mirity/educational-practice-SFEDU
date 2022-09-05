@@ -8,12 +8,15 @@ const mastersController = new AllMastersController();
 export default class MasterRouter {
     constructor() {
         this.router = express.Router();
+        this.createRoutes();
     }
 
-    createRouters() {
+    createRoutes() {
         this.router.get(`/master`, masterController.execute);
         this.router.get(`/masters`, mastersController.execute);
+    }
 
+    getRouter() {
         return this.router;
     }
 }
