@@ -1,0 +1,37 @@
+{
+  "type": "module",
+  "name": "7-mvc-js-alisa",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@git.lachestry.tech:2222/education/dev-interns-2022/7-mvc-js-alisa.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^2.27.10",
+    "del": "^7.0.0",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^8.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-csso": "^4.0.1",
+    "gulp-file-include": "^2.3.0",
+    "gulp-htmlmin": "^5.0.1",
+    "gulp-nodemon": "^2.5.0",
+    "gulp-sass": "^5.1.0",
+    "http-proxy-middleware": "^2.0.6",
+    "node-sass": "^7.0.1",
+    "nodemon": "^2.0.19",
+    "sass": "^1.54.8"
+  },
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
