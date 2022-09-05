@@ -12,15 +12,18 @@ const __filename = fileURLToPath(import.meta.url);
 global.__dirname = dirname(__filename);
 
 const app = new App();
-const routers = [];
+const routers = [
+    ClientRouter,
+    MasterRouter,
+    CarRouter,
+    ServiceCenterRouter,
+    ServiceRecordRouter,
+];
 
-routers.push(new ClientRouter());
-routers.push(new MasterRouter());
-routers.push(new CarRouter());
-routers.push(new ServiceCenterRouter());
-routers.push(new ServiceRecordRouter());
 
-routers.forEach((router) => {
+routers.forEach((Router) => {
+    const router = new Router();
+
     app.initRouter(router.getRouter());
 })
 
