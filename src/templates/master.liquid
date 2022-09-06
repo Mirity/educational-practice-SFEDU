@@ -6,14 +6,14 @@
     <title>Master</title>
 </head>
 <body>
-@@include('samples/header.liquid')
+{% include 'samples/header.liquid' %}
 <div class="master">
     {% assign master = this.getMaster %}
     <div class="master__id">
         {{ master.id }}
     </div>
-    @@include('samples/master-sample.liquid')
+    {% include 'samples/master-sample.liquid' %}
 </div>
-@@include('samples/footer.liquid')
+{% include 'samples/footer.liquid' %}
 </body>
 </html>

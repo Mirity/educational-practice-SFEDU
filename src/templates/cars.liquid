@@ -6,12 +6,12 @@
     <title>Cars</title>
 </head>
 <body>
-@@include('samples/header.liquid')
+{% include 'samples/header.liquid' %}
 <div class="cars">
     {% for car in cars %}
-        @@include('samples/car-sample.liquid')
+        {% include 'samples/car-sample.liquid' %}
     {% endfor %}
 </div>
-@@include('samples/footer.liquid')
+{% include 'samples/footer.liquid' %}
 </body>
 </html>

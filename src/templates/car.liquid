@@ -6,11 +6,11 @@
     <title>Car</title>
 </head>
 <body>
-  @@include('samples/header.liquid')
+{% include 'samples/header.liquid' %}
   <div class="car">
       {% assign car = this.getCar %}
-      @@include('samples/car-sample.liquid')
+      {% include 'samples/car-sample.liquid' %}
   </div>
-  @@include('samples/footer.liquid')
+  {% include 'samples/footer.liquid' %}
 </body>
 </html>

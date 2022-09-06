@@ -6,11 +6,11 @@
   <title>Service center</title>
 </head>
 <body>
-@@include('samples/header.liquid')
+{% include 'samples/header.liquid' %}
 <div class="service-center">
   {% assign serviceCenter = this.getServiceCenter %}
-  @@include('samples/service-center-sample.liquid')
+  {% include 'samples/service-center-sample.liquid' %}
 </div>
 </body>
-@@include('samples/footer.liquid')
+{% include 'samples/footer.liquid' %}
 </html>

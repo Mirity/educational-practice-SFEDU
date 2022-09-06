@@ -6,13 +6,13 @@
     <title>Service records</title>
 </head>
 <body>
-@@include('samples/header.liquid')
+{% include 'samples/header.liquid' %}
 <div class="service-records">
     {% assign serviceRecords = this.getServiceRecords %}
     {% for serviceRecord in serviceRecords %}
-        @@include('samples/service-record-sample.liquid')
+        {% include 'samples/service-record-sample.liquid' %}
     {% endfor %}
 </div>
-@@include('samples/footer.liquid')
+{% include 'samples/footer.liquid' %}
 </body>
 </html>

@@ -6,11 +6,11 @@
     <title>Client</title>
 </head>
 <body>
-@@include('samples/header.liquid')
+{% include 'samples/header.liquid' %}
 <div class="client">
     {% assign client = this.getClient %}
-    @@include('samples/client-sample.liquid')
+    {% include 'samples/client-sample.liquid' %}
 </div>
-@@include('samples/footer.liquid')
+{% include 'samples/footer.liquid' %}
 </body>
 </html>
