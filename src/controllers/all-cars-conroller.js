@@ -5,6 +5,6 @@ export default class CarsController {
         const carsView = new CarsView();
         const carsData = carsView.getCars();
 
-        res.render(carsView.getTemplate(), { 'this': carsData });
+        res.render(carsView.getTemplate(), { 'cars': carsData });
     }
 }

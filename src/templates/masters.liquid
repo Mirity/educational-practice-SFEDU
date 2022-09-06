@@ -6,32 +6,14 @@
   <title>Masters</title>
 </head>
 <body>
+@@include('samples/header.liquid')
 <div class="masters">
   {% assign masters = this.getMasters %}
 
   {% for master in masters %}
-    <div class="masters__id">
-      {{ master.id }}
-    </div>
-
-    <div class="masters__name">
-      {{ master.name }}
-    </div>
-
-    <div class="masters__surname">
-      {{ master.surname }}
-    </div>
-
-    <div class="masters__head-master">
-      {{ master.headMasterId }}
-    </div>
-
-    <div class="masters__service-center">
-      {{ master.serviceCenterId }}
-    </div>
+      @@include('samples/master-sample.liquid')
   {% endfor %}
-
-
 </div>
+@@include('samples/footer.liquid')
 </body>
 </html>

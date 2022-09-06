@@ -6,36 +6,11 @@
   <title>Service center</title>
 </head>
 <body>
+@@include('samples/header.liquid')
 <div class="service-center">
   {% assign serviceCenter = this.getServiceCenter %}
-  <div class="service-center__id">
-    {{ serviceCenter.id }}
-  </div>
-
-  <div class="service-center__name">
-    {{ serviceCenter.name }}
-  </div>
-
-  <div class="service-center__country-id">
-    {{ serviceCenter.countryId }}
-  </div>
-
-  <div class="service-center__city-id">
-    {{ serviceCenter.cityId }}
-  </div>
-
-  <div class="service-center__street">
-    {{ serviceCenter.street }}
-  </div>
-
-  <div class="service-center__house">
-    {{ serviceCenter.house }}
-  </div>
-
-  <div class="service-center__number-seats">
-    {{ serviceCenter.numberSeats }}
-  </div>
-
+  @@include('samples/service-center-sample.liquid')
 </div>
 </body>
+@@include('samples/footer.liquid')
 </html>

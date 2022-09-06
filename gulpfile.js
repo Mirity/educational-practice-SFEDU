@@ -6,6 +6,7 @@ import csso from 'gulp-csso';
 import autoprefixer from 'gulp-autoprefixer';
 import concat from 'gulp-concat';
 import browserSync from 'browser-sync';
+import include from 'gulp-file-include'
 import { deleteSync } from 'del';
 
 const { src, dest, series, parallel, watch } = gulp;
@@ -29,7 +30,11 @@ function scss() {
 
 
 function liquid() {
-    return src('src/templates/*.liquid').pipe(dest('dist/templates'));
+    return src('src/templates/*.liquid')
+        .pipe(include({
+            prefix: '@@'
+        }))
+        .pipe(dest('dist/templates'));
 }
 
 function script() {

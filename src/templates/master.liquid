@@ -1,33 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <link href="../../css/style.css" rel="stylesheet">
-  <title>Master</title>
+    <meta charset="UTF-8">
+    <link href="../../css/style.css" rel="stylesheet">
+    <title>Master</title>
 </head>
 <body>
+@@include('samples/header.liquid')
 <div class="master">
-  {% assign master = this.getMaster %}
-  <div class="master__id">
-    {{ master.id }}
-  </div>
-
-  <div class="master__name">
-    {{ master.name }}
-  </div>
-
-  <div class="master__surname">
-    {{ master.surname }}
-  </div>
-
-  <div class="master__head-master">
-    {{ master.headMasterId }}
-  </div>
-
-  <div class="master__service-center">
-    {{ master.serviceCenterId }}
-  </div>
-
+    {% assign master = this.getMaster %}
+    <div class="master__id">
+        {{ master.id }}
+    </div>
+    @@include('samples/master-sample.liquid')
 </div>
+@@include('samples/footer.liquid')
 </body>
 </html>

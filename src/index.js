@@ -12,6 +12,9 @@ const __filename = fileURLToPath(import.meta.url);
 global.__dirname = dirname(__filename);
 
 const app = new App();
+
+app.initLiquid();
+
 const routers = [
     ClientRouter,
     MasterRouter,

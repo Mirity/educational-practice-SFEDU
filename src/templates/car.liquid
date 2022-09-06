@@ -6,16 +6,11 @@
     <title>Car</title>
 </head>
 <body>
+  @@include('samples/header.liquid')
   <div class="car">
       {% assign car = this.getCar %}
-      <div class="car__id">
-          {{ car.id }}
-      </div>
-
-      <div class="car__model">
-          {{ car.model }}
-      </div>
-
+      @@include('samples/car-sample.liquid')
   </div>
+  @@include('samples/footer.liquid')
 </body>
 </html>

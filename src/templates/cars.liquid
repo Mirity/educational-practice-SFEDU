@@ -6,20 +6,12 @@
     <title>Cars</title>
 </head>
 <body>
+@@include('samples/header.liquid')
 <div class="cars">
-    {% assign cars = this %}
-
     {% for car in cars %}
-        <div class="cars__id">
-            {{ car.id }}
-        </div>
-
-        <div class="cars__model">
-            {{ car.model }}
-        </div>
+        @@include('samples/car-sample.liquid')
     {% endfor %}
-
-
 </div>
+@@include('samples/footer.liquid')
 </body>
 </html>

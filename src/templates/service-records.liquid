@@ -6,31 +6,13 @@
     <title>Service records</title>
 </head>
 <body>
+@@include('samples/header.liquid')
 <div class="service-records">
     {% assign serviceRecords = this.getServiceRecords %}
     {% for serviceRecord in serviceRecords %}
-
-        <div class="service-records__id">
-            {{ serviceRecord.id }}
-        </div>
-
-        <div class="service-records__master-id">
-            {{ serviceRecord.masterId }}
-        </div>
-
-        <div class="service-records__car-id">
-            {{ serviceRecord.carId }}
-        </div>
-
-        <div class="service-records__client-id">
-            {{ serviceRecord.clientId }}
-        </div>
-
-        <div class="service-records__date">
-            {{ serviceRecord.date }}
-        </div>
+        @@include('samples/service-record-sample.liquid')
     {% endfor %}
-
 </div>
+@@include('samples/footer.liquid')
 </body>
 </html>

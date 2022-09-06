@@ -6,11 +6,6 @@ export default class App {
     constructor() {
         this.app = express();
         this.app.use('/css', express.static(__dirname + '/css'));
-
-        const engine = new Liquid();
-        this.app.engine('liquid', engine.express());
-        this.app.set('views', path.resolve(__dirname, 'templates'));            // specify the views directory
-        this.app.set('view engine', 'liquid');
     }
 
     listen(port) {
@@ -19,5 +14,12 @@ export default class App {
 
     initRouter (router) {
         this.app.use(router);
+    }
+
+    initLiquid() {
+        const engine = new Liquid();
+        this.app.engine('liquid', engine.express());
+        this.app.set('views', path.resolve(__dirname, 'templates'));
+        this.app.set('view engine', 'liquid');
     }
 }
