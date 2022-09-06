@@ -1,7 +1,9 @@
-import * as path from "path";
+import ServiceRecordsView from '../views/service-records-view.js';
 
-export default class AllServiceRecordsController {
+export default class ServiceRecordsController {
     execute(req, res, next) {
-        res.sendFile(path.join(__dirname, 'views/service-records', 'service-records.html'));
+        const serviceRecordsView = new ServiceRecordsView();
+
+        res.render(serviceRecordsView.getTemplate(), { 'this': serviceRecordsView });
     }
 }

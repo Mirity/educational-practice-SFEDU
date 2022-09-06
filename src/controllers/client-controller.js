@@ -1,7 +1,9 @@
-import * as path from "path";
+import ClientView from '../views/client-view.js';
 
 export default class ClientController {
     execute(req, res, next) {
-        res.sendFile(path.join(__dirname, 'views/client', 'client.html'));
+        const clientView = new ClientView();
+
+        res.render(clientView.getTemplate(), { 'this': clientView });
     }
 }

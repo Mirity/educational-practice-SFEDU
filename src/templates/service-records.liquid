@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="../../css/style.css" rel="stylesheet">
+    <title>Service records</title>
+</head>
+<body>
+<div class="service-records">
+    {% assign serviceRecords = this.getServiceRecords %}
+    {% for serviceRecord in serviceRecords %}
+
+        <div class="service-records__id">
+            {{ serviceRecord.id }}
+        </div>
+
+        <div class="service-records__master-id">
+            {{ serviceRecord.masterId }}
+        </div>
+
+        <div class="service-records__car-id">
+            {{ serviceRecord.carId }}
+        </div>
+
+        <div class="service-records__client-id">
+            {{ serviceRecord.clientId }}
+        </div>
+
+        <div class="service-records__date">
+            {{ serviceRecord.date }}
+        </div>
+    {% endfor %}
+
+</div>
+</body>
+</html>

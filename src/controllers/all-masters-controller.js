@@ -1,7 +1,9 @@
-import * as path from "path";
+import MastersView from '../views/masters-view.js';
 
-export default class AllMastersController {
+export default class MastersController {
     execute(req, res, next) {
-        res.sendFile(path.join(__dirname, 'views/masters', 'masters.html'));
+        const mastersView = new MastersView();
+
+        res.render(mastersView.getTemplate(), { 'this': mastersView });
     }
 }

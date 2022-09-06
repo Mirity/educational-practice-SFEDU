@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link href="../../css/style.css" rel="stylesheet">
+  <title>Master</title>
+</head>
+<body>
+<div class="master">
+  {% assign master = this.getMaster %}
+  <div class="master__id">
+    {{ master.id }}
+  </div>
+
+  <div class="master__name">
+    {{ master.name }}
+  </div>
+
+  <div class="master__surname">
+    {{ master.surname }}
+  </div>
+
+  <div class="master__head-master">
+    {{ master.headMasterId }}
+  </div>
+
+  <div class="master__service-center">
+    {{ master.serviceCenterId }}
+  </div>
+
+</div>
+</body>
+</html>

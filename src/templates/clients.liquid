@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="../../css/style.css" rel="stylesheet">
+    <title>Clients</title>
+</head>
+<body>
+<div class="clients">
+    {% assign clients = this.getClients %}
+
+    {% for client in clients %}
+        <div class="clients__id">
+            {{ client.id }}
+        </div>
+
+        <div class="clients__name">
+            {{ client.name }}
+        </div>
+
+        <div class="clients__surname">
+            {{ client.surname }}
+        </div>
+
+        <div class="clients__passport">
+            {{ client.passport }}
+        </div>
+    {% endfor %}
+
+
+</div>
+</body>
+</html>

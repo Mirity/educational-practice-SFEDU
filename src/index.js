@@ -20,7 +20,6 @@ const routers = [
     ServiceRecordRouter,
 ];
 
-
 routers.forEach((Router) => {
     const router = new Router();
 

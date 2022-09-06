@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="../../css/style.css" rel="stylesheet">
+    <title>Service centers</title>
+</head>
+<body>
+<div class="service-centers">
+    {% assign serviceCenters = this.getServiceCenters %}
+
+    {% for serviceCenter in serviceCenters %}
+        <div class="service-centers__id">
+            {{ serviceCenter.id }}
+        </div>
+
+        <div class="service-centers__name">
+            {{ serviceCenter.name }}
+        </div>
+
+        <div class="service-centers__country-id">
+            {{ serviceCenter.countryId }}
+        </div>
+
+        <div class="service-centers__city-id">
+            {{ serviceCenter.cityId }}
+        </div>
+
+        <div class="service-centers__street">
+            {{ serviceCenter.street }}
+        </div>
+
+        <div class="service-centers__house">
+            {{ serviceCenter.house }}
+        </div>
+
+        <div class="service-centers__number-seats">
+            {{ serviceCenter.numberSeats }}
+        </div>
+    {% endfor %}
+
+</div>
+</body>
+</html>

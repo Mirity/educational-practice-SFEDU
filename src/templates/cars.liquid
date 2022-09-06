@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="../../css/style.css" rel="stylesheet">
+    <title>Cars</title>
+</head>
+<body>
+<div class="cars">
+    {% assign cars = this %}
+
+    {% for car in cars %}
+        <div class="cars__id">
+            {{ car.id }}
+        </div>
+
+        <div class="cars__model">
+            {{ car.model }}
+        </div>
+    {% endfor %}
+
+
+</div>
+</body>
+</html>

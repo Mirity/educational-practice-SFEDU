@@ -1,7 +1,9 @@
-import * as path from "path";
+import ServiceCenterView from '../views/service-center-view.js';
 
 export default class ServiceCenterController {
     execute(req, res, next) {
-        res.sendFile(path.join(__dirname, 'views/service-center', 'service-center.html'));
+        const serviceCenterView = new ServiceCenterView();
+
+        res.render(serviceCenterView.getTemplate(), { 'this': serviceCenterView });
     }
 }

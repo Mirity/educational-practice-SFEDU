@@ -7,9 +7,15 @@
 </head>
 <body>
   <div class="car">
-      <h1 class="car__title">This is controller for car</h1>
-      <a class="car__link" href="service_center">Service center</a>
-      <a class="car__link" href="cars">Cars</a>
+      {% assign car = this.getCar %}
+      <div class="car__id">
+          {{ car.id }}
+      </div>
+
+      <div class="car__model">
+          {{ car.model }}
+      </div>
+
   </div>
 </body>
 </html>

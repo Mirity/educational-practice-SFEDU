@@ -1,7 +1,9 @@
-import * as path from "path";
+import CarView from '../views/car-view.js';
 
 export default class CarController {
     execute(req, res, next) {
-        res.sendFile(path.join(__dirname, 'views/car', 'car.html'));
+        const carView = new CarView();
+
+        res.render(carView.getTemplate(), { 'this': carView });
     }
 }

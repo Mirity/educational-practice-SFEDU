@@ -28,8 +28,8 @@ function scss() {
 }
 
 
-function html() {
-    return src('src/views/*/*.html').pipe(dest('dist/views'));
+function liquid() {
+    return src('src/templates/*.liquid').pipe(dest('dist/templates'));
 }
 
 function script() {
@@ -44,7 +44,7 @@ function clear() {
 
 // Add watchers here
 function serve() {
-    watch('./src/views/**/**.html', series(html)).on('change', sync.reload);
+    watch('./src/templates/**.liquid', series(liquid)).on('change', sync.reload);
     watch('./src/scss/**.scss', series(scss)).on('change', sync.reload);
     watch('./src/**/**.js', series(script)).on('change', sync.reload);
 }
@@ -59,7 +59,7 @@ export default async function watchNode() {
     });
 
     clear();
-    html();
+    liquid();
     scss();
     script();
 

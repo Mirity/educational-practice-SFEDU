@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="../../css/style.css" rel="stylesheet">
+    <title>Client</title>
+</head>
+<body>
+<div class="client">
+    {% assign client = this.getClient %}
+    <div class="client__id">
+        {{ client.id }}
+    </div>
+
+    <div class="client__name">
+        {{ client.name }}
+    </div>
+
+    <div class="client__surname">
+        {{ client.surname }}
+    </div>
+
+    <div class="client__passport">
+        {{ client.passport }}
+    </div>
+
+</div>
+</body>
+</html>
