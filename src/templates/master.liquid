@@ -1,19 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link href="../../css/style.css" rel="stylesheet">
-    <title>Master</title>
-</head>
-<body>
-{% include 'samples/header.liquid' %}
-<div class="master">
+{% layout "layout/default-layout.liquid", title: 'Master' %}
+{% block %}
     {% assign master = this.getMaster %}
-    <div class="master__id">
-        {{ master.id }}
-    </div>
     {% include 'samples/master-sample.liquid' %}
-</div>
-{% include 'samples/footer.liquid' %}
-</body>
-</html>
+{% endblock %}

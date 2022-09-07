@@ -1,23 +1,25 @@
-import express from 'express';
 import ClientController from '../controllers/client-controller.js';
 import AllClientsController from "../controllers/all-clients-controller.js";
+import AbstractRouter from "./abstract-router.js";
 
 const clientController = new ClientController();
 const allClientsController = new AllClientsController();
 
 
-export default class ClientRouter {
+export default class ClientRouter extends AbstractRouter{
     constructor() {
-        this.router = express.Router();
-        this.createRoutes();
-    }
+        super();
+        super.routes = [
+            {
+                'controller': clientController,
+                'path': '/client'
+            },
+            {
+                'controller': allClientsController,
+                'path': '/clients'
+            },
+        ]
 
-    createRoutes() {
-        this.router.get(`/client`, clientController.execute);
-        this.router.get(`/clients`, allClientsController.execute);
-    }
-
-    getRouter() {
-        return this.router;
+        this.createRoutes()
     }
 }

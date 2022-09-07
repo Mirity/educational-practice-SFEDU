@@ -1,19 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link href="../../css/style.css" rel="stylesheet">
-    <title>Clients</title>
-</head>
-<body>
-{% include 'samples/header.liquid' %}
-<div class="clients">
+{% layout "layout/default-layout.liquid", title: 'Clients' %}
+{% block %}
     {% assign clients = this.getClients %}
 
     {% for client in clients %}
         {% include 'samples/client-sample.liquid' %}
     {% endfor %}
-</div>
-{% include 'samples/footer.liquid' %}
-</body>
-</html>
+{% endblock %}

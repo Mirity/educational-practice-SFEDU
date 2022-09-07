@@ -1,19 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link href="../../css/style.css" rel="stylesheet">
-    <title>Service centers</title>
-</head>
-<body>
-{% include 'samples/header.liquid' %}
-<div class="service-centers">
+{% layout "layout/default-layout.liquid", title: 'Service centers' %}
+{% block %}
     {% assign serviceCenters = this.getServiceCenters %}
 
     {% for serviceCenter in serviceCenters %}
         {% include 'samples/service-center-sample.liquid' %}
     {% endfor %}
-</div>
-{% include 'samples/footer.liquid' %}
-</body>
-</html>
+{% endblock %}

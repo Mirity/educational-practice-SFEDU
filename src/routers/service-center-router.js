@@ -1,23 +1,25 @@
-import express from 'express';
 import ServiceCenterController from "../controllers/service-center-controller.js";
 import AllServiceCentersController from "../controllers/all-service-centers-controller.js";
+import AbstractRouter from "./abstract-router.js";
 
 const serviceCenterController = new ServiceCenterController();
 const allServiceCentersController = new AllServiceCentersController();
 
 
-export default class ServiceCenterRouter {
+export default class ServiceCenterRouter extends AbstractRouter{
     constructor() {
-        this.router = express.Router();
-        this.createRoutes();
-    }
+        super();
+        super.routes = [
+            {
+                'controller': serviceCenterController,
+                'path': '/service_center'
+            },
+            {
+                'controller': allServiceCentersController,
+                'path': '/service_centers'
+            },
+        ]
 
-    createRoutes() {
-        this.router.get(`/service_center`, serviceCenterController.execute);
-        this.router.get(`/service_centers`, allServiceCentersController.execute);
-    }
-
-    getRouter() {
-        return this.router;
+        this.createRoutes()
     }
 }

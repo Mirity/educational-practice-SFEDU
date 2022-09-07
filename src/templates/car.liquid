@@ -1,16 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link href="../../css/style.css" rel="stylesheet">
-    <title>Car</title>
-</head>
-<body>
-{% include 'samples/header.liquid' %}
-  <div class="car">
-      {% assign car = this.getCar %}
-      {% include 'samples/car-sample.liquid' %}
-  </div>
-  {% include 'samples/footer.liquid' %}
-</body>
-</html>
+{% layout "layout/default-layout.liquid", title: 'Car' %}
+{% block %}
+    {% assign car = this.getCar %}
+    {% include 'samples/car-sample.liquid' %}
+{% endblock %}
+

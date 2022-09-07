@@ -1,19 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <link href="../../css/style.css" rel="stylesheet">
-  <title>Masters</title>
-</head>
-<body>
-{% include 'samples/header.liquid' %}
-<div class="masters">
+{% layout "layout/default-layout.liquid", title: 'Masters' %}
+{% block %}
   {% assign masters = this.getMasters %}
 
   {% for master in masters %}
-      {% include 'samples/master-sample.liquid' %}
+    {% include 'samples/master-sample.liquid' %}
   {% endfor %}
-</div>
-{% include 'samples/footer.liquid' %}
-</body>
-</html>
+{% endblock %}

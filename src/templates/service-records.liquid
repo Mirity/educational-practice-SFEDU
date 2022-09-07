@@ -1,18 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link href="../../css/style.css" rel="stylesheet">
-    <title>Service records</title>
-</head>
-<body>
-{% include 'samples/header.liquid' %}
-<div class="service-records">
+{% layout "layout/default-layout.liquid", title: 'Service records' %}
+{% block %}
     {% assign serviceRecords = this.getServiceRecords %}
     {% for serviceRecord in serviceRecords %}
         {% include 'samples/service-record-sample.liquid' %}
     {% endfor %}
-</div>
-{% include 'samples/footer.liquid' %}
-</body>
-</html>
+{% endblock %}

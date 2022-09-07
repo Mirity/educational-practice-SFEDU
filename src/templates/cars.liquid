@@ -1,17 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link href="../../css/style.css" rel="stylesheet">
-    <title>Cars</title>
-</head>
-<body>
-{% include 'samples/header.liquid' %}
-<div class="cars">
+{% layout "layout/default-layout.liquid", title: 'Cars' %}
+{% block %}
     {% for car in cars %}
         {% include 'samples/car-sample.liquid' %}
     {% endfor %}
-</div>
-{% include 'samples/footer.liquid' %}
-</body>
-</html>
+{% endblock %}
