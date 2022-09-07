@@ -3,8 +3,8 @@ import CarsView from '../views/cars-view.js';
 export default class CarsController {
     execute(req, res, next) {
         const carsView = new CarsView();
-        const carsData = carsView.getCars();
+        const cars = carsView.getData();
 
-        res.render(carsView.getTemplate(), { 'cars': carsData });
+        res.render(carsView.getTemplate(), { cars });
     }
 }

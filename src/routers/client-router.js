@@ -9,14 +9,14 @@ const allClientsController = new AllClientsController();
 export default class ClientRouter extends AbstractRouter{
     constructor() {
         super();
-        super.routes = [
+        this.routes = [
             {
-                'controller': clientController,
-                'path': '/client'
+                controller: clientController,
+                path: '/client'
             },
             {
-                'controller': allClientsController,
-                'path': '/clients'
+                controller: allClientsController,
+                path: '/clients'
             },
         ]
 

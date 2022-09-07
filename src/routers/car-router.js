@@ -9,14 +9,14 @@ const allCarsController = new AllCarsController();
 export default class CarRouter extends AbstractRouter{
     constructor() {
         super();
-        super.routes = [
+        this.routes = [
             {
-                'controller': carController,
-                'path': '/car'
+                controller: carController,
+                path: '/car'
             },
             {
-                'controller': allCarsController,
-                'path': '/cars'
+                controller: allCarsController,
+                path: '/cars'
             },
         ]
 

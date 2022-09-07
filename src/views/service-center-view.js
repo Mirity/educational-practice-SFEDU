@@ -1,21 +1,19 @@
-export default class ServiceCenterView {
-    template = 'service-center';
-    serviceCenter = {
-        id: 1,
-        name: 'AutoKrutyak',
-        countryId: 1,
-        cityId: 1,
-        street: 'Boob 2',
-        house: 1,
-        numberSeats: 12
-    }
+import AbstractView from "./abstract-view.js";
 
-    getServiceCenter() {
-        return this.serviceCenter;
-    }
+export default class ServiceCenterView extends AbstractView{
+    constructor() {
+        super();
+        this.template = 'service-center';
 
-    getTemplate() {
-        return this.template;
+        this.data = {
+            id: 1,
+            name: 'AutoKrutyak',
+            countryId: 1,
+            cityId: 1,
+            street: 'Boob 2',
+            house: 1,
+            numberSeats: 12
+        }
     }
 }
 

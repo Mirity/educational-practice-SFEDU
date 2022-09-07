@@ -9,14 +9,14 @@ const allServiceCentersController = new AllServiceCentersController();
 export default class ServiceCenterRouter extends AbstractRouter{
     constructor() {
         super();
-        super.routes = [
+        this.routes = [
             {
-                'controller': serviceCenterController,
-                'path': '/service_center'
+                controller: serviceCenterController,
+                path: '/service_center'
             },
             {
-                'controller': allServiceCentersController,
-                'path': '/service_centers'
+                controller: allServiceCentersController,
+                path: '/service_centers'
             },
         ]
 

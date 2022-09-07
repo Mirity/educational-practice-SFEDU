@@ -8,14 +8,14 @@ const mastersController = new AllMastersController();
 export default class MasterRouter extends AbstractRouter{
     constructor() {
         super();
-        super.routes = [
+        this.routes = [
             {
-                'controller': masterController,
-                'path': '/master'
+                controller: masterController,
+                path: '/master'
             },
             {
-                'controller': mastersController,
-                'path': '/masters'
+                controller: mastersController,
+                path: '/masters'
             },
         ]
 

@@ -1,18 +1,16 @@
-export default class MasterView {
-    template = 'master';
-    master = {
-        id: 1,
-        name: 'Nikita',
-        surname: 'Kravtsov',
-        headMasterId: 1,
-        serviceCenterId: 1,
-    }
+import AbstractView from "./abstract-view.js";
 
-    getMaster() {
-        return this.master;
-    }
+export default class MasterView extends AbstractView{
+    constructor() {
+        super();
+        this.template = 'master';
 
-    getTemplate() {
-        return this.template;
+        this.data = {
+            id: 1,
+            name: 'Nikita',
+            surname: 'Kravtsov',
+            headMasterId: 1,
+            serviceCenterId: 1,
+        }
     }
 }

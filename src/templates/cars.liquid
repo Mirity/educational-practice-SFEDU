@@ -1,6 +1,6 @@
 {% layout "layout/default-layout.liquid", title: 'Cars' %}
 {% block %}
     {% for car in cars %}
-        {% include 'samples/car-sample.liquid' %}
+        {% include 'samples/car-sample.liquid', car %}
     {% endfor %}
 {% endblock %}

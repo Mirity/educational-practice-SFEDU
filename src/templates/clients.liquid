@@ -1,8 +1,8 @@
 {% layout "layout/default-layout.liquid", title: 'Clients' %}
 {% block %}
-    {% assign clients = this.getClients %}
+    {% assign clients = this.getData %}
 
     {% for client in clients %}
-        {% include 'samples/client-sample.liquid' %}
+        {% include 'samples/client-sample.liquid', client %}
     {% endfor %}
 {% endblock %}

@@ -1,19 +1,17 @@
-export default class ServiceRecordView {
-    template = 'service-record';
-    serviceRecord = {
-        id: 1,
-        masterId: 1,
-        carId: 1,
-        clientId: 1,
-        date: new Date('December 17, 1995 03:24:00'),
-    }
+import AbstractView from "./abstract-view.js";
 
-    getServiceRecord() {
-        return this.serviceRecord;
-    }
+export default class ServiceRecordView extends AbstractView{
+    constructor() {
+        super();
+        this.template = 'service-record';
 
-    getTemplate() {
-        return this.template;
+        this.data = {
+            id: 1,
+            masterId: 1,
+            carId: 1,
+            clientId: 1,
+            date: new Date('December 17, 1995 03:24:00'),
+        }
     }
 }
 

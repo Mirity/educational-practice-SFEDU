@@ -1,17 +1,15 @@
-export default class ClientView {
-    template = 'client';
-    client = {
-        id: 1,
-        name: 'Alisa',
-        surname: 'Balackaya',
-        passport: '123123'
-    }
+import AbstractView from "./abstract-view.js";
 
-    getClient() {
-        return this.client;
-    }
+export default class ClientView extends AbstractView{
+    constructor() {
+        super();
+        this.template = 'client';
 
-    getTemplate() {
-        return this.template;
+        this.data = {
+            id: 1,
+            name: 'Alisa',
+            surname: 'Balackaya',
+            passport: '123123'
+        }
     }
 }

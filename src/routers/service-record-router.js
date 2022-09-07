@@ -9,14 +9,14 @@ const allServiceRecordsController = new AllServiceRecordsController();
 export default class ServiceRecordRouter extends AbstractRouter{
     constructor() {
         super();
-        super.routes = [
+        this.routes = [
             {
-                'controller': serviceRecordController,
-                'path': '/service_record'
+                controller: serviceRecordController,
+                path: '/service_record'
             },
             {
-                'controller': allServiceRecordsController,
-                'path': '/service_records'
+                controller: allServiceRecordsController,
+                path: '/service_records'
             },
         ]
 
