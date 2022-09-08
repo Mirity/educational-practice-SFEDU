@@ -1,11 +1,13 @@
 import AbstractView from "./abstract-view.js";
 
+const template = 'cars';
+
+
 export default class CarsView extends AbstractView {
     constructor() {
-        super();
-        this.template = 'cars';
+        super(template);
 
-        this.data = [
+        this.cars = [
             {
                 id: 1,
                 mileage: 12000,
@@ -34,5 +36,9 @@ export default class CarsView extends AbstractView {
                 yearManufacture: 2021,
             },
         ];
+    }
+
+    getCars() {
+        return this.cars;
     }
 }

@@ -1,11 +1,12 @@
 import AbstractView from "./abstract-view.js";
 
+const template = 'service-records';
+
 export default class ServiceRecordsView extends AbstractView{
     constructor() {
-        super();
-        this.template = 'service-records';
+        super(template);
 
-        this.data = [
+        this.serviceRecords = [
             {
                 id: 1,
                 masterId: 1,
@@ -28,6 +29,10 @@ export default class ServiceRecordsView extends AbstractView{
                 date: new Date('May 1, 2020 10:14:00'),
             },
         ]
+    }
+
+    getServiceRecords () {
+        return this.serviceRecords;
     }
 }
 

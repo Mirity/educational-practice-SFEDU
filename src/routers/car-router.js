@@ -5,20 +5,20 @@ import AbstractRouter from "./abstract-router.js";
 const carController = new CarController();
 const allCarsController = new AllCarsController();
 
+const routes = [
+    {
+        controller: carController,
+        path: '/car'
+    },
+    {
+        controller: allCarsController,
+        path: '/cars'
+    },
+]
 
 export default class CarRouter extends AbstractRouter{
     constructor() {
-        super();
-        this.routes = [
-            {
-                controller: carController,
-                path: '/car'
-            },
-            {
-                controller: allCarsController,
-                path: '/cars'
-            },
-        ]
+        super(routes);
 
         this.createRoutes()
     }

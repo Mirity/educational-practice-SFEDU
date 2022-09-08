@@ -1,8 +1,8 @@
 {% layout "layout/default-layout.liquid", title: 'Masters' %}
 {% block %}
-  {% assign masters = this.getData %}
+  {% assign masters = this.getMasters %}
 
   {% for master in masters %}
-    {% include 'samples/master-sample.liquid', master %}
+    {% include 'samples/master-sample.liquid', master: master %}
   {% endfor %}
 {% endblock %}

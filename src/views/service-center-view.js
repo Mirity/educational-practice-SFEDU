@@ -1,11 +1,12 @@
 import AbstractView from "./abstract-view.js";
 
+const template = 'service-center';
+
 export default class ServiceCenterView extends AbstractView{
     constructor() {
-        super();
-        this.template = 'service-center';
+        super(template);
 
-        this.data = {
+        this.serviceCenter = {
             id: 1,
             name: 'AutoKrutyak',
             countryId: 1,
@@ -14,6 +15,10 @@ export default class ServiceCenterView extends AbstractView{
             house: 1,
             numberSeats: 12
         }
+    }
+
+    getServiceCenter() {
+        return this.serviceCenter;
     }
 }
 

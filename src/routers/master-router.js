@@ -5,19 +5,20 @@ import AbstractRouter from "./abstract-router.js";
 const masterController = new MasterController();
 const mastersController = new AllMastersController();
 
+const routes = [
+    {
+        controller: masterController,
+        path: '/master'
+    },
+    {
+        controller: mastersController,
+        path: '/masters'
+    },
+]
+
 export default class MasterRouter extends AbstractRouter{
     constructor() {
-        super();
-        this.routes = [
-            {
-                controller: masterController,
-                path: '/master'
-            },
-            {
-                controller: mastersController,
-                path: '/masters'
-            },
-        ]
+        super(routes);
 
         this.createRoutes()
     }

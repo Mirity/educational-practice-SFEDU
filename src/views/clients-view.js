@@ -1,11 +1,13 @@
 import AbstractView from "./abstract-view.js";
 
+const template = 'clients';
+
+
 export default class ClientsView extends AbstractView{
     constructor() {
-        super();
-        this.template = 'clients';
+        super(template);
 
-        this.data = [
+        this.clients = [
             {
                 id: 1,
                 name: 'Alisa',
@@ -25,5 +27,9 @@ export default class ClientsView extends AbstractView{
                 passport: '321245'
             },
         ]
+    }
+
+    getClients() {
+        return this.clients;
     }
 }

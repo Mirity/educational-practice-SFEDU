@@ -5,20 +5,20 @@ import AbstractRouter from "./abstract-router.js";
 const serviceCenterController = new ServiceCenterController();
 const allServiceCentersController = new AllServiceCentersController();
 
+const routes = [
+    {
+        controller: serviceCenterController,
+        path: '/service_center'
+    },
+    {
+        controller: allServiceCentersController,
+        path: '/service_centers'
+    },
+]
 
 export default class ServiceCenterRouter extends AbstractRouter{
     constructor() {
-        super();
-        this.routes = [
-            {
-                controller: serviceCenterController,
-                path: '/service_center'
-            },
-            {
-                controller: allServiceCentersController,
-                path: '/service_centers'
-            },
-        ]
+        super(routes);
 
         this.createRoutes()
     }

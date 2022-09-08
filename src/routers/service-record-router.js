@@ -6,19 +6,20 @@ import AbstractRouter from "./abstract-router.js";
 const serviceRecordController = new ServiceRecordController();
 const allServiceRecordsController = new AllServiceRecordsController();
 
+const routes = [
+    {
+        controller: serviceRecordController,
+        path: '/service_record'
+    },
+    {
+        controller: allServiceRecordsController,
+        path: '/service_records'
+    },
+]
+
 export default class ServiceRecordRouter extends AbstractRouter{
     constructor() {
-        super();
-        this.routes = [
-            {
-                controller: serviceRecordController,
-                path: '/service_record'
-            },
-            {
-                controller: allServiceRecordsController,
-                path: '/service_records'
-            },
-        ]
+        super(routes);
 
         this.createRoutes()
     }

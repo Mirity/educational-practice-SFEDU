@@ -1,7 +1,7 @@
 {% layout "layout/default-layout.liquid", title: 'Service records' %}
 {% block %}
-    {% assign serviceRecords = this.getData %}
+    {% assign serviceRecords = this.getServiceRecords %}
     {% for serviceRecord in serviceRecords %}
-        {% include 'samples/service-record-sample.liquid', serviceRecord %}
+        {% include 'samples/service-record-sample.liquid', serviceRecord: serviceRecord %}
     {% endfor %}
 {% endblock %}

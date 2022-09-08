@@ -5,20 +5,20 @@ import AbstractRouter from "./abstract-router.js";
 const clientController = new ClientController();
 const allClientsController = new AllClientsController();
 
+const routes = [
+    {
+        controller: clientController,
+        path: '/client'
+    },
+    {
+        controller: allClientsController,
+        path: '/clients'
+    },
+]
 
 export default class ClientRouter extends AbstractRouter{
     constructor() {
-        super();
-        this.routes = [
-            {
-                controller: clientController,
-                path: '/client'
-            },
-            {
-                controller: allClientsController,
-                path: '/clients'
-            },
-        ]
+        super(routes);
 
         this.createRoutes()
     }

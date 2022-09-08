@@ -1,10 +1,6 @@
 export default class AbstractView {
-    constructor() {
-        this.data = [];
-        this.template = '/';
-    }
-    getData() {
-        return this.data;
+    constructor(template) {
+        this.template = template;
     }
 
     getTemplate() {

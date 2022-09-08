@@ -1,11 +1,13 @@
 import AbstractView from "./abstract-view.js";
 
+const template = 'masters';
+
+
 export default class MastersView extends AbstractView{
     constructor() {
-        super();
-        this.template = 'masters';
+        super(template);
 
-        this.data = [
+        this.masters = [
             {
                 id: 1,
                 name: 'Nikita',
@@ -28,5 +30,9 @@ export default class MastersView extends AbstractView{
                 serviceCenterId: 3,
             },
         ]
+    }
+
+    getMasters() {
+        return this.masters;
     }
 }

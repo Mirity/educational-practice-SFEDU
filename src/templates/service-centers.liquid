@@ -1,8 +1,8 @@
 {% layout "layout/default-layout.liquid", title: 'Service centers' %}
 {% block %}
-    {% assign serviceCenters = this.getData %}
+    {% assign serviceCenters = this.getServiceCenters %}
 
     {% for serviceCenter in serviceCenters %}
-        {% include 'samples/service-center-sample.liquid', serviceCenter %}
+        {% include 'samples/service-center-sample.liquid', serviceCenter: serviceCenter %}
     {% endfor %}
 {% endblock %}
