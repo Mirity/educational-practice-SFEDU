@@ -14,12 +14,17 @@ const routes = [
         controller: mastersController,
         path: '/masters'
     },
+    {
+        controller: mastersController,
+        path: '/add_master'
+    },
 ]
 
 export default class MasterRouter extends AbstractRouter{
     constructor() {
         super(routes);
 
-        this.createRoutes()
+        this.createRoutes();
+        this.createPostQuery();
     }
 }

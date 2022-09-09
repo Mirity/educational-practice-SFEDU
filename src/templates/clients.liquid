@@ -5,4 +5,29 @@
     {% for client in clients %}
         {% include 'samples/client-sample.liquid', client: client %}
     {% endfor %}
+    <form action="/add_client" method="post">
+        <div>
+            <label for="name">Имя:</label>
+            <input type="text" id="name" name="name">
+        </div>
+
+        <div>
+            <label for="surname">Фамилия:</label>
+            <input type="text" id="surname" name="surname">
+        </div>
+
+        <div>
+            <label for="passport">Номер паспорта:</label>
+            <input type="text" id="passport" name="passport">
+        </div>
+
+        <div>
+            <label for="password">Пароль:</label>
+            <input type="text" id="password" name="password">
+        </div>
+
+        <div class="button">
+            <button type="submit">Добавить</button>
+        </div>
+    </form>`
 {% endblock %}

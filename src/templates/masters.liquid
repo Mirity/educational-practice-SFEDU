@@ -5,4 +5,30 @@
   {% for master in masters %}
     {% include 'samples/master-sample.liquid', master: master %}
   {% endfor %}
+
+  <form action="/add_master" method="post">
+    <div>
+      <label for="name">Имя:</label>
+      <input type="text" id="name" name="name">
+    </div>
+
+    <div>
+      <label for="surname">Фамилия:</label>
+      <input type="text" id="surname" name="surname">
+    </div>
+
+    <div>
+      <label for="head_master">Старший мастер:</label>
+      <input type="number" id="head_master" name="head_master">
+    </div>
+
+    <div>
+      <label for="service_center">Сервиcный центер:</label>
+      <input type="number" id="service_center" name="service_center">
+    </div>
+
+    <div class="button">
+      <button type="submit">Добавить</button>
+    </div>
+  </form>`
 {% endblock %}

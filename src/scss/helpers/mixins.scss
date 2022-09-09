@@ -1,0 +1,11 @@
+@mixin font($size, $weight: false) {
+    @if ($weight != false) {
+        font-weight: $weight;
+    }
+    font-size: $size;
+}
+
+@mixin flex-center() {
+    display: flex;
+    justify-content: center;
+}

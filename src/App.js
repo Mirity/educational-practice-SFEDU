@@ -1,5 +1,6 @@
 import express from 'express';
 import { Liquid } from 'liquidjs';
+import bodyParser from "body-parser";
 import path from 'path';
 
 export default class App {

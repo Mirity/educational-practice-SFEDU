@@ -15,12 +15,17 @@ const routes = [
         controller: allServiceRecordsController,
         path: '/service_records'
     },
+    {
+        controller: allServiceRecordsController,
+        path: '/add_service_record'
+    },
 ]
 
 export default class ServiceRecordRouter extends AbstractRouter{
     constructor() {
         super(routes);
 
-        this.createRoutes()
+        this.createRoutes();
+        this.createPostQuery();
     }
 }

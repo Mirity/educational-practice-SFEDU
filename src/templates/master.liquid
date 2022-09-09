@@ -1,5 +1,5 @@
 {% layout "layout/default-layout.liquid", title: 'Master' %}
 {% block %}
-    {% assign master = this.getMaster %}
+    {% assign master = this.getMaster[0] %}
     {% include 'samples/master-sample.liquid', master: master %}
 {% endblock %}

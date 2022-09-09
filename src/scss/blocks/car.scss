@@ -1,0 +1,6 @@
+@import "../helpers/mixins";
+
+.car {
+    @include flex-center();
+}
+

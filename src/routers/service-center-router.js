@@ -14,12 +14,17 @@ const routes = [
         controller: allServiceCentersController,
         path: '/service_centers'
     },
+    {
+        controller: allServiceCentersController,
+        path: '/add_service_center'
+    },
 ]
 
 export default class ServiceCenterRouter extends AbstractRouter{
     constructor() {
         super(routes);
 
-        this.createRoutes()
+        this.createRoutes();
+        this.createPostQuery();
     }
 }

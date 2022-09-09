@@ -15,7 +15,7 @@ const sync = browserSync.create();
 
 // Tasks
 function scss() {
-    return src('./src/scss/*.scss')
+    return src('./src/scss/*/*.scss')
         .pipe(sass())
         .pipe(
             autoprefixer({
@@ -45,8 +45,9 @@ function clear() {
 
 // Add watchers here
 function serve() {
+    watch('./src/templates/*/**.liquid', series(liquid)).on('change', sync.reload);
     watch('./src/templates/**.liquid', series(liquid)).on('change', sync.reload);
-    watch('./src/scss/**.scss', series(scss)).on('change', sync.reload);
+    watch('./src/scss/*/**.scss', series(scss)).on('change', sync.reload);
     watch('./src/**/**.js', series(script)).on('change', sync.reload);
 }
 
@@ -65,11 +66,14 @@ export default async function watchNode() {
     script();
 
     // Start nodemon
-    nodemon({
-        ext: 'js',
-        script: './dist/index.js',
-    }).on('start', function () {
-        // run watchers
-        serve();
-    });
+
+    setTimeout(() => {
+        nodemon({
+            ext: 'js',
+            script: './dist/index.js',
+        }).on('start', function () {
+            // run watchers
+            serve();
+        });
+    }, 1000)
 }

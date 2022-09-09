@@ -1,0 +1,25 @@
+@import '../helpers/mixins';
+@import '../helpers/colors';
+
+.nav {
+    padding: 20px 0 20px;
+
+    &__item {
+        display: inline;
+        margin-right: 40px;
+    }
+
+    &__link {
+        text-decoration: none;
+
+        color: $white;
+        @include font(20px, 300);
+        letter-spacing: 1px;
+        text-transform: uppercase;
+
+        &:hover {
+            color: $contrast-color;
+            transition: all 1s ease;
+        }
+    }
+}

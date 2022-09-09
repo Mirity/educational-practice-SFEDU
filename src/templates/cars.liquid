@@ -1,6 +1,53 @@
 {% layout "layout/default-layout.liquid", title: 'Cars' %}
 {% block %}
+    <div class="bottom-nav">
+        <ul class="bottom-nav_list">
+            <li class="bottom-nav__item">
+                <a class="bottom-nav__link" href="/old_cars">Старые машины</a>
+            </li>
+        </ul>
+    </div>
     {% for car in cars %}
         {% include 'samples/car-sample.liquid', car: car %}
     {% endfor %}
+    <form action="/add_car" method="post">
+        <div>
+            <label for="mileage">Пробег:</label>
+            <input type="number" id="mileage" name="mileage">
+        </div>
+
+        <div>
+            <label for="number">Номер:</label>
+            <input type="text" id="number" name="number">
+        </div>
+
+        <div>
+            <label for="brand">Бренд:</label>
+            <input type="number" id="brand" name="brand">
+        </div>
+
+        <div>
+            <label for="model">Модель:</label>
+            <input type="text" id="model" name="model">
+        </div>
+
+        <div>
+            <label for="country">Страна:</label>
+            <input type="text" id="country" name="country">
+        </div>
+
+        <div>
+            <label for="client">Клиент:</label>
+            <input type="text" id="client" name="client">
+        </div>
+
+        <div>
+            <label for="year">Год выпуска:</label>
+            <input type="number" id="year" name="year">
+        </div>
+
+        <div class="button">
+            <button type="submit">Добавить</button>
+        </div>
+    </form>
 {% endblock %}
