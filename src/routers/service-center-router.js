@@ -8,11 +8,18 @@ const allServiceCentersController = new AllServiceCentersController();
 const routes = [
     {
         controller: serviceCenterController,
-        path: '/service-center'
+        path: '/service-center',
+        method: 'get'
+    },
+    {
+        controller: serviceCenterController,
+        path: '/service-center',
+        method: 'post'
     },
     {
         controller: allServiceCentersController,
-        path: '/service-centers'
+        path: '/service-centers',
+        method: 'get'
     },
 ]
 

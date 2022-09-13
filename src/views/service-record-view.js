@@ -5,7 +5,7 @@ const template = 'service-record';
 export default class ServiceRecordView extends AbstractView{
     constructor() {
         super(template);
-        this.serviceRecord = {};
+        this.serviceRecord = null;
     }
 
     setServiceRecord(serviceRecord) {
@@ -13,7 +13,7 @@ export default class ServiceRecordView extends AbstractView{
     }
 
     getServiceRecord() {
-        return this.serviceRecord[0];
+        return this.serviceRecord;
     }
 }
 

@@ -13,10 +13,10 @@ export default class ServiceCenterController {
     }
 
     async #getHandler (res, req) {
-        const serviceCenter = await Database.makeQuery(`SELECT service_center.id, service_center.name, street, house, number_seats, country.name AS country_name, city.name AS city_name FROM service_center JOIN country ON country.id = service_center.country_id JOIN city ON city.id = service_center.city_id where service_center.id = '${req.query.id}'`);
+        const serviceCenters = await Database.makeQuery(`SELECT service_center.id, service_center.name, street, house, number_seats, country.name AS country_name, city.name AS city_name FROM service_center JOIN country ON country.id = service_center.country_id JOIN city ON city.id = service_center.city_id where service_center.id = '${req.query.id}'`);
 
         const serviceCenterView = new ServiceCenterView();
-        serviceCenterView.setServiceCenter(serviceCenter)
+        serviceCenterView.setServiceCenter(serviceCenters[0])
 
         res.render(serviceCenterView.getTemplate(), { 'this': serviceCenterView });
     }

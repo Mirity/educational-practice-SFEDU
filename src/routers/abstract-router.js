@@ -6,11 +6,12 @@ export default class AbstractRouter {
         this.routes = routes;
     }
 
-    createRoutes(isPost) {
-        this.routes.forEach(({ path, controller }) => {
-            this.router.get(path, controller.execute.bind(controller));
-            if(isPost) {
+    createRoutes() {
+        this.routes.forEach(({ path, controller, method }) => {
+            if (method === 'post') {
                 this.router.post(path, controller.execute.bind(controller));
+            } else if (method === 'get') {
+                this.router.get(path, controller.execute.bind(controller));
             }
         })
     }

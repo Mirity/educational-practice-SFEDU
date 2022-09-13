@@ -8,11 +8,18 @@ const allServiceRecordsController = new AllServiceRecordsController();
 const routes = [
     {
         controller: serviceRecordController,
-        path: '/service-record'
+        path: '/service-record',
+        method: 'get'
+    },
+    {
+        controller: serviceRecordController,
+        path: '/service-record',
+        method: 'post'
     },
     {
         controller: allServiceRecordsController,
-        path: '/service-records'
+        path: '/service-records',
+        method: 'get'
     },
 ]
 

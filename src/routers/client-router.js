@@ -8,11 +8,18 @@ const allClientsController = new AllClientsController();
 const routes = [
     {
         controller: clientController,
-        path: '/client'
+        path: '/client',
+        method: 'post'
+    },
+    {
+        controller: clientController,
+        path: '/client',
+        method: 'get'
     },
     {
         controller: allClientsController,
-        path: '/clients'
+        path: '/clients',
+        method: 'get'
     },
 ]
 

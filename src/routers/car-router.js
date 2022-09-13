@@ -10,23 +10,29 @@ const oldCarsController = new OldCarsController();
 const routes = [
     {
         controller: carController,
-        path: '/car'
+        path: '/car',
+        method: 'post'
+    },
+    {
+        controller: carController,
+        path: '/car',
+        method: 'get'
     },
     {
         controller: allCarsController,
-        path: '/cars'
+        path: '/cars',
+        method: 'get'
     },
     {
         controller: oldCarsController,
-        path: '/old-cars'
+        path: '/old-cars',
+        method: 'get'
     },
 ]
 
 export default class CarRouter extends AbstractRouter {
     constructor() {
         super(routes);
-        this.isPost = true;
-
-        this.createRoutes(this.isPost);
+        this.createRoutes();
     }
 }

@@ -5,7 +5,7 @@ const template = 'client';
 export default class ClientView extends AbstractView{
     constructor() {
         super(template);
-        this.client = {};
+        this.client = null;
     }
 
     setClient(client) {
@@ -13,6 +13,6 @@ export default class ClientView extends AbstractView{
     }
 
     getClient() {
-        return this.client[0];
+        return this.client;
     }
 }

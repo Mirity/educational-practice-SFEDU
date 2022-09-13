@@ -6,7 +6,7 @@ const template = 'master';
 export default class MasterView extends AbstractView{
     constructor() {
         super(template);
-        this.master = {};
+        this.master = null;
     }
 
     setMaster(master) {
@@ -14,6 +14,6 @@ export default class MasterView extends AbstractView{
     }
 
     getMaster() {
-        return this.master[0];
+        return this.master;
     }
 }

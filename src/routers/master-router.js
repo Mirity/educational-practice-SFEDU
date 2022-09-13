@@ -8,11 +8,18 @@ const mastersController = new AllMastersController();
 const routes = [
     {
         controller: masterController,
-        path: '/master'
+        path: '/master',
+        method: 'post'
+    },
+    {
+        controller: masterController,
+        path: '/master',
+        method: 'get'
     },
     {
         controller: mastersController,
-        path: '/masters'
+        path: '/masters',
+        method: 'get'
     },
 ]
 

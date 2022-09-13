@@ -13,10 +13,10 @@ export default class ServiceRecordController {
     }
 
     async #getHandler (res, req) {
-        const serviceRecord = await Database.makeQuery(`SELECT service_record.id, service_record.date, car.number, client.passport, client.name as client_name, client.surname as client_surname FROM service_record JOIN car ON car.id = service_record.car_id JOIN client on client.id = service_record.client_id WHERE service_record.id = '${req.query.id}' GROUP BY service_record.id`);
+        const serviceRecords = await Database.makeQuery(`SELECT service_record.id, service_record.date, car.number, client.passport, client.name as client_name, client.surname as client_surname FROM service_record JOIN car ON car.id = service_record.car_id JOIN client on client.id = service_record.client_id WHERE service_record.id = '${req.query.id}' GROUP BY service_record.id`);
 
         const serviceRecordView = new ServiceRecordView();
-        serviceRecordView.setServiceRecord(serviceRecord);
+        serviceRecordView.setServiceRecord(serviceRecords[0]);
 
         res.render(serviceRecordView.getTemplate(), { 'this': serviceRecordView });
     }

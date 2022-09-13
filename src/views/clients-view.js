@@ -6,7 +6,7 @@ const template = 'clients';
 export default class ClientsView extends AbstractView{
     constructor() {
         super(template);
-        this.clients = {};
+        this.clients = null;
     }
 
     setClients(clients) {

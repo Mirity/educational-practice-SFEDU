@@ -12,10 +12,10 @@ export default class CarController {
     }
 
     async #getHandler (res, req) {
-        const car = await Database.makeQuery(`select car.id, mileage, number, brand.name as brand_name, model, country.name as country_name, client.name as client_name, client.surname as client_surname, year_manifacture FROM car JOIN client ON client.id = client_id JOIN country ON country.id = country_id JOIN brand ON brand.id = brand_id  WHERE car.id='${req.query.id}'`);
+        const cars = await Database.makeQuery(`select car.id, mileage, number, brand.name as brand_name, model, country.name as country_name, client.name as client_name, client.surname as client_surname, year_manifacture FROM car JOIN client ON client.id = client_id JOIN country ON country.id = country_id JOIN brand ON brand.id = brand_id  WHERE car.id='${req.query.id}'`);
 
         const carView = new CarView();
-        carView.setCar(car);
+        carView.setCar(cars[0]);
 
         res.render(carView.getTemplate(), { 'this': carView });
     }

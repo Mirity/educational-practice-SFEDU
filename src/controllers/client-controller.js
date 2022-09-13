@@ -15,7 +15,7 @@ export default class ClientController {
         const clients = await Database.makeQuery(`select * from client where id='${req.query.id}'`);
 
         const clientView = new ClientView();
-        clientView.setClient(clients)
+        clientView.setClient(clients[0])
 
         res.render(clientView.getTemplate(), { 'this': clientView });
     }

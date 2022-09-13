@@ -12,10 +12,10 @@ export default class MasterController {
     }
 
     async #getHandler (res, req) {
-        const master = await Database.makeQuery(`SELECT m1.id, m1.name, m1.surname, m2.name AS head_master_name, m2.surname AS head_master_surname, service_center.name AS service_center_name FROM master as m1 JOIN master AS m2 ON m2.id = m1.head_master_id JOIN service_center ON m1.service_center_id = service_center.id where m1.id='${req.query.id}'`);
+        const masters = await Database.makeQuery(`SELECT m1.id, m1.name, m1.surname, m2.name AS head_master_name, m2.surname AS head_master_surname, service_center.name AS service_center_name FROM master as m1 JOIN master AS m2 ON m2.id = m1.head_master_id JOIN service_center ON m1.service_center_id = service_center.id where m1.id='${req.query.id}'`);
 
         const masterView = new MasterView();
-        masterView.setMaster(master)
+        masterView.setMaster(masters[0])
 
         res.render(masterView.getTemplate(), { 'this': masterView });
     }
