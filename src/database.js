@@ -21,7 +21,8 @@ export default class Database {
     }
 
     static makeQuery(query, params) {
-        this.getConnection();
-        return this.connection.awaitQuery(query, params);
+        const connection = this.getConnection();
+
+        return connection.awaitQuery(query, params);
     }
 }

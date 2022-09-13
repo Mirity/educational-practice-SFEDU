@@ -18,8 +18,8 @@ export default class App {
     }
 
     initBodyParser() {
-        this.jsonParser = bodyParser.json();
-        global.urlencodedParser = bodyParser.urlencoded({ extended: false });
+        this.app.use(bodyParser.urlencoded({ extended: false }))
+        this.app.use(bodyParser.json())
     }
 
     initLiquid() {

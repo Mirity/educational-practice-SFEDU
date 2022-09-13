@@ -1,5 +1,4 @@
 import express from 'express';
-import bodyParser from "body-parser";
 
 export default class AbstractRouter {
     constructor(routes) {
@@ -7,10 +6,12 @@ export default class AbstractRouter {
         this.routes = routes;
     }
 
-    createRoutes() {
+    createRoutes(isPost) {
         this.routes.forEach(({ path, controller }) => {
-            this.router.post(path, urlencodedParser, controller.execute.bind(controller));
             this.router.get(path, controller.execute.bind(controller));
+            if(isPost) {
+                this.router.post(path, controller.execute.bind(controller));
+            }
         })
     }
 

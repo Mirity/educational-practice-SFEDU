@@ -10,9 +10,8 @@
     }
 
     &__link {
-        text-decoration: none;
-
         @include font(20px, 300, $white);
+        text-decoration: none;
         letter-spacing: 1px;
         text-transform: uppercase;
 

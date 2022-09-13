@@ -6,7 +6,7 @@ const template = 'cars';
 export default class CarsView extends AbstractView {
     constructor() {
         super(template);
-        this.cars = [];
+        this.cars = {};
     }
 
     setCars(cars) {

@@ -1,4 +1,3 @@
-import express from 'express';
 import ServiceRecordController from "../controllers/service-record-controller.js";
 import AllServiceRecordsController from "../controllers/all-service-records-controller.js";
 import AbstractRouter from "./abstract-router.js";
@@ -15,16 +14,13 @@ const routes = [
         controller: allServiceRecordsController,
         path: '/service-records'
     },
-    {
-        controller: serviceRecordController,
-        path: '/service-record'
-    },
 ]
 
 export default class ServiceRecordRouter extends AbstractRouter {
     constructor() {
         super(routes);
+        this.isPost = true;
 
-        this.createRoutes();
+        this.createRoutes(this.isPost);
     }
 }

@@ -22,6 +22,7 @@ export default class ClientController {
 
     async #postHandler (res, req) {
         const {name, surname, passport, password} = req.body;
+
         await Database.makeQuery(
             `INSERT INTO client (name, surname, passport, password) VALUES (?, ?, ?, ?)`,
             [name, surname, passport, password]);

@@ -6,7 +6,7 @@ const template = 'service-centers';
 export default class ServiceCentersView extends AbstractView{
     constructor() {
         super(template);
-        this.serviceCenters = [];
+        this.serviceCenters = {};
     }
 
     setServiceCenters(serviceCenters) {
