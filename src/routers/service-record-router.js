@@ -9,23 +9,22 @@ const allServiceRecordsController = new AllServiceRecordsController();
 const routes = [
     {
         controller: serviceRecordController,
-        path: '/service_record'
+        path: '/service-record'
     },
     {
         controller: allServiceRecordsController,
-        path: '/service_records'
+        path: '/service-records'
     },
     {
-        controller: allServiceRecordsController,
-        path: '/add_service_record'
+        controller: serviceRecordController,
+        path: '/service-record'
     },
 ]
 
-export default class ServiceRecordRouter extends AbstractRouter{
+export default class ServiceRecordRouter extends AbstractRouter {
     constructor() {
         super(routes);
 
         this.createRoutes();
-        this.createPostQuery();
     }
 }

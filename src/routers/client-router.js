@@ -11,8 +11,8 @@ const routes = [
         path: '/client'
     },
     {
-        controller: allClientsController,
-        path: '/add_client'
+        controller: clientController,
+        path: '/client'
     },
     {
         controller: allClientsController,
@@ -20,11 +20,10 @@ const routes = [
     },
 ]
 
-export default class ClientRouter extends AbstractRouter{
+export default class ClientRouter extends AbstractRouter {
     constructor() {
         super(routes);
 
         this.createRoutes();
-        this.createPostQuery();
     }
 }

@@ -1,6 +1,9 @@
-@mixin font($size, $weight: false) {
+@mixin font($size, $weight: false, $color: false) {
     @if ($weight != false) {
         font-weight: $weight;
+    }
+    @if ($color != false) {
+        color: $color;
     }
     font-size: $size;
 }

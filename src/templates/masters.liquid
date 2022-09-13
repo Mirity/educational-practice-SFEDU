@@ -1,39 +1,39 @@
 {% layout "layout/default-layout.liquid", title: 'Masters' %}
 {% block %}
-  {% assign masters = this.getMasters %}
+{% assign masters = this.getMasters %}
 
-  {% for master in masters %}
+{% for master in masters %}
     {% include 'samples/master-sample.liquid', master: master %}
-  {% endfor %}
+{% endfor %}
 
-  <form action="/add_master" method="post">
-    <div>
-      <label for="name">Имя:</label>
-      <input type="text" id="name" name="name">
+<form class="form" action="/master" method="post">
+    <div class="form__item">
+        <label for="name">Имя:</label>
+        <input type="text" id="name" name="name">
     </div>
 
-    <div>
-      <label for="surname">Фамилия:</label>
-      <input type="text" id="surname" name="surname">
+    <div class="form__item">
+        <label for="surname">Фамилия:</label>
+        <input type="text" id="surname" name="surname">
     </div>
 
-    <div>
-      <label for="head_master">Имя старшего мастера:</label>
-      <input type="text" id="head_master_name" name="head_master_name">
+    <div class="form__item">
+        <label for="head_master">Имя старшего мастера:</label>
+        <input type="text" id="head_master_name" name="head_master_name">
     </div>
 
-    <div>
-      <label for="head_master">Фамилия старшего мастера:</label>
-      <input type="text" id="head_master_surname" name="head_master_surname">
+    <div class="form__item">
+        <label for="head_master">Фамилия старшего мастера:</label>
+        <input type="text" id="head_master_surname" name="head_master_surname">
     </div>
 
-    <div>
-      <label for="service_center">Сервиcный центер:</label>
-      <input type="text" id="service_center" name="service_center">
+    <div class="form__item">
+        <label for="service_center">Сервиcный центер:</label>
+        <input type="text" id="service_center" name="service_center">
     </div>
 
-    <div class="button">
-      <button type="submit">Добавить</button>
+    <div class="button button_submit">
+        <button type="submit">Добавить</button>
     </div>
-  </form>`
+</form>`
 {% endblock %}

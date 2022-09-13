@@ -14,6 +14,7 @@ global.__dirname = dirname(__filename);
 const app = new App();
 
 app.initLiquid();
+app.initBodyParser();
 
 const routers = [
     ClientRouter,

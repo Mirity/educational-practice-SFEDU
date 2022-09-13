@@ -17,6 +17,11 @@ export default class App {
         this.app.use(router);
     }
 
+    initBodyParser() {
+        this.jsonParser = bodyParser.json();
+        global.urlencodedParser = bodyParser.urlencoded({ extended: false });
+    }
+
     initLiquid() {
         const engine = new Liquid();
         this.app.engine('liquid', engine.express());

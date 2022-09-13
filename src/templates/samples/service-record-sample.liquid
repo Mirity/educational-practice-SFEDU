@@ -11,15 +11,19 @@
         {{ serviceRecord.passport }}
     </div>
 
-    <div class="service-record__client-id">
+    <div class="service-record__client-name">
         {{ serviceRecord.client_name }}
     </div>
 
-    <div class="service-record__client-id">
+    <div class="service-record__client-surname">
         {{ serviceRecord.client_surname }}
     </div>
 
     <div class="service-record__date">
         {{ serviceRecord.date }}
+    </div>
+
+    <div class="service-record__link">
+        <a href="/service-record?id={{ serviceRecord.id }}">Открыть</a>
     </div>
 </div>

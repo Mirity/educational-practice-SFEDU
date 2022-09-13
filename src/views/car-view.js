@@ -5,9 +5,10 @@ const template = 'car';
 export default class CarView extends AbstractView{
     constructor() {
         super(template);
+        this.car = [];
     }
 
-    getCar() {
+    getCars() {
         return this.car;
     }
 

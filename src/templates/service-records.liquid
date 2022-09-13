@@ -4,23 +4,23 @@
     {% for serviceRecord in serviceRecords %}
         {% include 'samples/service-record-sample.liquid', serviceRecord: serviceRecord %}
     {% endfor %}
-    <form action="/add_service_record" method="post">
-        <div>
+    <form class="form" action="/service-record" method="post">
+        <div class="form__item">
             <label for="car">Машина:</label>
             <input type="text" id="car" name="car">
         </div>
 
-        <div>
+        <div class="form__item">
             <label for="client">Клиент:</label>
             <input type="text" id="client" name="client">
         </div>
 
-        <div>
+        <div class="form__item">
             <label for="date">Дата:</label>
             <input type="date" id="date" name="date">
         </div>
 
-        <div class="button">
+        <div class="button button_submit">
             <button type="submit">Добавить</button>
         </div>
     </form>`

@@ -19,4 +19,9 @@ export default class Database {
 
         return this.connection;
     }
+
+    static makeQuery(query, params) {
+        this.getConnection();
+        return this.connection.awaitQuery(query, params);
+    }
 }

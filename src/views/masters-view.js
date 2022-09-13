@@ -6,6 +6,7 @@ const template = 'masters';
 export default class MastersView extends AbstractView{
     constructor() {
         super(template);
+        this.masters = [];
     }
 
     setMasters(masters) {

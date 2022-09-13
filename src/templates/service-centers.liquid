@@ -6,38 +6,38 @@
         {% include 'samples/service-center-sample.liquid', serviceCenter: serviceCenter %}
     {% endfor %}
 
-    <form action="/add_service_center" method="post">
-        <div>
+    <form class="form" action="/service-center" method="post">
+        <div class="form__item">
             <label for="name">Имя:</label>
             <input type="text" id="name" name="name">
         </div>
 
-        <div>
+        <div class="form__item">
             <label for="country">Страна:</label>
             <input type="text" id="country" name="country">
         </div>
 
-        <div>
+        <div class="form__item">
             <label for="city">Город:</label>
             <input type="text" id="city" name="city">
         </div>
 
-        <div>
+        <div class="form__item">
             <label for="street">Улица:</label>
             <input type="text" id="street" name="street">
         </div>
 
-        <div>
+        <div class="form__item">
             <label for="house">Дом:</label>
             <input type="number" id="house" name="house">
         </div>
 
-        <div>
+        <div class="form__item">
             <label for="number_seats">Количество мест:</label>
             <input type="number" id="number_seats" name="number_seats">
         </div>
 
-        <div class="button">
+        <div class="button button_submit">
             <button type="submit">Добавить</button>
         </div>
     </form>`

@@ -5,13 +5,14 @@ const template = 'service-center';
 export default class ServiceCenterView extends AbstractView{
     constructor() {
         super(template);
+        this.serviceCenter = [];
     }
 
     setServiceCenter(serviceCenter) {
         this.serviceCenter = serviceCenter;
     }
 
-    getServiceCenter() {
+    getServiceCenters() {
         return this.serviceCenter;
     }
 }

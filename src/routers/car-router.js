@@ -13,8 +13,8 @@ const routes = [
         path: '/car'
     },
     {
-        controller: allCarsController,
-        path: '/add_car'
+        controller: carController,
+        path: '/car'
     },
     {
         controller: allCarsController,
@@ -22,15 +22,14 @@ const routes = [
     },
     {
         controller: oldCarsController,
-        path: '/old_cars'
+        path: '/old-cars'
     },
 ]
 
-export default class CarRouter extends AbstractRouter{
+export default class CarRouter extends AbstractRouter {
     constructor() {
         super(routes);
 
         this.createRoutes();
-        this.createPostQuery();
     }
 }

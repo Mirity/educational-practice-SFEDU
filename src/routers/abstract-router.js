@@ -5,23 +5,12 @@ export default class AbstractRouter {
     constructor(routes) {
         this.router = express.Router();
         this.routes = routes;
-        this.initBodyParser();
-    }
-
-    initBodyParser() {
-        this.jsonParser = bodyParser.json();
-        this.urlencodedParser = bodyParser.urlencoded({ extended: false });
     }
 
     createRoutes() {
         this.routes.forEach(({ path, controller }) => {
-            this.router.get(path, controller.execute);
-        })
-    }
-
-    createPostQuery() {
-        this.routes.forEach(({ path, controller }) => {
-            this.router.post(path, this.urlencodedParser, controller.execute);
+            this.router.post(path, urlencodedParser, controller.execute.bind(controller));
+            this.router.get(path, controller.execute.bind(controller));
         })
     }
 

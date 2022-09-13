@@ -1,57 +1,57 @@
 {% layout "layout/default-layout.liquid", title: 'Cars' %}
 {% block %}
     <div class="bottom-nav">
-        <ul class="bottom-nav_list">
+        <ul class="bottom-nav__list">
             <li class="bottom-nav__item">
-                <a class="bottom-nav__link" href="/old_cars">Старые машины</a>
+                <a class="bottom-nav__link" href="/old-cars">Старые машины</a>
             </li>
         </ul>
     </div>
     {% for car in cars %}
         {% include 'samples/car-sample.liquid', car: car %}
     {% endfor %}
-    <form action="/add_car" method="post">
-        <div>
+    <form class="form" action="/car" method="post">
+        <div class="form__item">
             <label for="mileage">Пробег:</label>
             <input type="number" id="mileage" name="mileage">
         </div>
 
-        <div>
+        <div class="form__item">
             <label for="number">Номер:</label>
             <input type="text" id="number" name="number">
         </div>
 
-        <div>
+        <div class="form__item">
             <label for="brand">Бренд:</label>
             <input type="text" id="brand" name="brand">
         </div>
 
-        <div>
+        <div class="form__item">
             <label for="model">Модель:</label>
             <input type="text" id="model" name="model">
         </div>
 
-        <div>
+        <div class="form__item">
             <label for="country">Страна:</label>
             <input type="text" id="country" name="country">
         </div>
 
-        <div>
+        <div class="form__item">
             <label for="client_name">Имя клиента:</label>
             <input type="text" id="client_name" name="client_name">
         </div>
 
-        <div>
+        <div class="form__item">
             <label for="client_surname">Фамилия клиента:</label>
             <input type="text" id="client_surname" name="client_surname">
         </div>
 
-        <div>
+        <div class="form__item">
             <label for="year">Год выпуска:</label>
             <input type="number" id="year" name="year">
         </div>
 
-        <div class="button">
+        <div class="button button_submit">
             <button type="submit">Добавить</button>
         </div>
     </form>

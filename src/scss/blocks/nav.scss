@@ -12,8 +12,7 @@
     &__link {
         text-decoration: none;
 
-        color: $white;
-        @include font(20px, 300);
+        @include font(20px, 300, $white);
         letter-spacing: 1px;
         text-transform: uppercase;
 

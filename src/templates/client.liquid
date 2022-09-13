@@ -1,5 +1,5 @@
 {% layout "layout/default-layout.liquid", title: 'Client' %}
 {% block %}
-    {% assign client = this.getClient[0] %}
+    {% assign client = this.getClients[0] %}
     {% include 'samples/client-sample.liquid', client: client %}
 {% endblock %}

@@ -8,23 +8,22 @@ const allServiceCentersController = new AllServiceCentersController();
 const routes = [
     {
         controller: serviceCenterController,
-        path: '/service_center'
+        path: '/service-center'
     },
     {
         controller: allServiceCentersController,
-        path: '/service_centers'
+        path: '/service-centers'
     },
     {
-        controller: allServiceCentersController,
-        path: '/add_service_center'
+        controller: serviceCenterController,
+        path: '/service-center'
     },
 ]
 
-export default class ServiceCenterRouter extends AbstractRouter{
+export default class ServiceCenterRouter extends AbstractRouter {
     constructor() {
         super(routes);
 
         this.createRoutes();
-        this.createPostQuery();
     }
 }
