@@ -10,6 +10,8 @@ export default class ClientView extends AbstractView{
 
     setClient(client) {
         this.client = client;
+
+        return this;
     }
 
     getClient() {

@@ -1,26 +1,17 @@
 import ServiceCenterView from '../views/service-center-view.js';
 import ServiceCenterResource from "../models/resource/service-center-resource.js";
+import AbstractController from "./abstract-controller.js";
 
-export default class ServiceCenterController {
+export default class ServiceCenterController extends AbstractController {
     async execute(req, res, next) {
-
-        if (req.method === 'GET') {
-            await this.#getHandler(res, req);
-        } else {
-            await this.#postHandler(res, req);
-        }
+        await super.execute(req, res, next);
     }
 
-    async #getHandler (res, req) {
+    async getHandler (res, req) {
         const serviceCenterResource = new ServiceCenterResource();
         const id = req.query.id;
+        super.isCorrectId(id, res);
 
-        if (!id || Number.isInteger(id) || id <= 0) {
-            res.status(500)
-                .send(`No id provided or id incorrect`);
-
-            return;
-        }
         const serviceCenter = serviceCenterResource.getServiceCenterById(id);
 
         const serviceCenterView = new ServiceCenterView();
@@ -29,9 +20,11 @@ export default class ServiceCenterController {
         res.render(serviceCenterView.getTemplate(), { 'this': serviceCenterView });
     }
 
-    async #postHandler (res, req) {
+    async postHandler (res, req) {
+        const queryParams = req.body;
+
         const serviceCenterResource = new ServiceCenterResource();
-        await serviceCenterResource.postServiceCenter(req);
+        await serviceCenterResource.addNewServiceCenter(queryParams);
 
         res.redirect('/service-centers');
     }

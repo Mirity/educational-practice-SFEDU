@@ -1,14 +1,13 @@
 import CarsView from '../views/cars-view.js';
 import CarResource from "../models/resource/car-resource.js";
+import AbstractController from "./abstract-controller.js";
 
-export default class CarsController {
+export default class CarsController extends AbstractController {
     async execute(req, res, next) {
-        if (req.method === 'GET') {
-            await this.#getHandler(res);
-        }
+        await super.execute(req, res, next);
     }
 
-    async #getHandler (res) {
+    async getHandler (res) {
         const carsView = new CarsView();
         const carResource = new CarResource();
 

@@ -1,26 +1,17 @@
 import CarView from '../views/car-view.js';
 import CarResource from "../models/resource/car-resource.js";
+import AbstractController from "./abstract-controller.js";
 
 
-export default class CarController {
+export default class CarController extends AbstractController {
     async execute(req, res, next) {
-        if (req.method === 'GET') {
-            await this.#getHandler(res, req);
-        } else {
-            await this.#postHandler(res, req);
-        }
+        await super.execute(req, res, next);
     }
 
-    async #getHandler (res, req) {
+    async getHandler (res, req) {
         const carResource = new CarResource();
         const id = req.query.id;
-
-        if (!id || Number.isInteger(id) || id <= 0) {
-            res.status(500)
-                .send(`No id provided or id incorrect`);
-
-            return;
-        }
+        super.isCorrectId(id, res);
 
         const car = await carResource.getCarById(req.query.id);
 
@@ -30,9 +21,11 @@ export default class CarController {
         res.render(carView.getTemplate(), { 'this': carView });
     }
 
-    async #postHandler (res, req) {
+    async postHandler (res, req) {
+        const queryParams = req.body;
+
         const carResource = new CarResource();
-        await carResource.postCar(req);
+        await carResource.addNewCar(queryParams);
 
         res.redirect('/cars');
     }

@@ -11,6 +11,8 @@ export default class CarsView extends AbstractView {
 
     setCars(cars) {
         this.cars = cars;
+
+        return this;
     }
 
     getCars() {

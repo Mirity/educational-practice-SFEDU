@@ -1,25 +1,16 @@
 import MasterView from '../views/master-view.js';
 import MasterResource from "../models/resource/master-resource.js";
+import AbstractController from "./abstract-controller.js";
 
-export default class MasterController {
+export default class MasterController extends AbstractController {
     async execute(req, res, next) {
-        if (req.method === 'GET') {
-            await this.#getHandler(res, req);
-        } else {
-            await this.#postHandler(res, req);
-        }
+        await super.execute(req, res, next);
     }
 
-    async #getHandler (res, req) {
+    async getHandler (res, req) {
         const masterResource = new MasterResource();
         const id = req.query.id;
-
-        if (!id || Number.isInteger(id) || id <= 0) {
-            res.status(500)
-                .send(`No id provided or id incorrect`);
-
-            return;
-        }
+        super.isCorrectId(id, res);
 
         const master = masterResource.getMasterById(id);
 
@@ -29,9 +20,11 @@ export default class MasterController {
         res.render(masterView.getTemplate(), { 'this': masterView });
     }
 
-    async #postHandler (res, req) {
+    async postHandler (res, req) {
+        const queryParams = req.body;
+
         const masterResource = new MasterResource();
-        await masterResource.postMaster(req);
+        await masterResource.addNewMaster(queryParams);
 
         res.redirect('/masters');
     }

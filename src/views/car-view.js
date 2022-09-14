@@ -14,5 +14,7 @@ export default class CarView extends AbstractView{
 
     setCar(car) {
         this.car = car;
+
+        return this;
     }
 }

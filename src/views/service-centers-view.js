@@ -11,6 +11,8 @@ export default class ServiceCentersView extends AbstractView{
 
     setServiceCenters(serviceCenters) {
         this.serviceCenters = serviceCenters;
+
+        return this;
     }
 
     getServiceCenters() {

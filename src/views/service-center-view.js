@@ -10,6 +10,8 @@ export default class ServiceCenterView extends AbstractView{
 
     setServiceCenter(serviceCenter) {
         this.serviceCenter = serviceCenter;
+
+        return this;
     }
 
     getServiceCenter() {

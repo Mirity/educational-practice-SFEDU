@@ -9,5 +9,7 @@ export default class AbstractView {
 
     setTemplate(template) {
         this.template = template;
+
+        return this;
     }
 }

@@ -11,6 +11,8 @@ export default class MastersView extends AbstractView{
 
     setMasters(masters) {
         this.masters = masters;
+
+        return this;
     }
 
     getMasters() {

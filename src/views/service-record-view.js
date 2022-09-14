@@ -10,6 +10,8 @@ export default class ServiceRecordView extends AbstractView{
 
     setServiceRecord(serviceRecord) {
         this.serviceRecord = serviceRecord;
+
+        return this;
     }
 
     getServiceRecord() {

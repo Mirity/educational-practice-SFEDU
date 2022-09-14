@@ -1,26 +1,16 @@
 import ServiceRecordView from '../views/service-record-view.js';
 import ServiceRecordResource from "../models/resource/service-record-resource.js";
+import AbstractController from "./abstract-controller.js";
 
-export default class ServiceRecordController {
+export default class ServiceRecordController extends AbstractController {
     async execute(req, res, next) {
-
-        if (req.method === 'GET') {
-            await this.#getHandler(res, req);
-        } else {
-            await this.#postHandler(res, req);
-        }
+        await super.execute(req, res, next);
     }
 
-    async #getHandler (res, req) {
+    async getHandler (res, req) {
         const serviceRecordResource = new ServiceRecordResource();
         const id = req.query.id;
-
-        if (!id || Number.isInteger(id) || id <= 0) {
-            res.status(500)
-                .send(`No id provided or id incorrect`);
-
-            return;
-        }
+        super.isCorrectId(id, res);
 
         const serviceRecord = serviceRecordResource.getServiceRecordById(id);
 
@@ -30,9 +20,11 @@ export default class ServiceRecordController {
         res.render(serviceRecordView.getTemplate(), { 'this': serviceRecordView });
     }
 
-    async #postHandler (res, req) {
+    async postHandler (res, req) {
+        const queryParams = req.body;
+
         const serviceRecordResource = new ServiceRecordResource();
-        await serviceRecordResource.postServiceRecord(req);
+        await serviceRecordResource.addNewServiceRecord(queryParams);
 
         res.redirect('/service-records')
     }

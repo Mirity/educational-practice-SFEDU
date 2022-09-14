@@ -1,38 +1,32 @@
 import ClientView from '../views/client-view.js';
 import ClientResource from "../models/resource/client-resource.js";
+import AbstractController from "./abstract-controller.js";
 
-export default class EditClientController {
+export default class EditClientController extends AbstractController {
     async execute(req, res, next) {
-        if (req.method === 'GET') {
-            await this.#getHandler(res, req);
-        }  else if (req.method === 'POST'){
-            await this.#putHandler(res, req);
-        }
+        await super.execute(req, res, next);
     }
 
-    async #getHandler (res, req) {
+    async getHandler (res, req) {
         const clientResource = new ClientResource();
         const id = req.query.id;
-
-        if (!id || Number.isInteger(id) || id <= 0) {
-            res.status(500)
-                .send(`No id provided or id incorrect`);
-
-            return;
-        }
+        super.isCorrectId(id, res);
 
         const client = clientResource.getClientById(id);
 
         const clientView = new ClientView();
-        clientView.setClient(client)
-        clientView.setTemplate('edit-client');
+        clientView
+            .setClient(client)
+            .setTemplate('edit-client');
 
         res.render(clientView.getTemplate(), { 'this': clientView });
     }
 
-    async #putHandler (res, req) {
+    async postHandler(res, req) {
+        const queryParams = req.body;
+
         const clientResource = new ClientResource();
-        await clientResource.putClient(req);
+        await clientResource.editClient(queryParams);
 
         res.redirect('/clients');
     }

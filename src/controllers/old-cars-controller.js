@@ -1,14 +1,20 @@
 import CarsView from '../views/cars-view.js';
 import CarResource from "../models/resource/car-resource.js";
+import AbstractController from "./abstract-controller.js";
 
-export default class OldCarsController {
+export default class OldCarsController extends AbstractController {
     async execute(req, res, next) {
+        await super.execute(req, res, next);
+    }
+
+    getHandler(res) {
         const carResource = new CarResource();
         const cars = carResource.getOldCars();
 
         const carsView = new CarsView();
-        carsView.setCars(cars);
-        carsView.setTemplate('old-cars')
+        carsView
+            .setCars(cars)
+            .setTemplate('old-cars')
 
         res.render(carsView.getTemplate(), { 'this': carsView });
     }
