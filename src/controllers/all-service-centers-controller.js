@@ -1,6 +1,5 @@
 import ServiceCentersView from '../views/service-centers-view.js';
 import Database from "../database.js";
-import ClientsView from "../views/clients-view.js";
 
 export default class ServiceCentersController {
     async execute(req, res, next) {

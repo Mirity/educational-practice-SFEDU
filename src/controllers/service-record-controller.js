@@ -1,6 +1,5 @@
 import ServiceRecordView from '../views/service-record-view.js';
-import Database from "../database.js";
-import ServiceRecordsView from "../views/service-records-view.js";
+import ServiceRecordResource from "../models/resource/service-record-resource.js";
 
 export default class ServiceRecordController {
     async execute(req, res, next) {
@@ -13,19 +12,28 @@ export default class ServiceRecordController {
     }
 
     async #getHandler (res, req) {
-        const serviceRecords = await Database.makeQuery(`SELECT service_record.id, service_record.date, car.number, client.passport, client.name as client_name, client.surname as client_surname FROM service_record JOIN car ON car.id = service_record.car_id JOIN client on client.id = service_record.client_id WHERE service_record.id = '${req.query.id}' GROUP BY service_record.id`);
+        const serviceRecordResource = new ServiceRecordResource();
+        const id = req.query.id;
+
+        if (!id || Number.isInteger(id) || id <= 0) {
+            res.status(500)
+                .send(`No id provided or id incorrect`);
+
+            return;
+        }
+
+        const serviceRecord = serviceRecordResource.getServiceRecordById(id);
 
         const serviceRecordView = new ServiceRecordView();
-        serviceRecordView.setServiceRecord(serviceRecords[0]);
+        serviceRecordView.setServiceRecord(serviceRecord);
 
         res.render(serviceRecordView.getTemplate(), { 'this': serviceRecordView });
     }
 
     async #postHandler (res, req) {
-        const {car, client, date} = req.body;
-        await Database.makeQuery(
-            `INSERT INTO service_record (car_id, client_id, date) VALUES ((select id from car where number='${car}'), (select id from client where passport='${client}'), ?)`,
-            [date]);
+        const serviceRecordResource = new ServiceRecordResource();
+        await serviceRecordResource.postServiceRecord(req);
+
         res.redirect('/service-records')
     }
 }

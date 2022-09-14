@@ -1,0 +1,55 @@
+{% layout "layout/default-layout.liquid", title: 'Car' %}
+{% block %}
+    {% assign car = this.getCar %}
+
+    <form class="form" action="/edit-car" method="post">
+        <div class="form__item">
+            <label for="id">ID:</label>
+            <input value={{ car.id }} type="number" id="id" name="id">
+        </div>
+
+        <div class="form__item">
+            <label for="mileage">Пробег:</label>
+            <input value={{ car.mileage }} type="number" id="mileage" name="mileage">
+        </div>
+
+        <div class="form__item">
+            <label for="number">Номер:</label>
+            <input value={{ car.number }} type="text" id="number" name="number">
+        </div>
+
+        <div class="form__item">
+            <label for="brand">Бренд:</label>
+            <input value={{ car.brand_name }} type="text" id="brand" name="brand">
+        </div>
+
+        <div class="form__item">
+            <label for="model">Модель:</label>
+            <input value={{ car.model }} type="text" id="model" name="model">
+        </div>
+
+        <div class="form__item">
+            <label for="country">Страна:</label>
+            <input value={{ car.country_name }} type="text" id="country" name="country">
+        </div>
+
+        <div class="form__item">
+            <label for="client_name">Имя клиента:</label>
+            <input value={{ car.client_name }} type="text" id="client_name" name="client_name">
+        </div>
+
+        <div class="form__item">
+            <label for="client_surname">Фамилия клиента:</label>
+            <input value={{ car.client_surname }} type="text" id="client_surname" name="client_surname">
+        </div>
+
+        <div class="form__item">
+            <label for="year">Год выпуска:</label>
+            <input value={{ car.year_manifacture }} type="number" id="year" name="year">
+        </div>
+
+        <div class="button button_submit">
+            <button type="submit">Изменить</button>
+        </div>
+    </form>
+{% endblock %}

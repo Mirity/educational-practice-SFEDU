@@ -1,12 +1,12 @@
 import ClientView from '../views/client-view.js';
 import ClientResource from "../models/resource/client-resource.js";
 
-export default class ClientController {
+export default class EditClientController {
     async execute(req, res, next) {
         if (req.method === 'GET') {
             await this.#getHandler(res, req);
-        } else {
-            await this.#postHandler(res, req);
+        }  else if (req.method === 'POST'){
+            await this.#putHandler(res, req);
         }
     }
 
@@ -25,13 +25,14 @@ export default class ClientController {
 
         const clientView = new ClientView();
         clientView.setClient(client)
+        clientView.setTemplate('edit-client');
 
         res.render(clientView.getTemplate(), { 'this': clientView });
     }
 
-    async #postHandler (res, req) {
+    async #putHandler (res, req) {
         const clientResource = new ClientResource();
-        await clientResource.postClient(req);
+        await clientResource.putClient(req);
 
         res.redirect('/clients');
     }

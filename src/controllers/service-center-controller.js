@@ -1,6 +1,5 @@
 import ServiceCenterView from '../views/service-center-view.js';
-import Database from "../database.js";
-import ServiceCentersView from "../views/service-centers-view.js";
+import ServiceCenterResource from "../models/resource/service-center-resource.js";
 
 export default class ServiceCenterController {
     async execute(req, res, next) {
@@ -13,20 +12,27 @@ export default class ServiceCenterController {
     }
 
     async #getHandler (res, req) {
-        const serviceCenters = await Database.makeQuery(`SELECT service_center.id, service_center.name, street, house, number_seats, country.name AS country_name, city.name AS city_name FROM service_center JOIN country ON country.id = service_center.country_id JOIN city ON city.id = service_center.city_id where service_center.id = '${req.query.id}'`);
+        const serviceCenterResource = new ServiceCenterResource();
+        const id = req.query.id;
+
+        if (!id || Number.isInteger(id) || id <= 0) {
+            res.status(500)
+                .send(`No id provided or id incorrect`);
+
+            return;
+        }
+        const serviceCenter = serviceCenterResource.getServiceCenterById(id);
 
         const serviceCenterView = new ServiceCenterView();
-        serviceCenterView.setServiceCenter(serviceCenters[0])
+        serviceCenterView.setServiceCenter(serviceCenter)
 
         res.render(serviceCenterView.getTemplate(), { 'this': serviceCenterView });
     }
 
     async #postHandler (res, req) {
-        const {name, country, city, street, house, number_seats} = req.body;
+        const serviceCenterResource = new ServiceCenterResource();
+        await serviceCenterResource.postServiceCenter(req);
 
-        await Database.makeQuery(
-            `INSERT INTO service_center (name, country_id, city_id, street, house, number_seats) VALUES (?, (select id from country where name='${country}'), (select id from city where name='${city}'), ?, ?, ?)`,
-            [name, street, house, number_seats]);
         res.redirect('/service-centers');
     }
 }

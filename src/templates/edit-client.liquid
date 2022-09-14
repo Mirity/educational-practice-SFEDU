@@ -1,0 +1,39 @@
+{% layout "layout/default-layout.liquid", title: 'Clients' %}
+{% block %}
+{% assign clients = this.getClients %}
+
+{% for client in clients %}
+    {% include 'samples/client-sample.liquid', client: client %}
+{% endfor %}
+{% assign client = this.getClient %}
+<form class="form" action="/edit-client" method="post">
+    <div class="form__item">
+        <label for="id">ID:</label>
+        <input value={{ client.id }} type="text" id="id" name="id">
+    </div>
+
+    <div class="form__item">
+        <label for="name">Имя:</label>
+        <input value={{ client.name }} type="text" id="name" name="name">
+    </div>
+
+    <div class="form__item">
+        <label for="surname">Фамилия:</label>
+        <input value={{ client.surname }} type="text" id="surname" name="surname">
+    </div>
+
+    <div class="form__item">
+        <label for="passport">Номер паспорта:</label>
+        <input value={{ client.passport }} type="text" id="passport" name="passport">
+    </div>
+
+    <div class="form__item">
+        <label for="password">Пароль:</label>
+        <input  type="text" id="password" name="password" value={{ client.password }}>
+    </div>
+
+    <div class="button button_submit">
+        <button type="submit">Изменить</button>
+    </div>
+</form>
+{% endblock %}

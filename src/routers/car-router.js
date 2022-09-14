@@ -2,10 +2,12 @@ import CarController from "../controllers/car-controller.js";
 import AllCarsController from "../controllers/all-cars-conroller.js";
 import AbstractRouter from "./abstract-router.js";
 import OldCarsController from "../controllers/old-cars-controller.js";
+import EditCarController from "../controllers/edit-car-controller.js";
 
 const carController = new CarController();
 const allCarsController = new AllCarsController();
 const oldCarsController = new OldCarsController();
+const editCarController = new EditCarController()
 
 const routes = [
     {
@@ -28,6 +30,17 @@ const routes = [
         path: '/old-cars',
         method: 'get'
     },
+    {
+        controller: editCarController,
+        path: '/edit-car',
+        method: 'get'
+    },
+    {
+        controller: editCarController,
+        path: '/edit-car',
+        method: 'post'
+    },
+
 ]
 
 export default class CarRouter extends AbstractRouter {

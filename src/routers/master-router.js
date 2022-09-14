@@ -26,8 +26,7 @@ const routes = [
 export default class MasterRouter extends AbstractRouter {
     constructor() {
         super(routes);
-        this.isPost = true;
 
-        this.createRoutes(this.isPost);
+        this.createRoutes();
     }
 }

@@ -35,6 +35,7 @@ function liquid() {
 
 function script() {
     src('./src/App.js').pipe(dest('dist'));
+    src('./src/**/*/*.js').pipe(dest('dist/'));
 
     return src('./src/**/*.js').pipe(dest('dist/'));
 }
@@ -49,6 +50,7 @@ function serve() {
     watch('./src/templates/**.liquid', series(liquid)).on('change', sync.reload);
     watch('./src/scss/*/**.scss', series(scss)).on('change', sync.reload);
     watch('./src/**/**.js', series(script)).on('change', sync.reload);
+    watch('./src/**/**/**.js', series(script)).on('change', sync.reload);
 }
 
 export default async function watchNode() {

@@ -1,5 +1,5 @@
 import ClientsView from '../views/clients-view.js';
-import Database from '../database.js';
+import ClientResource from "../models/resource/client-resource.js";
 
 export default class ClientsController {
    async execute(req, res, next) {
@@ -9,7 +9,8 @@ export default class ClientsController {
     }
 
     async #getHandler (res) {
-        const clients = await Database.makeQuery(`select * from client`);
+        const clientResource = new ClientResource();
+        const clients = clientResource.getClients();
 
         const clientsView = new ClientsView();
         clientsView.setClients(clients)
