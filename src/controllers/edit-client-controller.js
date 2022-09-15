@@ -3,14 +3,11 @@ import ClientResource from "../models/resource/client-resource.js";
 import AbstractController from "./abstract-controller.js";
 
 export default class EditClientController extends AbstractController {
-    async execute(req, res, next) {
-        await super.execute(req, res, next);
-    }
-
     async getHandler (res, req) {
         const clientResource = new ClientResource();
         const id = req.query.id;
-        super.isCorrectId(id, res);
+
+        this.idHandler(id, res);
 
         const client = clientResource.getClientById(id);
 
@@ -23,10 +20,10 @@ export default class EditClientController extends AbstractController {
     }
 
     async postHandler(res, req) {
-        const queryParams = req.body;
+        const params = req.body;
 
         const clientResource = new ClientResource();
-        await clientResource.editClient(queryParams);
+        await clientResource.editClient(params);
 
         res.redirect('/clients');
     }

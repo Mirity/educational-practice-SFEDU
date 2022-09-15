@@ -3,10 +3,6 @@ import ServiceRecordResource from "../models/resource/service-record-resource.js
 import AbstractController from "./abstract-controller.js";
 
 export default class ServiceRecordsController extends AbstractController {
-    async execute(req, res, next) {
-        await super.execute(req, res, next);
-    }
-
     async getHandler (res) {
         const serviceRecordResource = new ServiceRecordResource();
         const serviceRecords = serviceRecordResource.getServiceRecords();

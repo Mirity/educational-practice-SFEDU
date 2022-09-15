@@ -3,10 +3,6 @@ import ClientResource from "../models/resource/client-resource.js";
 import AbstractController from "./abstract-controller.js";
 
 export default class ClientsController extends AbstractController {
-   async execute(req, res, next) {
-       await super.execute(req, res, next);
-   }
-
     async getHandler (res) {
         const clientResource = new ClientResource();
         const clients = clientResource.getClients();

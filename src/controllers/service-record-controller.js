@@ -3,14 +3,13 @@ import ServiceRecordResource from "../models/resource/service-record-resource.js
 import AbstractController from "./abstract-controller.js";
 
 export default class ServiceRecordController extends AbstractController {
-    async execute(req, res, next) {
-        await super.execute(req, res, next);
-    }
-
     async getHandler (res, req) {
         const serviceRecordResource = new ServiceRecordResource();
         const id = req.query.id;
-        super.isCorrectId(id, res);
+
+        if(!this.idHandler(id, res)) {
+            return;
+        }
 
         const serviceRecord = serviceRecordResource.getServiceRecordById(id);
 
@@ -21,10 +20,10 @@ export default class ServiceRecordController extends AbstractController {
     }
 
     async postHandler (res, req) {
-        const queryParams = req.body;
+        const params = req.body;
 
         const serviceRecordResource = new ServiceRecordResource();
-        await serviceRecordResource.addNewServiceRecord(queryParams);
+        await serviceRecordResource.addNewServiceRecord(params);
 
         res.redirect('/service-records')
     }

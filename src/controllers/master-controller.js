@@ -3,14 +3,13 @@ import MasterResource from "../models/resource/master-resource.js";
 import AbstractController from "./abstract-controller.js";
 
 export default class MasterController extends AbstractController {
-    async execute(req, res, next) {
-        await super.execute(req, res, next);
-    }
-
     async getHandler (res, req) {
         const masterResource = new MasterResource();
         const id = req.query.id;
-        super.isCorrectId(id, res);
+
+        if(!this.idHandler(id, res)) {
+            return;
+        }
 
         const master = masterResource.getMasterById(id);
 
@@ -21,10 +20,10 @@ export default class MasterController extends AbstractController {
     }
 
     async postHandler (res, req) {
-        const queryParams = req.body;
+        const params = req.body;
 
         const masterResource = new MasterResource();
-        await masterResource.addNewMaster(queryParams);
+        await masterResource.addNewMaster(params);
 
         res.redirect('/masters');
     }

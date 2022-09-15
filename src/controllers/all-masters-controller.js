@@ -3,10 +3,6 @@ import MasterResource from "../models/resource/master-resource.js";
 import AbstractController from "./abstract-controller.js";
 
 export default class MastersController extends AbstractController {
-    async execute(req, res, next) {
-        await super.execute(req, res, next);
-    }
-
     async getHandler (res) {
         const masterResource = new MasterResource();
         const masters = masterResource.getMasters();

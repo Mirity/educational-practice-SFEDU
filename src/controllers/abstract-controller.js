@@ -7,12 +7,16 @@ export default class AbstractController {
         }
     }
 
-    isCorrectId (id, res) {
-        if (!id || Number.isInteger(id) || id <= 0) {
+    idHandler (id, res) {
+        if (!this.isCorrectId(id)) {
             res.status(500)
                 .send(`No id provided or id incorrect`);
-
-            return;
         }
+
+        return this.isCorrectId(id);
+    }
+
+    isCorrectId (id) {
+        return (id && id > 0);
     }
 }

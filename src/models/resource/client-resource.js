@@ -1,28 +1,28 @@
 import Database from "../../database.js";
 
 export default class ClientResource {
-    #selectQuery = `select * from client`;
+    #getClientsQuery = `select * from client`;
 
     async getClients() {
-        return await Database.makeQuery(this.#selectQuery);
+        return Database.makeQuery(this.#getClientsQuery);
     }
 
     async getClientById(id) {
-        const clients = await Database.makeQuery(`${this.#selectQuery} where id='${id}'`);
+        const clients = await Database.makeQuery(`${this.#getClientsQuery} where id='${id}'`);
 
         return clients[0];
     }
 
-    async addNewClient(queryParams) {
-        const { name, surname, passport, password } = queryParams;
+    async addNewClient(params) {
+        const { name, surname, passport, password } = params;
 
         await Database.makeQuery(
             `INSERT INTO client (name, surname, passport, password) VALUES (?, ?, ?, ?)`,
             [name, surname, passport, password]);
     }
 
-    async editClient(queryParams) {
-        const { id, name, surname, passport, password } = queryParams;
+    async editClient(params) {
+        const { id, name, surname, passport, password } = params;
 
         await Database.makeQuery(
             `UPDATE client SET name = ?, surname = ?, passport = ?, password = ? WHERE id = '${id}';`,

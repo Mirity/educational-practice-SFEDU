@@ -4,14 +4,13 @@ import AbstractController from "./abstract-controller.js";
 
 
 export default class EditCarController extends AbstractController {
-    async execute(req, res, next) {
-        await super.execute(req, res, next);
-    }
-
     async getHandler (res, req) {
         const carResource = new CarResource();
         const id = req.query.id;
-        super.isCorrectId(id, res);
+
+        if(!this.idHandler(id, res)) {
+            return;
+        }
 
         const car = await carResource.getCarById(id);
 
@@ -24,10 +23,10 @@ export default class EditCarController extends AbstractController {
     }
 
     async postHandler (res, req) {
-        const queryParams = req.body;
+        const params = req.body;
 
         const carResource = new CarResource();
-        await carResource.editCarById(queryParams);
+        await carResource.editCarById(params);
 
         res.redirect('/cars');
     }

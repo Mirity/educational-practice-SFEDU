@@ -3,15 +3,13 @@ import ServiceCenterResource from "../models/resource/service-center-resource.js
 import AbstractController from "./abstract-controller.js";
 
 export default class ServiceCenterController extends AbstractController {
-    async execute(req, res, next) {
-        await super.execute(req, res, next);
-    }
-
-    async getHandler (res, req) {
+  async getHandler (res, req) {
         const serviceCenterResource = new ServiceCenterResource();
         const id = req.query.id;
-        super.isCorrectId(id, res);
 
+        if(!this.idHandler(id, res)) {
+            return;
+        }
         const serviceCenter = serviceCenterResource.getServiceCenterById(id);
 
         const serviceCenterView = new ServiceCenterView();
@@ -21,10 +19,10 @@ export default class ServiceCenterController extends AbstractController {
     }
 
     async postHandler (res, req) {
-        const queryParams = req.body;
+        const params = req.body;
 
         const serviceCenterResource = new ServiceCenterResource();
-        await serviceCenterResource.addNewServiceCenter(queryParams);
+        await serviceCenterResource.addNewServiceCenter(params);
 
         res.redirect('/service-centers');
     }
