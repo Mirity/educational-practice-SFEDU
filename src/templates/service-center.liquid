@@ -1,5 +1,6 @@
 {% layout "layout/default-layout.liquid", title: 'Service center' %}
 {% block %}
     {% assign serviceCenter = this.getServiceCenter %}
+    {% include 'samples/table-header-service-center.liquid' %}
     {% include 'samples/service-center-sample.liquid', serviceCenter: serviceCenter %}
 {% endblock %}

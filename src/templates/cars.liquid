@@ -4,13 +4,18 @@
         <ul class="bottom-nav__list">
             <li class="bottom-nav__item">
                 <a class="bottom-nav__link" href="/old-cars">Старые машины</a>
+                <a class="bottom-nav__link" href="#form">Добавить новую машину</a>
             </li>
         </ul>
     </div>
-    {% for car in cars %}
-        {% include 'samples/car-sample.liquid', car: car %}
-    {% endfor %}
-    <form class="form" action="/car" method="post">
+    <div class="wrapper">
+        {% include 'samples/table-header-car.liquid' %}
+        {% for car in cars %}
+            {% include 'samples/car-sample.liquid', car: car %}
+        {% endfor %}
+    </div>
+
+    <form id="form" class="form" action="/car" method="post">
         <div class="form__item">
             <label class="form__label" for="mileage">Пробег:</label>
             <input class="form__input" type="number" id="mileage" name="mileage">
@@ -33,7 +38,7 @@
 
         <div class="form__item">
             <label class="form__label" for="country">Страна:</label>
-            <input type="text" id="country" name="country">
+            <input class="form__input" type="text" id="country" name="country">
         </div>
 
         <div class="form__item">
@@ -51,8 +56,6 @@
             <input class="form__input" type="number" id="year" name="year">
         </div>
 
-        <div class="button button_submit">
-            <button type="submit">Добавить</button>
-        </div>
+        <button class="button button_submit" type="submit">Добавить</button>
     </form>
 {% endblock %}

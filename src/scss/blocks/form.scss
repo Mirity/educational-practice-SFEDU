@@ -1,0 +1,28 @@
+@import '../helpers/mixins';
+@import '../helpers/colors';
+
+
+.form {
+    margin: 20px auto;
+    width: fit-content;
+
+    &__item {
+        display: flex;
+
+        margin-top: 10px;
+
+        justify-content: space-between;
+    }
+
+    &__label {
+        @include padding-center(5px);
+    }
+
+    &__input {
+        @include padding-center(5px);
+        margin-left: 10px;
+
+        border-radius: 8px;
+        border: 2px solid $main-color;
+    }
+}

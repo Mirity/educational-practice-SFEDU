@@ -1,45 +1,45 @@
 <div class="car">
-        <div class="car__id">
+        <div class="car__item">
             <span>{{ car.id }}</span>
         </div>
 
-        <div class="car__model">
+        <div class="car__item">
             <span>{{ car.model }}</span>
         </div>
 
-        <div class="car__mileage">
+        <div class="car__item">
             <span>{{ car.mileage }}</span>
         </div>
 
-        <div class="car__number">
+        <div class="car__item">
             <span>{{ car.number }}</span>
         </div>
 
-        <div class="car__brand">
+        <div class="car__item">
             <span>{{ car.brand_name }}</span>
         </div>
 
-        <div class="car__country">
+        <div class="car__item">
             <span>{{ car.country_name }}</span>
         </div>
 
-        <div class="car__client-name">
+        <div class="car__item">
             <span>{{ car.client_name }}</span>
         </div>
 
-        <div class="car__client-surname">
+        <div class="car__item">
             <span>{{ car.client_surname }}</span>
         </div>
 
-        <div class="car__year-manifacture">
+        <div class="car__item">
             <span>{{ car.year_manifacture}}</span>
         </div>
 
-        <div class="car__link">
-            <a href="/car?id={{ car.id }}">Открыть</a>
+        <div class="car__open">
+            <a class="car__link" href="/car?id={{ car.id }}">Открыть</a>
         </div>
 
         <div class="car__edit">
-            <a href="/edit-car?id={{ car.id }}">Изменить</a>
+            <a class="car__link" href="/edit-car?id={{ car.id }}">Изменить</a>
         </div>
 </div>

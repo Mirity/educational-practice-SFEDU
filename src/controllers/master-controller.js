@@ -7,8 +7,8 @@ export default class MasterController extends AbstractController {
         const masterResource = new MasterResource();
         const id = req.query.id;
 
-        if(!this.idHandler(id, res)) {
-            return;
+        if (!this.isCorrectId(id)) {
+            return this.handleInvalidId(res);
         }
 
         const master = masterResource.getMasterById(id);

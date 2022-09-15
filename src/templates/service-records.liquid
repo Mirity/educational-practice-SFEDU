@@ -1,9 +1,13 @@
 {% layout "layout/default-layout.liquid", title: 'Service records' %}
 {% block %}
     {% assign serviceRecords = this.getServiceRecords %}
-    {% for serviceRecord in serviceRecords %}
-        {% include 'samples/service-record-sample.liquid', serviceRecord: serviceRecord %}
-    {% endfor %}
+    <div class="wrapper">
+        {% include 'samples/table-header-service-record.liquid' %}
+        {% for serviceRecord in serviceRecords %}
+            {% include 'samples/service-record-sample.liquid', serviceRecord: serviceRecord %}
+        {% endfor %}
+    </div>
+
     <form class="form" action="/service-record" method="post">
         <div class="form__item">
             <label class="form__label" for="car">Машина:</label>
@@ -20,8 +24,6 @@
             <input class="form__input" type="date" id="date" name="date">
         </div>
 
-        <div class="button button_submit">
-            <button type="submit">Добавить</button>
-        </div>
-    </form>`
+        <button class="button button_submit" type="submit">Добавить</button>
+    </form>
 {% endblock %}

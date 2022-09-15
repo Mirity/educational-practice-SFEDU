@@ -1,29 +1,29 @@
 <div class="service-center">
-    <div class="service-center__id">
+    <div class="service-center__item">
         {{ serviceCenter.id }}
     </div>
 
-    <div class="service-center__name">
+    <div class="service-center__item">
         {{ serviceCenter.name }}
     </div>
 
-    <div class="service-center__country-name">
+    <div class="service-center__item">
         {{ serviceCenter.country_name }}
     </div>
 
-    <div class="service-center__city-name">
+    <div class="service-center__item">
         {{ serviceCenter.city_name }}
     </div>
 
-    <div class="service-center__address">
+    <div class="service-center__item">
         {{ serviceCenter.street }} {{ serviceCenter.house }}
     </div>
 
-    <div class="service-center__number-seats">
+    <div class="service-center__item">
         {{ serviceCenter.number_seats }}
     </div>
 
-    <div class="service-center__link">
-        <a href="/service-center?id={{ serviceCenter.id }}">Открыть</a>
+    <div class="service-center__open">
+        <a class="service-center__link" href="/service-center?id={{ serviceCenter.id }}">Открыть</a>
     </div>
 </div>

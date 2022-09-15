@@ -1,10 +1,12 @@
 {% layout "layout/default-layout.liquid", title: 'Masters' %}
 {% block %}
 {% assign masters = this.getMasters %}
-
-{% for master in masters %}
-    {% include 'samples/master-sample.liquid', master: master %}
-{% endfor %}
+<div class="wrapper">
+    {% include 'samples/table-header-master.liquid' %}
+    {% for master in masters %}
+        {% include 'samples/master-sample.liquid', master: master %}
+    {% endfor %}
+</div>
 
 <form class="form" action="/master" method="post">
     <div class="form__item">
@@ -32,8 +34,6 @@
         <input class="form__input" type="text" id="service_center" name="service_center">
     </div>
 
-    <div class="button button_submit">
-        <button type="submit">Добавить</button>
-    </div>
-</form>`
+    <button class="button button_submit" type="submit">Добавить</button>
+</form>
 {% endblock %}

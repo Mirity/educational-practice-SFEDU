@@ -7,8 +7,8 @@ export default class ServiceRecordController extends AbstractController {
         const serviceRecordResource = new ServiceRecordResource();
         const id = req.query.id;
 
-        if(!this.idHandler(id, res)) {
-            return;
+        if (!this.isCorrectId(id)) {
+            return this.handleInvalidId(res);
         }
 
         const serviceRecord = serviceRecordResource.getServiceRecordById(id);

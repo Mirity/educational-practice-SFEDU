@@ -7,7 +7,9 @@ export default class EditClientController extends AbstractController {
         const clientResource = new ClientResource();
         const id = req.query.id;
 
-        this.idHandler(id, res);
+        if (!this.isCorrectId(id)) {
+            return this.handleInvalidId(res);
+        }
 
         const client = clientResource.getClientById(id);
 

@@ -8,8 +8,8 @@ export default class CarController extends AbstractController {
         const carResource = new CarResource();
         const id = req.query.id;
 
-        if(!this.idHandler(id, res)) {
-            return;
+        if (!this.isCorrectId(id)) {
+            return this.handleInvalidId(res);
         }
 
         const car = await carResource.getCarById(req.query.id);

@@ -1,0 +1,16 @@
+@import '../helpers/mixins';
+@import '../helpers/colors';
+
+.button {
+    width: 100px;
+    height: 30px;
+
+    &_submit {
+        margin-top: 20px;
+
+        background-color: $main-color;
+        border: none;
+
+        @include font(16px, 400, $white)
+    }
+}

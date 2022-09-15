@@ -7,9 +7,10 @@ export default class ServiceCenterController extends AbstractController {
         const serviceCenterResource = new ServiceCenterResource();
         const id = req.query.id;
 
-        if(!this.idHandler(id, res)) {
-            return;
+        if (!this.isCorrectId(id)) {
+            return this.handleInvalidId(res);
         }
+
         const serviceCenter = serviceCenterResource.getServiceCenterById(id);
 
         const serviceCenterView = new ServiceCenterView();

@@ -1,29 +1,29 @@
 <div class="master">
-    <div class="master__id">
+    <div class="master__item">
         {{ master.id }}
     </div>
 
-    <div class="master__name">
+    <div class="master__item">
         {{ master.name }}
     </div>
 
-    <div class="master__surname">
+    <div class="master__item">
         {{ master.surname }}
     </div>
 
-    <div class="master__head-master-name">
+    <div class="master__item">
         {{ master.head_master_name }}
     </div>
 
-    <div class="master__head-master-surname">
+    <div class="master__item">
         {{ master.head_master_surname }}
     </div>
 
-    <div class="master__service-center-name">
+    <div class="master__item">
         {{ master.service_center_name }}
     </div>
 
-    <div class="master__link">
-        <a href="/master?id={{ master.id }}">Открыть</a>
+    <div class="master__open">
+        <a class="master__link" href="/master?id={{ master.id }}">Открыть</a>
     </div>
 </div>

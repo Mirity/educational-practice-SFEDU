@@ -1,9 +1,9 @@
 @import '../helpers/mixins';
 @import '../helpers/colors';
 
-.car {
+.client {
     display: flex;
-    margin-left: 200px;
+    margin-left: 550px;
 
     &__item {
         @include padding-center(10px);

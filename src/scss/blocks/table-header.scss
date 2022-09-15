@@ -1,0 +1,39 @@
+@import '../helpers/mixins';
+@import '../helpers/colors';
+
+.table-header {
+    display: flex;
+    margin-left: 200px;
+    margin-bottom: 10px;
+
+    &_client {
+        margin-left: 550px;
+    }
+
+    &_master {
+        margin-left: 400px;
+    }
+
+    &_service-center {
+        margin-left: 400px;
+    }
+
+    &_service-record {
+        margin-left: 400px;
+    }
+
+    &__item {
+        @include padding-center(10px);
+        width: 150px;
+
+        background-color: $main-color;
+
+        border: 1px $white solid;
+
+        text-align: center;
+    }
+
+    &__text {
+        @include font(20px, 400, $white);
+    }
+}

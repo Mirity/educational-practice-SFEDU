@@ -7,8 +7,8 @@ export default class ClientController extends AbstractController {
         const clientResource = new ClientResource();
         const id = req.query.id;
 
-        if(!this.idHandler(id, res)) {
-            return;
+        if (!this.isCorrectId(id)) {
+            return this.handleInvalidId(res);
         }
 
         const client = clientResource.getClientById(id);

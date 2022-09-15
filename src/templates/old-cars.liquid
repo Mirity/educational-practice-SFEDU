@@ -1,7 +1,10 @@
 {% layout "layout/default-layout.liquid", title: 'Cars' %}
 {% block %}
     {% assign cars = this.getCars %}
-    {% for car in cars %}
-        {% include 'samples/car-sample.liquid', car: car %}
-    {% endfor %}
+    <div class="wrapper">
+        {% include 'samples/table-header.liquid' %}
+        {% for car in cars %}
+            {% include 'samples/car-sample.liquid', car: car %}
+        {% endfor %}
+    </div>
 {% endblock %}

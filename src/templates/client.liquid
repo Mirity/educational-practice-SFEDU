@@ -1,5 +1,8 @@
 {% layout "layout/default-layout.liquid", title: 'Client' %}
 {% block %}
     {% assign client = this.getClient %}
-    {% include 'samples/client-sample.liquid', client: client %}
+    <div class="wrapper">
+        {% include 'samples/table-header-client.liquid' %}
+        {% include 'samples/client-sample.liquid', client: client %}
+    </div>
 {% endblock %}

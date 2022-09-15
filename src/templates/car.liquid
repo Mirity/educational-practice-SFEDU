@@ -1,6 +1,9 @@
 {% layout "layout/default-layout.liquid", title: 'Car' %}
 {% block %}
     {% assign car = this.getCar %}
-    {% include 'samples/car-sample.liquid', car: car %}
+    <div class="wrapper">
+        {% include 'samples/table-header-car.liquid' %}
+        {% include 'samples/car-sample.liquid', car: car %}
+    </div>
 {% endblock %}
 

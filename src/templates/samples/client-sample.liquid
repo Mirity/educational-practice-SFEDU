@@ -1,25 +1,25 @@
 <div class="client">
-    <div class="client__id">
+    <div class="client__item">
         {{ client.id }}
     </div>
 
-    <div class="client__name">
+    <div class="client__item">
         {{ client.name }}
     </div>
 
-    <div class="client__surname">
+    <div class="client__item">
         {{ client.surname }}
     </div>
 
-    <div class="client__passport">
+    <div class="client__item">
         {{ client.passport }}
     </div>
 
-    <div class="client__link">
-        <a href="/client?id={{ client.id }}">Открыть</a>
+    <div class="client__open">
+        <a class="client__link" href="/client?id={{ client.id }}">Открыть</a>
     </div>
 
     <div class="client__edit">
-        <a href="/edit-client?id={{ client.id }}">Изменить</a>
+        <a class="client__link" href="/edit-client?id={{ client.id }}">Изменить</a>
     </div>
 </div>

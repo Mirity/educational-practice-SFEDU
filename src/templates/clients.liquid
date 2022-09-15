@@ -1,10 +1,13 @@
 {% layout "layout/default-layout.liquid", title: 'Clients' %}
 {% block %}
     {% assign clients = this.getClients %}
+    <div class="wrapper">
+        {% include 'samples/table-header-client.liquid' %}
+        {% for client in clients %}
+            {% include 'samples/client-sample.liquid', client: client %}
+        {% endfor %}
+    </div>
 
-    {% for client in clients %}
-        {% include 'samples/client-sample.liquid', client: client %}
-    {% endfor %}
     <form class="form" action="/client" method="post">
         <div class="form__item">
             <label class="form__label" for="name">Имя:</label>
@@ -26,8 +29,6 @@
             <input class="form__input" type="text" id="password" name="password">
         </div>
 
-        <div class="button button_submit">
-            <button type="submit">Добавить</button>
-        </div>
-    </form>`
+        <button class="button button_submit" type="submit">Добавить</button>
+    </form>
 {% endblock %}

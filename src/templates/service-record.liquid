@@ -1,5 +1,8 @@
 {% layout "layout/default-layout.liquid", title: 'Service record' %}
 {% block %}
     {% assign serviceRecord = this.getServiceRecord %}
-    {% include 'samples/service-record-sample.liquid', serviceRecord: serviceRecord %}
+    <div class="wrapper">
+        {% include 'samples/table-header-service-record.liquid' %}
+        {% include 'samples/service-record-sample.liquid', serviceRecord: serviceRecord %}
+    </div>
 {% endblock %}

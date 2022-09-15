@@ -1,10 +1,12 @@
 {% layout "layout/default-layout.liquid", title: 'Service centers' %}
 {% block %}
     {% assign serviceCenters = this.getServiceCenters %}
-
-    {% for serviceCenter in serviceCenters %}
-        {% include 'samples/service-center-sample.liquid', serviceCenter: serviceCenter %}
-    {% endfor %}
+    <div class="wrapper">
+        {% include 'samples/table-header-service-center.liquid' %}
+        {% for serviceCenter in serviceCenters %}
+            {% include 'samples/service-center-sample.liquid', serviceCenter: serviceCenter %}
+        {% endfor %}
+    </div>
 
     <form class="form" action="/service-center" method="post">
         <div class="form__item">
@@ -37,8 +39,6 @@
             <input class="form__input" type="number" id="number_seats" name="number_seats">
         </div>
 
-        <div class="button button_submit">
-            <button type="submit">Добавить</button>
-        </div>
-    </form>`
+        <button class="button button_submit" type="submit">Добавить</button>
+    </form>
 {% endblock %}
