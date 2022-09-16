@@ -7,7 +7,7 @@ export default class CarsController extends AbstractController {
         const carsView = new CarsView();
         const carResource = new CarResource();
 
-        const carsDb = carResource.getCars();
+        const carsDb = await carResource.getCars();
 
         carsView.setCars(carsDb);
         const cars = carsView.getCars();

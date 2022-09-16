@@ -11,7 +11,7 @@ export default class ClientController extends AbstractController {
             return this.handleInvalidId(res);
         }
 
-        const client = clientResource.getClientById(id);
+        const client = await clientResource.getClientById(id);
 
         const clientView = new ClientView();
         clientView.setClient(client)

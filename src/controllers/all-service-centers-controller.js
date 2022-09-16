@@ -5,7 +5,7 @@ import ServiceCenterResource from "../models/resource/service-center-resource.js
 export default class ServiceCentersController extends AbstractController {
     async getHandler (res) {
         const serviceCenterResource = new ServiceCenterResource();
-        const serviceCenters = serviceCenterResource.getServiceCenters();
+        const serviceCenters = await serviceCenterResource.getServiceCenters();
 
         const serviceCentersView = new ServiceCentersView();
         serviceCentersView.setServiceCenters(serviceCenters);

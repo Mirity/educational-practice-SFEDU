@@ -11,7 +11,7 @@ export default class ServiceRecordController extends AbstractController {
             return this.handleInvalidId(res);
         }
 
-        const serviceRecord = serviceRecordResource.getServiceRecordById(id);
+        const serviceRecord = await serviceRecordResource.getServiceRecordById(id);
 
         const serviceRecordView = new ServiceRecordView();
         serviceRecordView.setServiceRecord(serviceRecord);

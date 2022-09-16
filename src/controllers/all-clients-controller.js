@@ -5,7 +5,7 @@ import AbstractController from "./abstract-controller.js";
 export default class ClientsController extends AbstractController {
     async getHandler (res) {
         const clientResource = new ClientResource();
-        const clients = clientResource.getClients();
+        const clients = await clientResource.getClients();
 
         const clientsView = new ClientsView();
         clientsView.setClients(clients)

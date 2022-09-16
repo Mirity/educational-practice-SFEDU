@@ -5,7 +5,7 @@ import AbstractController from "./abstract-controller.js";
 export default class ServiceRecordsController extends AbstractController {
     async getHandler (res) {
         const serviceRecordResource = new ServiceRecordResource();
-        const serviceRecords = serviceRecordResource.getServiceRecords();
+        const serviceRecords = await serviceRecordResource.getServiceRecords();
 
         const serviceRecordsView = new ServiceRecordsView();
         serviceRecordsView.setServiceRecords(serviceRecords);

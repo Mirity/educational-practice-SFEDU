@@ -20,4 +20,8 @@ export default class MasterResource {
             `INSERT INTO master (name, surname, head_master_id, service_center_id) VALUES (?, ?, (select id from (select id from master where name = '${head_master_name}' and surname = '${head_master_surname}') AS m2), (select id from service_center where name = '${service_center}'))`,
             [name, surname]);
     }
+
+    async deleteMaster(id) {
+        await Database.makeQuery(`DELETE FROM master WHERE id = ${id}`);
+    }
 }

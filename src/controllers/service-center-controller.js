@@ -11,7 +11,7 @@ export default class ServiceCenterController extends AbstractController {
             return this.handleInvalidId(res);
         }
 
-        const serviceCenter = serviceCenterResource.getServiceCenterById(id);
+        const serviceCenter = await serviceCenterResource.getServiceCenterById(id);
 
         const serviceCenterView = new ServiceCenterView();
         serviceCenterView.setServiceCenter(serviceCenter)

@@ -1,9 +1,11 @@
 import MasterController from '../controllers/master-controller.js';
 import AllMastersController from "../controllers/all-masters-controller.js";
 import AbstractRouter from "./abstract-router.js";
+import DeleteMasterController from "../controllers/delete-master-controller.js";
 
 const masterController = new MasterController();
 const mastersController = new AllMastersController();
+const deleteMasterController = new DeleteMasterController()
 
 const routes = [
     {
@@ -19,6 +21,12 @@ const routes = [
     {
         controller: mastersController,
         path: '/masters',
+        method: 'get'
+    },
+
+    {
+        controller: deleteMasterController,
+        path: '/delete-master',
         method: 'get'
     },
 ]

@@ -8,18 +8,17 @@
 
     &__item {
         display: flex;
+        justify-content: space-between;
 
         margin-top: 10px;
-
-        justify-content: space-between;
     }
 
     &__label {
-        @include padding-center(5px);
+        padding: 5px 0;
     }
 
     &__input {
-        @include padding-center(5px);
+        padding: 5px 0;
         margin-left: 10px;
 
         border-radius: 8px;

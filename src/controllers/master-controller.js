@@ -11,7 +11,7 @@ export default class MasterController extends AbstractController {
             return this.handleInvalidId(res);
         }
 
-        const master = masterResource.getMasterById(id);
+        const master = await masterResource.getMasterById(id);
 
         const masterView = new MasterView();
         masterView.setMaster(master)

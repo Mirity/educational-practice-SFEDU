@@ -1,4 +1,5 @@
 import mysql from 'mysql-await';
+import Environment from "./models/environment.js";
 
 export default class Database {
     static connection = null;
@@ -8,11 +9,13 @@ export default class Database {
             return this.connection;
         }
 
+        const environment = new Environment();
+
         this.connection = mysql.createConnection({
-            host: '127.0.0.1',
-            user: 'Alisa',
-            password: 'vlrevlor',
-            database: 'service_centres'
+            host: environment.getHost(),
+            user: environment.getUser(),
+            password: environment.getPassword(),
+            database: environment.getDbName(),
         })
 
         this.connection.connect();

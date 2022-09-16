@@ -24,6 +24,18 @@
     </div>
 
     <div class="master__open">
-        <a class="master__link" href="/master?id={{ master.id }}">Открыть</a>
+        <a class="master__link"
+           href="/master?id={{ master.id }}"
+        >
+            Открыть
+        </a>
+    </div>
+
+    <div class="master__delete">
+        <a href="delete-master?id={{ master.id }}"
+           class="master__link"
+        >
+            Удалить
+        </a>
     </div>
 </div>

@@ -6,7 +6,7 @@
     margin-left: 400px;
 
     &__item {
-        @include padding-center(10px);
+        padding: 10px 0;
         width: 150px;
 
         @include font(20px, 400, black);
@@ -16,7 +16,7 @@
     }
 
     &__open {
-        @include padding-center(10px);
+        padding: 10px 0;
         width: 100px;
 
         text-align: center;

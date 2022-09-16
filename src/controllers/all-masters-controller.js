@@ -5,7 +5,7 @@ import AbstractController from "./abstract-controller.js";
 export default class MastersController extends AbstractController {
     async getHandler (res) {
         const masterResource = new MasterResource();
-        const masters = masterResource.getMasters();
+        const masters = await masterResource.getMasters();
 
         const mastersView = new MastersView();
         mastersView.setMasters(masters)
