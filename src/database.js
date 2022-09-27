@@ -9,13 +9,11 @@ export default class Database {
             return this.connection;
         }
 
-        const environment = new Environment();
-
         this.connection = mysql.createConnection({
-            host: environment.getHost(),
-            user: environment.getUser(),
-            password: environment.getPassword(),
-            database: environment.getDbName(),
+            host: Environment.getDbHost(),
+            user: Environment.getDbUser(),
+            password: Environment.getDbPassword(),
+            database: Environment.getDbName(),
         })
 
         this.connection.connect();

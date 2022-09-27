@@ -15,6 +15,7 @@ const app = new App();
 
 app.initLiquid();
 app.initBodyParser();
+app.initEnv();
 
 const routers = [
     ClientRouter,

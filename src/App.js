@@ -2,6 +2,7 @@ import express from 'express';
 import { Liquid } from 'liquidjs';
 import bodyParser from "body-parser";
 import path from 'path';
+import * as dotenv from "dotenv";
 
 export default class App {
     constructor() {
@@ -15,6 +16,10 @@ export default class App {
 
     initRouter (router) {
         this.app.use(router);
+    }
+
+    initEnv () {
+        dotenv.config()
     }
 
     initBodyParser() {

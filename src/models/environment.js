@@ -1,24 +1,17 @@
-import * as dotenv from 'dotenv';
-
-
 export default class Environment {
-    constructor() {
-        dotenv.config()
-    }
-
-    getHost() {
+    static getDbHost() {
         return process.env.DB_HOST;
     }
 
-    getUser() {
+    static getDbUser() {
         return process.env.DB_USER;
     }
 
-    getPassword() {
+    static getDbPassword() {
         return process.env.DB_PASSWORD;
     }
 
-    getDbName() {
+    static getDbName() {
         return process.env.DB_NAME;
     }
 
