@@ -16,7 +16,10 @@ export default class MasterController extends AbstractController {
         const masterView = new MasterView();
         masterView.setMaster(master)
 
-        res.render(masterView.getTemplate(), { 'this': masterView });
+        res.render(masterView.getTemplate(), {
+            'this': masterView,
+            isLoggedIn: req.session.isLoggedIn
+        });
     }
 
     async postHandler (res, req) {

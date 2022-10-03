@@ -32,4 +32,8 @@ export default class CarResource {
             (`UPDATE car SET mileage = ?, number = ?, brand_id = (select id from brand where name = '${brand}'), model = ? , country_id = (select id from country where name = '${country}'), client_id = (select id from client where name = '${client_name}' and surname = '${client_surname}'), year_manifacture = ? WHERE id = ${id}`,
             [mileage, number, model, year])
     }
+
+    async getCarsByClientId(id) {
+        return await Database.makeQuery(`${this.#getCarsQuery} WHERE client.id='${id}'`);
+    }
 }

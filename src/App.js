@@ -3,6 +3,8 @@ import { Liquid } from 'liquidjs';
 import bodyParser from "body-parser";
 import path from 'path';
 import * as dotenv from "dotenv";
+import session from 'express-session';
+
 
 export default class App {
     constructor() {
@@ -32,5 +34,16 @@ export default class App {
         this.app.engine('liquid', engine.express());
         this.app.set('views', path.resolve(__dirname, 'templates'));
         this.app.set('view engine', 'liquid');
+    }
+
+    initSession() {
+        this.app.use(session({
+            secret: 'keyboard cat',
+            resave: false,
+            saveUninitialized: true,
+            cookie: {
+                maxAge: 60000
+            }
+        }))
     }
 }

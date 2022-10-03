@@ -9,7 +9,7 @@
     <title>{{ title }}</title>
 </head>
 <body>
-    {% include '../samples/header.liquid' %}
+    {% include '../samples/header.liquid', isLoggedIn: isLoggedIn %}
         {% block %}{% endblock %}
     {% include 'samples/footer.liquid' %}
 </body>

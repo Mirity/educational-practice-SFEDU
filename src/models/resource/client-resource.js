@@ -8,7 +8,7 @@ export default class ClientResource {
     }
 
     async getClientById(id) {
-        const clients = await Database.makeQuery(`${this.#getClientsQuery} where id='${id}'`);
+        const clients = await Database.makeQuery(`${this.#getClientsQuery} where id=${id}`);
 
         return clients[0];
     }
@@ -22,10 +22,11 @@ export default class ClientResource {
     }
 
     async editClient(params) {
-        const { id, name, surname, passport, password } = params;
+        const { id, name, surname, email, passport, password } = params;
+
 
         await Database.makeQuery(
-            `UPDATE client SET name = ?, surname = ?, passport = ?, password = ? WHERE id = '${id}';`,
-            [name, surname, passport, password]);
+            `UPDATE client SET email = ?, name = ?, surname = ?, passport = ?, password = ? WHERE id = '${id}';`,
+            [email, name, surname, passport, password]);
     }
 }

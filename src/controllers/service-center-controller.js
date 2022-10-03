@@ -16,7 +16,10 @@ export default class ServiceCenterController extends AbstractController {
         const serviceCenterView = new ServiceCenterView();
         serviceCenterView.setServiceCenter(serviceCenter)
 
-        res.render(serviceCenterView.getTemplate(), { 'this': serviceCenterView });
+        res.render(serviceCenterView.getTemplate(), {
+            'this': serviceCenterView,
+            isLoggedIn: req.session.isLoggedIn
+        });
     }
 
     async postHandler (res, req) {

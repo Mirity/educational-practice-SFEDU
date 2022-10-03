@@ -18,7 +18,10 @@ export default class EditClientController extends AbstractController {
             .setClient(client)
             .setTemplate('edit-client');
 
-        res.render(clientView.getTemplate(), { 'this': clientView });
+        res.render(clientView.getTemplate(), {
+            'this': clientView,
+            isLoggedIn: req.session.isLoggedIn
+        });
     }
 
     async postHandler(res, req) {

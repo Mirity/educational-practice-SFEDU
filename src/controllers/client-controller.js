@@ -16,7 +16,10 @@ export default class ClientController extends AbstractController {
         const clientView = new ClientView();
         clientView.setClient(client)
 
-        res.render(clientView.getTemplate(), { 'this': clientView });
+        res.render(clientView.getTemplate(), {
+            'this': clientView,
+            isLoggedIn: req.session.isLoggedIn
+        });
     }
 
     async postHandler (res, req) {

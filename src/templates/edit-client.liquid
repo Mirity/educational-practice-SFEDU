@@ -1,4 +1,4 @@
-{% layout "layout/default-layout.liquid", title: 'Clients' %}
+{% layout "layout/default-layout.liquid", title: 'Clients', isLoggedIn: isLoggedIn %}
 {% block %}
 {% assign clients = this.getClients %}
 
@@ -43,6 +43,20 @@
         </label>
         <input class="form__input"
                value={{ client.surname }}
+               type="text"
+               id="surname"
+               name="surname"
+        >
+    </div>
+
+    <div class="form__item">
+        <label class="form__label"
+               for="surname"
+        >
+            Email:
+        </label>
+        <input class="form__input"
+               value={{ client.email }}
                type="text"
                id="surname"
                name="surname"

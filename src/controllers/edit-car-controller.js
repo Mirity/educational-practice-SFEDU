@@ -19,7 +19,10 @@ export default class EditCarController extends AbstractController {
             .setCar(car)
             .setTemplate('edit-car');
 
-        res.render(carView.getTemplate(), { 'this': carView });
+        res.render(carView.getTemplate(), {
+            'this': carView,
+            isLoggedIn: req.session.isLoggedIn
+        });
     }
 
     async postHandler (res, req) {

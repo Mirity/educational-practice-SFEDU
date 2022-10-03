@@ -1,4 +1,4 @@
-{% layout "layout/default-layout.liquid", title: 'Service record' %}
+{% layout "layout/default-layout.liquid", title: 'Service record', isLoggedIn: isLoggedIn %}
 {% block %}
     {% assign serviceRecord = this.getServiceRecord %}
     <div class="wrapper">

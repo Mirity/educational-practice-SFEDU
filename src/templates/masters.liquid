@@ -1,4 +1,4 @@
-{% layout "layout/default-layout.liquid", title: 'Masters' %}
+{% layout "layout/default-layout.liquid", title: 'Masters', isLoggedIn: isLoggedIn %}
 {% block %}
 {% assign masters = this.getMasters %}
 <div class="wrapper">

@@ -3,13 +3,16 @@ import AbstractController from "./abstract-controller.js";
 import ServiceCenterResource from "../models/resource/service-center-resource.js";
 
 export default class ServiceCentersController extends AbstractController {
-    async getHandler (res) {
+    async getHandler (res, req) {
         const serviceCenterResource = new ServiceCenterResource();
         const serviceCenters = await serviceCenterResource.getServiceCenters();
 
         const serviceCentersView = new ServiceCentersView();
         serviceCentersView.setServiceCenters(serviceCenters);
 
-        res.render(serviceCentersView.getTemplate(), { 'this': serviceCentersView });
+        res.render(serviceCentersView.getTemplate(), {
+            'this': serviceCentersView,
+            isLoggedIn: req.session.isLoggedIn
+        });
     }
 }

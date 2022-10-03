@@ -36,6 +36,32 @@
                     Мастеры
                 </a>
             </li>
+
+            {% if isLoggedIn -%}
+                <li class="nav__item">
+                    <a class="nav__link"
+                       href="/user-profile"
+                    >
+                        Личный кабинет
+                    </a>
+                </li>
+            {% else %}
+                <li class="nav__item">
+                    <a class="nav__link"
+                       href="/login"
+                    >
+                        Войти
+                    </a>
+                </li>
+                <li class="nav__item">
+                    <a class="nav__link"
+                       href="/registration"
+                    >
+                        Регистрация
+                    </a>
+                </li>
+            {% endif -%}
+
         </ul>
     </nav>
 </header>

@@ -13,6 +13,10 @@ export default class ServiceRecordResource {
         return serviceRecords[0];
     }
 
+    async getServiceRecordsByClientId(id) {
+        return Database.makeQuery(`${this.#getServiceRecordsQuery} WHERE client.id = '${id}' GROUP BY service_record.id`);
+    }
+
     async addNewServiceRecord(params) {
         const { car, client, date } = params;
 

@@ -3,7 +3,7 @@ import CarResource from "../models/resource/car-resource.js";
 import AbstractController from "./abstract-controller.js";
 
 export default class OldCarsController extends AbstractController {
-    async getHandler(res) {
+    async getHandler(res, req) {
         const carResource = new CarResource();
         const cars = await carResource.getOldCars();
 
@@ -12,6 +12,9 @@ export default class OldCarsController extends AbstractController {
             .setCars(cars)
             .setTemplate('old-cars')
 
-        res.render(carsView.getTemplate(), { 'this': carsView });
+        res.render(carsView.getTemplate(), {
+            'this': carsView,
+            isLoggedIn: req.session.isLoggedIn
+        });
     }
 }

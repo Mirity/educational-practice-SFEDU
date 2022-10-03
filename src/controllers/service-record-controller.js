@@ -16,7 +16,10 @@ export default class ServiceRecordController extends AbstractController {
         const serviceRecordView = new ServiceRecordView();
         serviceRecordView.setServiceRecord(serviceRecord);
 
-        res.render(serviceRecordView.getTemplate(), { 'this': serviceRecordView });
+        res.render(serviceRecordView.getTemplate(), {
+            'this': serviceRecordView,
+            isLoggedIn: req.session.isLoggedIn
+        });
     }
 
     async postHandler (res, req) {

@@ -1,4 +1,4 @@
-{% layout "layout/default-layout.liquid", title: 'Service center' %}
+{% layout "layout/default-layout.liquid", title: 'Service center', isLoggedIn: isLoggedIn %}
 {% block %}
     {% assign serviceCenter = this.getServiceCenter %}
     {% include 'samples/table-header-service-center.liquid' %}
