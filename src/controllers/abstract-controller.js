@@ -15,4 +15,11 @@ export default class AbstractController {
     isCorrectId (id) {
         return (id && id > 0);
     }
+
+    render(res, view, isLoggedIn) {
+        res.render(view.getTemplate(), {
+            'this': view,
+            isLoggedIn: isLoggedIn
+        });
+    }
 }

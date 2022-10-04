@@ -1,4 +1,4 @@
-export default class AbstractView {
+export default class View {
     constructor(template) {
         this.template = template;
     }

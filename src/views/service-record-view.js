@@ -1,8 +1,8 @@
-import AbstractView from "./abstract-view.js";
+import View from "./view.js";
 
 const template = 'service-record';
 
-export default class ServiceRecordView extends AbstractView{
+export default class ServiceRecordView extends View{
     constructor() {
         super(template);
         this.serviceRecord = null;

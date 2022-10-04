@@ -1,6 +1,6 @@
 {% layout "layout/default-layout.liquid", title: 'Service records', isLoggedIn: isLoggedIn %}
 {% block %}
-    {% assign serviceRecords = this.getMyRecords %}
+    {% assign serviceRecords = this.getServiceRecords %}
     <div class="wrapper">
         {% include 'samples/table-header-service-record.liquid' %}
         {% for serviceRecord in serviceRecords %}

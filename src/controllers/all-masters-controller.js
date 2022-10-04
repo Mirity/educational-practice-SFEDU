@@ -10,9 +10,6 @@ export default class MastersController extends AbstractController {
         const mastersView = new MastersView();
         mastersView.setMasters(masters)
 
-        res.render(mastersView.getTemplate(), {
-            'this': mastersView,
-            isLoggedIn: req.session.isLoggedIn
-        });
+        this.render(res, mastersView, req.session.isLoggedIn)
     }
 }

@@ -17,10 +17,8 @@ export default class CarController extends AbstractController {
         const carView = new CarView();
         carView.setCar(car);
 
-        res.render(carView.getTemplate(), {
-            'this': carView,
-            isLoggedIn: req.session.isLoggedIn
-        });
+        this.render(res, carView, req.session.isLoggedIn)
+
     }
 
     async postHandler (res, req) {

@@ -1,9 +1,9 @@
-import AbstractView from "./abstract-view.js";
+import View from "./view.js";
 
 const template = 'service-centers';
 
 
-export default class ServiceCentersView extends AbstractView{
+export default class ServiceCentersView extends View{
     constructor() {
         super(template);
         this.serviceCenters = null;

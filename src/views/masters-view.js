@@ -1,9 +1,9 @@
-import AbstractView from "./abstract-view.js";
+import View from "./view.js";
 
 const template = 'masters';
 
 
-export default class MastersView extends AbstractView{
+export default class MastersView extends View{
     constructor() {
         super(template);
         this.masters = null;

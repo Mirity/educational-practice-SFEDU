@@ -1,23 +1,30 @@
-import MyCarsView from "../views/my-cars-view.js";
+import CarsView from "../views/cars-view.js";
 import CarResource from "../models/resource/car-resource.js";
 import AbstractController from "./abstract-controller.js";
+import url from "url";
 
 
 export default class MyCarsController extends AbstractController {
     async getHandler (res, req) {
-        if(req.session.isLoggedIn) {
-            const carResource = new CarResource();
-            const cars = await carResource.getCarsByClientId(req.session.userId.id);
+        if(!req.session.isLoggedIn) {
+            res.redirect(url.format({
+                pathname:"/error",
+                query: {
+                    "textError": "Войдите, чтобы продолжить"
+                }
+            }));
 
-            const myCarsView = new MyCarsView();
-            myCarsView.setMyCars(cars)
-
-            res.render(myCarsView.getTemplate(), {
-                'this': myCarsView,
-                isLoggedIn: req.session.isLoggedIn
-            });
-        } else {
-            res.redirect('/need-to-login');
+            return;
         }
+
+        const carResource = new CarResource();
+        const cars = await carResource.getCarsByClientId(req.session.userId);
+
+        const carsView = new CarsView();
+        carsView
+            .setCars(cars)
+            .setTemplate('my-cars');
+
+        this.render(res, carsView, req.session.isLoggedIn);
     }
 }

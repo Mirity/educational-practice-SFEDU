@@ -1,6 +1,7 @@
 {% layout "layout/default-layout.liquid", title: 'Error', isLoggedIn: isLoggedIn %}
 {% block %}
+{% assign error = this.getError %}
 <div class="wrapper">
-    {% include 'samples/already-login-sample.liquid' %}
+    {% include 'samples/error-sample.liquid', error: error %}
 </div>
 {% endblock %}

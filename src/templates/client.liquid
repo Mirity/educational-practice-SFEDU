@@ -1,8 +1,0 @@
-{% layout "layout/default-layout.liquid", title: 'Client', isLoggedIn: isLoggedIn %}
-{% block %}
-    {% assign client = this.getClient %}
-    <div class="wrapper">
-        {% include 'samples/table-header-client.liquid' %}
-        {% include 'samples/client-sample.liquid', client: client %}
-    </div>
-{% endblock %}

@@ -155,7 +155,7 @@ method: тип запроса post или get
 
 Отвечает за передачу даннх в template.
 
-### AbstractView
+### View
 Родительский класс для остальных классов View
 
 #### Методы
@@ -168,7 +168,7 @@ getTemplate возвращает template(название liquid файла).
 setTemplate устанавливает значение template
 
 ### View
-Дочерний класс AbstractView
+Дочерний класс View
 #### Методы
     getСущность() {}
 

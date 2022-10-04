@@ -12,9 +12,6 @@ export default class OldCarsController extends AbstractController {
             .setCars(cars)
             .setTemplate('old-cars')
 
-        res.render(carsView.getTemplate(), {
-            'this': carsView,
-            isLoggedIn: req.session.isLoggedIn
-        });
+        this.render(res, carsView, req.session.isLoggedIn)
     }
 }

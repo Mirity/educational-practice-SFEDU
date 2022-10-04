@@ -2,7 +2,7 @@
 {% block %}
     <div class="wrapper">
         {% include 'samples/table-header-car.liquid' %}
-        {% assign cars = this.getMyCars %}
+        {% assign cars = this.getCars %}
         {% for car in cars %}
             {% include 'samples/car-sample.liquid', car: car %}
         {% endfor %}
