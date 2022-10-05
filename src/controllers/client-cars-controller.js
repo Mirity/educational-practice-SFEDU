@@ -1,18 +1,12 @@
 import CarsView from "../views/cars-view.js";
 import CarResource from "../models/resource/car-resource.js";
 import AbstractController from "./abstract-controller.js";
-import url from "url";
 
 
-export default class MyCarsController extends AbstractController {
+export default class ClientCarsController extends AbstractController {
     async getHandler (res, req) {
         if(!req.session.isLoggedIn) {
-            res.redirect(url.format({
-                pathname:"/error",
-                query: {
-                    "textError": "Войдите, чтобы продолжить"
-                }
-            }));
+            this.redirectToError(res, 'Войдите, чтобы продолжить');
 
             return;
         }
@@ -23,7 +17,7 @@ export default class MyCarsController extends AbstractController {
         const carsView = new CarsView();
         carsView
             .setCars(cars)
-            .setTemplate('my-cars');
+            .setTemplate('client-cars');
 
         this.render(res, carsView, req.session.isLoggedIn);
     }

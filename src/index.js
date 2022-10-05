@@ -3,14 +3,9 @@ import MasterRouter from "./routers/master-router.js";
 import CarRouter from "./routers/car-router.js";
 import ServiceCenterRouter from "./routers/service-center-router.js";
 import ServiceRecordRouter from "./routers/service-record-router.js";
-import ClientLoginRouter from "./routers/client-login-router.js";
-import ClientRegistrationRouter from "./routers/client-registration-router.js";
+import ClientRouter from "./routers/client-router.js";
 import ErrorRouter from "./routers/error-router.js";
-import UserProfileRouter from "./routers/user-profile-router.js";
-import MyInformationRouter from "./routers/my-information-router.js";
-import MyCarsRouter from "./routers/my-cars-router.js";
-import MyRecordsRouter from "./routers/my-records-router.js";
-import ClientLogoutRouter from "./routers/client-logout-router.js";
+
 
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
@@ -30,14 +25,8 @@ const routers = [
     CarRouter,
     ServiceCenterRouter,
     ServiceRecordRouter,
-    ClientLoginRouter,
-    ClientRegistrationRouter,
+    ClientRouter,
     ErrorRouter,
-    UserProfileRouter,
-    MyInformationRouter,
-    MyCarsRouter,
-    MyRecordsRouter,
-    ClientLogoutRouter
 ];
 
 routers.forEach((Router) => {

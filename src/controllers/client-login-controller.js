@@ -2,7 +2,6 @@ import View from "../views/view.js";
 import ClientResource from "../models/resource/client-resource.js";
 import AbstractController from "./abstract-controller.js";
 import bcrypt from "bcrypt";
-import url from "url";
 
 export default class ClientLoginController extends AbstractController {
     async getHandler(res, req) {
@@ -10,12 +9,8 @@ export default class ClientLoginController extends AbstractController {
         view.setTemplate('login');
 
         if (req.session.isLoggedIn) {
-            res.redirect(url.format({
-                pathname: "/error",
-                query: {
-                    "textError": "Вы уже вошли в свой профиль"
-                }
-            }));
+            this.redirectToError(res, 'Вы уже вошли в свой профиль');
+
             return;
         }
         this.render(res, view, req.session.isLoggedIn);
@@ -24,30 +19,20 @@ export default class ClientLoginController extends AbstractController {
     async postHandler(res, req) {
         const clientResource = new ClientResource();
         const params = req.body;
+        const textError = 'Неправильный пароль или email';
 
         const client = await clientResource.getClientIdPasswordByEmail(params.email);
-        let isCorrectPassword = false;
 
         if (!client) {
-            res.redirect(url.format({
-                pathname: "/error",
-                query: {
-                    "textError": "Неправильный пароль или email"
-                }
-            }));
+            this.redirectToError(res, textError);
 
             return;
         }
 
-        isCorrectPassword = await bcrypt.compare(params.password, client.password)
+        const isCorrectPassword = await bcrypt.compare(params.password, client.password)
 
         if (!isCorrectPassword) {
-            res.redirect(url.format({
-                pathname: "/error",
-                query: {
-                    "textError": "Неправильный пароль или email"
-                }
-            }));
+            this.redirectToError(res, textError);
 
             return;
         }

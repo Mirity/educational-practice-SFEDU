@@ -2,7 +2,7 @@ import View from "./view.js";
 
 const template = 'service-center';
 
-export default class ServiceCenterView extends View{
+export default class ServiceCenterView extends View {
     constructor() {
         super(template);
         this.serviceCenter = null;

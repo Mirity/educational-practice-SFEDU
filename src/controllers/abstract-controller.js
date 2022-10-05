@@ -1,3 +1,5 @@
+import url from "url";
+
 export default class AbstractController {
     async execute(req, res, next) {
         if (req.method === 'GET') {
@@ -21,5 +23,14 @@ export default class AbstractController {
             'this': view,
             isLoggedIn: isLoggedIn
         });
+    }
+
+    redirectToError(res, textError) {
+        res.redirect(url.format({
+            pathname: "/error",
+            query: {
+                textError: textError
+            }
+        }));
     }
 }

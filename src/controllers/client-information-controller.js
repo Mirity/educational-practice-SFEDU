@@ -1,28 +1,22 @@
-import MyInformationView from "../views/my-information-view.js";
+import ClientInformationView from "../views/client-information-view.js";
 import ClientResource from "../models/resource/client-resource.js";
 import AbstractController from "./abstract-controller.js";
-import url from "url";
 
-export default class MyInformationController extends AbstractController {
+export default class ClientInformationController extends AbstractController {
     async getHandler (res, req) {
         if(!req.session.isLoggedIn) {
-            res.redirect(url.format({
-                pathname:"/error",
-                query: {
-                    "textError": "Войдите, чтобы продолжить"
-                }
-            }));
+            this.redirectToError(res, 'Войдите, чтобы продолжить');
 
             return;
         }
 
-        const myInformationView = new MyInformationView();
+        const clientInformationView = new ClientInformationView();
         const clientResource = new ClientResource();
 
         const client = await clientResource.getClientById(req.session.userId);
-        myInformationView.setClient(client);
+        clientInformationView.setClient(client);
 
-        this.render(res, myInformationView, req.session.isLoggedIn)
+        this.render(res, clientInformationView, req.session.isLoggedIn)
     }
 
     async postHandler(res, req) {

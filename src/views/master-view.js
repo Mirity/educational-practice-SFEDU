@@ -3,7 +3,7 @@ import View from "./view.js";
 const template = 'master';
 
 
-export default class MasterView extends View{
+export default class MasterView extends View {
     constructor() {
         super(template);
         this.master = null;

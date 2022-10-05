@@ -2,7 +2,7 @@ import View from "./view.js";
 
 const template = 'service-record';
 
-export default class ServiceRecordView extends View{
+export default class ServiceRecordView extends View {
     constructor() {
         super(template);
         this.serviceRecord = null;

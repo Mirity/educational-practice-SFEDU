@@ -30,9 +30,7 @@ export default class ClientResource {
             [email, name, surname, passport, password]);
     }
 
-    async getClientIdByEmail(params) {
-        const { name, surname, passport, password, email } = params;
-
+    async getClientIdByEmail(email) {
         const client = await Database.makeQuery(
             `SELECT id FROM client WHERE email = '${email}'`
         )

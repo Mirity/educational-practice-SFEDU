@@ -2,7 +2,6 @@ import ClientResource from "../models/resource/client-resource.js";
 import AbstractController from "./abstract-controller.js";
 import bcrypt from 'bcrypt';
 import View from "../views/view.js";
-import * as url from "url";
 
 export default class ClientRegistrationController extends AbstractController {
     async getHandler (res, req) {
@@ -10,12 +9,8 @@ export default class ClientRegistrationController extends AbstractController {
         view.setTemplate('registration');
 
         if(req.session.isLoggedIn) {
-            res.redirect(url.format({
-                pathname:"/error",
-                query: {
-                    "textError": "Вы уже вошли в свой профиль"
-                }
-            }));
+            this.redirectToError(res, 'Вы уже вошли в свой профиль');
+
             return;
         }
         this.render(res, view, req.session.isLoggedIn);
@@ -26,15 +21,10 @@ export default class ClientRegistrationController extends AbstractController {
         params.password = await bcrypt.hash(params.password, 10);
 
         const clientResource = new ClientResource();
-        const clientId = await clientResource.getClientIdByEmail(params);
+        const clientId = await clientResource.getClientIdByEmail(params.email);
 
         if(clientId) {
-            res.redirect(url.format({
-                pathname:"/error",
-                query: {
-                    "textError": "Пользователь с таким email уже существует"
-                }
-            }));
+            this.redirectToError(res, 'Пользователь с таким email уже существует');
 
             return;
         }
