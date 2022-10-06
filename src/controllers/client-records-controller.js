@@ -11,7 +11,6 @@ export default class ClientRecordsController extends AbstractController {
             return;
         }
 
-
         const serviceRecordResource = new ServiceRecordResource();
         const records = await serviceRecordResource.getServiceRecordsByClientId(req.session.userId);
 

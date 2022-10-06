@@ -26,14 +26,6 @@ export default class EditCarController extends AbstractController {
     async postHandler (res, req) {
         let params = req.body;
 
-        if(!(params.csrf_token === req.session.csrfToken)) {
-            this.redirectToError(res, 'Отказано в доступе');
-
-            return;
-        }
-
-        params = this.handleParamsXss(params)
-
         const carResource = new CarResource();
         await carResource.editCarById(params);
 

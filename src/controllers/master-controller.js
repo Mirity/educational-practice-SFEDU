@@ -22,12 +22,6 @@ export default class MasterController extends AbstractController {
     async postHandler (res, req) {
         let params = req.body;
 
-        if(!this.verifyCsrfToken(params.csrf_token, req.session.csrfToken)) {
-            return this.redirectToError(res, 'Отказано в доступе');
-        }
-
-        params = this.handleParamsXss(params)
-
         const masterResource = new MasterResource();
         await masterResource.addNewMaster(params);
 

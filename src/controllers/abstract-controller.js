@@ -11,6 +11,12 @@ export default class AbstractController {
         if (req.method === 'GET') {
             await this.getHandler(res, req);
         } else if (req.method === 'POST'){
+            if(!this.verifyCsrfToken(req.body.csrf_token, req.session.csrfToken)) {
+                return this.redirectToError(res, 'Отказано в доступе');
+            }
+
+            req.body = this.handleParamsXss(req.body)
+
             await this.postHandler(res, req);
         }
     }
