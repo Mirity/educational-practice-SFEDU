@@ -56,4 +56,16 @@ export default class AbstractController {
             return entityMap[s];
         });
     }
+
+    verifyCsrfToken(formCsrfToken, sessionCsrfToken) {
+        return formCsrfToken === sessionCsrfToken;
+    }
+
+    handleParamsXss(params) {
+        for(let key in params) {
+            params[key] = this.escapeHtml(params[key]);
+        }
+
+        return params;
+    }
 }

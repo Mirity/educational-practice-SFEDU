@@ -24,10 +24,8 @@ export default class ClientInformationController extends AbstractController {
     async postHandler(res, req) {
         const params = req.body;
 
-        if(!(params.csrf_token === req.session.csrfToken)) {
-            this.redirectToError(res, 'Отказано в доступе');
-
-            return;
+        if(!this.verifyCsrfToken(params.csrf_token, req.session.csrfToken)) {
+            return this.redirectToError(res, 'Отказано в доступе');
         }
 
         const clientResource = new ClientResource();

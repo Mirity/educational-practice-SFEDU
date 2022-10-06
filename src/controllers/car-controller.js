@@ -22,16 +22,13 @@ export default class CarController extends AbstractController {
     }
 
     async postHandler (res, req) {
-        const params = req.body;
-        for(let key in params) {
-            params[key] = this.escapeHtml(params[key]);
+        let params = req.body;
+
+        if(!this.verifyCsrfToken(params.csrf_token, req.session.csrfToken)) {
+            return this.redirectToError(res, 'Отказано в доступе');
         }
 
-        if(!(params.csrf_token === req.session.csrfToken)) {
-            this.redirectToError(res, 'Отказано в доступе');
-
-            return;
-        }
+        params = this.handleParamsXss(params)
 
         const carResource = new CarResource();
         await carResource.addNewCar(params);

@@ -25,11 +25,10 @@ export default class ClientRegistrationController extends AbstractController {
         const clientResource = new ClientResource();
         const clientId = await clientResource.getClientIdByEmail(params.email);
 
-        if(!(params.csrf_token === req.session.csrfToken)) {
-            this.redirectToError(res, 'Отказано в доступе');
-
-            return;
+        if(!this.verifyCsrfToken(params.csrf_token, req.session.csrfToken)) {
+            return this.redirectToError(res, 'Отказано в доступе');
         }
+
 
         if(clientId) {
             this.redirectToError(res, 'Пользователь с таким email уже существует');
