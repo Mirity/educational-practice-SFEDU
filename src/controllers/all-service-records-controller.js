@@ -8,7 +8,9 @@ export default class ServiceRecordsController extends AbstractController {
         const serviceRecords = await serviceRecordResource.getServiceRecords();
 
         const serviceRecordsView = new ServiceRecordsView();
-        serviceRecordsView.setServiceRecords(serviceRecords);
+        serviceRecordsView
+            .setServiceRecords(serviceRecords)
+            .setCsrfToken(req.session.csrfToken);
 
         this.render(res, serviceRecordsView, req.session.isLoggedIn)
     }

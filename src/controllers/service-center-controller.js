@@ -21,6 +21,15 @@ export default class ServiceCenterController extends AbstractController {
 
     async postHandler (res, req) {
         const params = req.body;
+        for(let key in params) {
+            params[key] = this.escapeHtml(params[key]);
+        }
+
+        if(!(params.csrf_token === req.session.csrfToken)) {
+            this.redirectToError(res, 'Отказано в доступе');
+
+            return;
+        }
 
         const serviceCenterResource = new ServiceCenterResource();
         await serviceCenterResource.addNewServiceCenter(params);

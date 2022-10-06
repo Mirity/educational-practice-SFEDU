@@ -1,7 +1,13 @@
 import url from "url";
+import { nanoid } from 'nanoid'
+
 
 export default class AbstractController {
     async execute(req, res, next) {
+        if(req.session.csrfToken === undefined) {
+            req.session.csrfToken = nanoid(15);
+        }
+
         if (req.method === 'GET') {
             await this.getHandler(res, req);
         } else if (req.method === 'POST'){
@@ -32,5 +38,22 @@ export default class AbstractController {
                 textError: textError
             }
         }));
+    }
+
+    escapeHtml (value) {
+        const entityMap = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#39;',
+            '/': '&#x2F;',
+            '`': '&#x60;',
+            '=': '&#x3D;'
+        };
+
+        return String(value).replace(/[&<>"'`=\/]/g, function (s) {
+            return entityMap[s];
+        });
     }
 }

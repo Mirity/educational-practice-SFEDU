@@ -1,6 +1,7 @@
 export default class View {
     constructor(template) {
         this.template = template;
+        this.csrfToken = null;
     }
 
     getTemplate() {
@@ -9,6 +10,16 @@ export default class View {
 
     setTemplate(template) {
         this.template = template;
+
+        return this;
+    }
+
+    getCsrfToken() {
+        return this.csrfToken;
+    }
+
+    setCsrfToken(csrfToken) {
+        this.csrfToken = csrfToken;
 
         return this;
     }

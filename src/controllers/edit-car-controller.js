@@ -17,13 +17,23 @@ export default class EditCarController extends AbstractController {
         const carView = new CarView();
         carView
             .setCar(car)
-            .setTemplate('edit-car');
+            .setTemplate('edit-car')
+            .setCsrfToken(req.session.csrfToken);
 
         this.render(res, carView, req.session.isLoggedIn)
     }
 
     async postHandler (res, req) {
         const params = req.body;
+        for(let key in params) {
+            params[key] = this.escapeHtml(params[key]);
+        }
+
+        if(!(params.csrf_token === req.session.csrfToken)) {
+            this.redirectToError(res, 'Отказано в доступе');
+
+            return;
+        }
 
         const carResource = new CarResource();
         await carResource.editCarById(params);

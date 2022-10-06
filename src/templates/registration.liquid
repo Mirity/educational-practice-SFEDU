@@ -1,6 +1,7 @@
 {% layout "layout/default-layout.liquid", title: 'Registration', isLoggedIn: isLoggedIn %}
 {% block %}
 <div class="wrapper">
-    {% include 'samples/registration-sample.liquid' %}
+    {% assign csrfToken = this.getCsrfToken %}
+    {% include 'samples/registration-sample.liquid' , csrfToken: csrfToken %}
 </div>
 {% endblock %}

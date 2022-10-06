@@ -1,6 +1,8 @@
 import CarsView from '../views/cars-view.js';
 import CarResource from "../models/resource/car-resource.js";
 import AbstractController from "./abstract-controller.js";
+import MasterResource from "../models/resource/master-resource.js";
+import MastersView from "../views/masters-view.js";
 
 export default class CarsController extends AbstractController {
     async getHandler (res, req) {
@@ -9,12 +11,13 @@ export default class CarsController extends AbstractController {
 
         const carsDb = await carResource.getCars();
 
-        carsView.setCars(carsDb);
-        const cars = carsView.getCars();
+        carsView
+            .setCars(carsDb)
+            .setCsrfToken(req.session.csrfToken);
 
-        res.render(carsView.getTemplate(), {
-            cars,
-            isLoggedIn: req.session.isLoggedIn
-        });
+        this.render(res, carsView, req.session.isLoggedIn)
+
+
     }
+
 }

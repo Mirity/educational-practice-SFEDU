@@ -8,7 +8,9 @@ export default class MastersController extends AbstractController {
         const masters = await masterResource.getMasters();
 
         const mastersView = new MastersView();
-        mastersView.setMasters(masters)
+        mastersView
+            .setMasters(masters)
+            .setCsrfToken(req.session.csrfToken);
 
         this.render(res, mastersView, req.session.isLoggedIn)
     }

@@ -1,5 +1,7 @@
 <form class="form" action="/my-information" method="post">
 
+    <input name="csrf_token" type="hidden" value={{ csrfToken }}>
+
     <div class="form__item">
         <label class="form__label"
                for="id"

@@ -14,13 +14,21 @@ export default class ClientInformationController extends AbstractController {
         const clientResource = new ClientResource();
 
         const client = await clientResource.getClientById(req.session.userId);
-        clientInformationView.setClient(client);
+        clientInformationView
+            .setClient(client)
+            .setCsrfToken(req.session.csrfToken);
 
         this.render(res, clientInformationView, req.session.isLoggedIn)
     }
 
     async postHandler(res, req) {
         const params = req.body;
+
+        if(!(params.csrf_token === req.session.csrfToken)) {
+            this.redirectToError(res, 'Отказано в доступе');
+
+            return;
+        }
 
         const clientResource = new ClientResource();
         await clientResource.editClient(params);

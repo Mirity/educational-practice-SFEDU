@@ -1,6 +1,7 @@
 {% layout "layout/default-layout.liquid", title: 'Service records', isLoggedIn: isLoggedIn %}
 {% block %}
     {% assign serviceRecords = this.getServiceRecords %}
+    {% assign csrfToken = this.getCsrfToken %}
     <div class="wrapper">
         {% include 'samples/table-header-service-record.liquid' %}
         {% for serviceRecord in serviceRecords %}
@@ -9,6 +10,9 @@
     </div>
 
     <form class="form" action="/service-record" method="post">
+
+        <input name="csrf_token" type="hidden" value={{ csrfToken }}>
+
         <div class="form__item">
             <label class="form__label"
                    for="car"

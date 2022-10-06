@@ -42,8 +42,9 @@ export default class App {
             resave: false,
             saveUninitialized: true,
             cookie: {
-                maxAge: 60000
-            }
+                maxAge: 60000,
+            },
         }))
+
     }
 }

@@ -6,7 +6,9 @@ import View from "../views/view.js";
 export default class ClientRegistrationController extends AbstractController {
     async getHandler (res, req) {
         const view = new View();
-        view.setTemplate('registration');
+        view
+            .setTemplate('registration')
+            .setCsrfToken(req.session.csrfToken);
 
         if(req.session.isLoggedIn) {
             this.redirectToError(res, 'Вы уже вошли в свой профиль');
@@ -22,6 +24,12 @@ export default class ClientRegistrationController extends AbstractController {
 
         const clientResource = new ClientResource();
         const clientId = await clientResource.getClientIdByEmail(params.email);
+
+        if(!(params.csrf_token === req.session.csrfToken)) {
+            this.redirectToError(res, 'Отказано в доступе');
+
+            return;
+        }
 
         if(clientId) {
             this.redirectToError(res, 'Пользователь с таким email уже существует');

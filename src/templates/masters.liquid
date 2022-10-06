@@ -1,6 +1,7 @@
 {% layout "layout/default-layout.liquid", title: 'Masters', isLoggedIn: isLoggedIn %}
 {% block %}
 {% assign masters = this.getMasters %}
+{% assign csrfToken = this.getCsrfToken %}
 <div class="wrapper">
     {% include 'samples/table-header-master.liquid' %}
     {% for master in masters %}
@@ -9,6 +10,9 @@
 </div>
 
 <form class="form" action="/master" method="post">
+
+    <input name="csrf_token" type="hidden" value={{ csrfToken }}>
+
     <div class="form__item">
         <label class="form__label"
                for="name"

@@ -8,7 +8,9 @@ export default class ServiceCentersController extends AbstractController {
         const serviceCenters = await serviceCenterResource.getServiceCenters();
 
         const serviceCentersView = new ServiceCentersView();
-        serviceCentersView.setServiceCenters(serviceCenters);
+        serviceCentersView
+            .setServiceCenters(serviceCenters)
+            .setCsrfToken(req.session.csrfToken);;
 
         this.render(res, serviceCentersView, req.session.isLoggedIn)
 

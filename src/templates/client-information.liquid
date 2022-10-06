@@ -2,6 +2,8 @@
 {% block %}
 <div class="wrapper">
     {% assign client = this.getClient %}
-    {% include 'samples/client-information-sample.liquid', client: client %}
+    {% assign csrfToken = this.getCsrfToken %}
+
+    {% include 'samples/client-information-sample.liquid', client: client, csrfToken: csrfToken %}
 </div>
 {% endblock %}

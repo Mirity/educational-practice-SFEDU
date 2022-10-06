@@ -1,8 +1,10 @@
 {% layout "layout/default-layout.liquid", title: 'Car', isLoggedIn: isLoggedIn %}
 {% block %}
     {% assign car = this.getCar %}
+    {% assign csrfToken = this.getCsrfToken %}
 
     <form class="form" action="/edit-car" method="post">
+        <input name="csrf_token" type="hidden" value={{ csrfToken }}>
         <div class="form__item">
             <label class="form__label"
                    for="id"
