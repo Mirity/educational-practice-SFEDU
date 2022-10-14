@@ -15,8 +15,10 @@ export default class MasterController extends AbstractController implements ICon
 
         const masterDb = await masterResource.getMasterById(id);
 
-        if(masterDb === undefined) {
-            return this.handleInvalidId(res);
+        if(!this.isCorrectData(masterDb)) {
+            res.redirect('/404')
+
+            return;
         }
 
         const masterView = new MasterView();

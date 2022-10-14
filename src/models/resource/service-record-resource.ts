@@ -19,10 +19,10 @@ export default class ServiceRecordResource {
     }
 
     public async addNewServiceRecord(params: ServiceRecordFromForm): Promise<void> {
-        const { car, client, date } = params;
+        const { number, passport, date } = params;
 
         await Database.makeQuery(
-            `INSERT INTO service_record (car_id, client_id, date) VALUES ((select id from car where number='${car}'), (select id from client where passport='${client}'), ?)`,
+            `INSERT INTO service_record (car_id, client_id, date) VALUES ((select id from car where number='${number}'), (select id from client where passport='${passport}'), ?)`,
             [date]);
     }
 

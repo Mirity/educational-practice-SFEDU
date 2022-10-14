@@ -1,15 +1,9 @@
-export interface ClientFromForm {
+export interface ClientFromForm extends Client {
     csrf_token: string,
-    id?: string,
-    email: string,
-    password: string
-    name: string,
-    surname: string,
-    passport: string,
 }
 
 export interface Client {
-    id: number,
+    id?: number | string,
     name: string,
     surname: string,
     passport: string,

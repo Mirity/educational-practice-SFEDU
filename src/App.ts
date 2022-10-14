@@ -18,31 +18,31 @@ export default class App {
         this.app.use('/css', express.static(__dirname + '/css'));
     }
 
-    public listen(port: number) {
+    public listen(port: number): void {
         this.app.listen(port);
     }
 
-    public initRouter (router: any) {
+    public initRouter(router: any): void {
         this.app.use(router);
     }
 
-    public initEnv () {
+    public initEnv(): void {
         dotenv.config()
     }
 
-    public initBodyParser() {
+    public initBodyParser(): void {
         this.app.use(bodyParser.urlencoded({ extended: false }))
         this.app.use(bodyParser.json())
     }
 
-    public initLiquid() {
+    public initLiquid(): void {
         const engine = new Liquid();
         this.app.engine('liquid', engine.express());
         this.app.set('views', path.resolve(__dirname, 'templates'));
         this.app.set('view engine', 'liquid');
     }
 
-    public initSession() {
+    public initSession(): void {
         this.app.use(session({
             secret: 'keyboard cat',
             resave: false,

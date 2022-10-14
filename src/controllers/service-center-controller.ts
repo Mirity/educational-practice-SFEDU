@@ -15,8 +15,10 @@ export default class ServiceCenterController extends AbstractController implemen
 
         const serviceCenterDb = await serviceCenterResource.getServiceCenterById(id);
 
-        if(serviceCenterDb === undefined) {
-            return this.handleInvalidId(res);
+        if(!this.isCorrectData(serviceCenterDb)) {
+            res.redirect('/404')
+
+            return;
         }
 
         const serviceCenterView = new ServiceCenterView();

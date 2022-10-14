@@ -15,10 +15,10 @@ export default class MasterResource {
     }
 
     public async addNewMaster(params: MasterFromForm): Promise<void> {
-        const { name, surname, head_master_name, head_master_surname, service_center } = params;
+        const { name, surname, headMasterName, headMasterSurname, serviceCenterName } = params;
 
         await Database.makeQuery(
-            `INSERT INTO master (name, surname, head_master_id, service_center_id) VALUES (?, ?, (select id from (select id from master where name = '${head_master_name}' and surname = '${head_master_surname}') AS m2), (select id from service_center where name = '${service_center}'))`,
+            `INSERT INTO master (name, surname, head_master_id, service_center_id) VALUES (?, ?, (select id from (select id from master where name = '${headMasterName}' and surname = '${headMasterSurname}') AS m2), (select id from service_center where name = '${serviceCenterName}'))`,
             [name, surname]);
     }
 

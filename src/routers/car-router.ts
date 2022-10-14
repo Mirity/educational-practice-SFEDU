@@ -3,7 +3,7 @@ import AllCarsController from "../controllers/all-cars-conroller.js";
 import AbstractRouter from "./abstract-router.js";
 import OldCarsController from "../controllers/old-cars-controller.js";
 import EditCarController from "../controllers/edit-car-controller.js";
-import { Route } from "../abstracts/common";
+import {IRouter, Route} from "../abstracts/common";
 
 const carController = new CarController();
 const allCarsController = new AllCarsController();
@@ -44,7 +44,7 @@ const routes: Route[] = [
 
 ]
 
-export default class CarRouter extends AbstractRouter {
+export default class CarRouter extends AbstractRouter implements IRouter {
     constructor() {
         super(routes);
         this.createRoutes();

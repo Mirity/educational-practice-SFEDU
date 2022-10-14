@@ -3,7 +3,7 @@ import { ServiceRecord } from "../abstracts/service-record";
 import { IView } from "../abstracts/common";
 
 
-const template: string = 'service-records';
+const template = 'service-records';
 
 export default class ServiceRecordsView extends View implements IView {
     serviceRecords: null | ServiceRecord[] = null;

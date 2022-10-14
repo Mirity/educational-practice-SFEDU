@@ -19,19 +19,19 @@ export default class CarResource {
     }
 
     public async addNewCar(params: CarFromForm) {
-        const { mileage, number, brand, country, client_name, client_surname, model, year } = params;
+        const { mileage, number, brandName, countryName, clientName, clientSurname, model, yearManifacture } = params;
 
         await Database.makeQuery(
-            `INSERT INTO car (mileage, number, brand_id, model, country_id, client_id, year_manifacture) VALUES (?, ?, (select id from brand where name = '${brand}'), ?, (select id from country where name = '${country}'), (select id from client where name = '${client_name}' and surname = '${client_surname}'), ?)`,
-            [mileage, number, model, year]);
+            `INSERT INTO car (mileage, number, brand_id, model, country_id, client_id, year_manifacture) VALUES (?, ?, (select id from brand where name = '${brandName}'), ?, (select id from country where name = '${countryName}'), (select id from client where name = '${clientName}' and surname = '${clientSurname}'), ?)`,
+            [mileage, number, model, yearManifacture]);
     }
 
     public async editCarById(params: CarFromForm): Promise<void> {
-        const { id, mileage, number, brand, country, client_name, client_surname, model, year } = params;
+        const { id, mileage, number, brandName, countryName, clientName, clientSurname, model, yearManifacture } = params;
 
         await Database.makeQuery
-            (`UPDATE car SET mileage = ?, number = ?, brand_id = (select id from brand where name = '${brand}'), model = ? , country_id = (select id from country where name = '${country}'), client_id = (select id from client where name = '${client_name}' and surname = '${client_surname}'), year_manifacture = ? WHERE id = ${id}`,
-            [mileage, number, model, year])
+            (`UPDATE car SET mileage = ?, number = ?, brand_id = (select id from brand where name = '${brandName}'), model = ? , country_id = (select id from country where name = '${countryName}'), client_id = (select id from client where name = '${clientName}' and surname = '${clientSurname}'), year_manifacture = ? WHERE id = ${id}`,
+            [mileage, number, model, yearManifacture])
     }
 
     public async getCarsByClientId(id: number): Promise<DbCar[]>{

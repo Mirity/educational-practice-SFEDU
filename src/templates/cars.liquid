@@ -28,7 +28,7 @@
           action="/car"
           method="post">
 
-        <input name="csrf_token" type="hidden" value={{ csrfToken }}>
+        <input name="csrfToken" type="hidden" value={{ csrfToken }}>
 
         <div class="form__item">
             <label class="form__label"
@@ -58,14 +58,14 @@
 
         <div class="form__item">
             <label class="form__label"
-                   for="brand"
+                   for="brandName"
             >
                 Бренд:
             </label>
             <input class="form__input"
                    type="text"
-                   id="brand"
-                   name="brand"
+                   id="brandName"
+                   name="brandName"
             >
         </div>
 
@@ -83,53 +83,53 @@
 
         <div class="form__item">
             <label class="form__label"
-                   for="country"
+                   for="countryName"
             >
                 Страна:
             </label>
             <input class="form__input"
                    type="text"
-                   id="country"
-                   name="country"
+                   id="countryName"
+                   name="countryName"
             >
         </div>
 
         <div class="form__item">
             <label class="form__label"
-                   for="client_name"
+                   for="clientName"
             >
                 Имя клиента:
             </label>
             <input class="form__input"
                    type="text"
-                   id="client_name"
-                   name="client_name"
+                   id="clientName"
+                   name="clientName"
             >
         </div>
 
         <div class="form__item">
             <label class="form__label"
-                   for="client_surname"
+                   for="clientSurname"
             >
                 Фамилия клиента:
             </label>
             <input class="form__input"
                    type="text"
-                   id="client_surname"
-                   name="client_surname"
+                   id="clientSurname"
+                   name="clientSurname"
             >
         </div>
 
         <div class="form__item">
             <label class="form__label"
-                   for="year"
+                   for="yearManifacture"
             >
                 Год выпуска:
             </label>
             <input class="form__input"
                    type="number"
-                   id="year"
-                   name="year"
+                   id="yearManifacture"
+                   name="yearManifacture"
             >
         </div>
 

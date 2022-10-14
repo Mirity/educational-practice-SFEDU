@@ -15,10 +15,10 @@ export default class ServiceCenterResource {
     }
 
     public async addNewServiceCenter(params: ServiceCenterFromForm) {
-        const { name, country, city, street, house, number_seats } = params;
+        const { name, countryName, cityName, street, house, numberSeats } = params;
 
         await Database.makeQuery(
-            `INSERT INTO service_center (name, country_id, city_id, street, house, number_seats) VALUES (?, (select id from country where name='${country}'), (select id from city where name='${city}'), ?, ?, ?)`,
-            [name, street, house, number_seats]);
+            `INSERT INTO service_center (name, country_id, city_id, street, house, number_seats) VALUES (?, (select id from country where name='${countryName}'), (select id from city where name='${cityName}'), ?, ?, ?)`,
+            [name, street, house, numberSeats]);
     }
 }

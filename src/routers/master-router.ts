@@ -2,7 +2,7 @@ import MasterController from '../controllers/master-controller.js';
 import AllMastersController from "../controllers/all-masters-controller.js";
 import AbstractRouter from "./abstract-router.js";
 import DeleteMasterController from "../controllers/delete-master-controller.js";
-import { Route } from "../abstracts/common";
+import {IRouter, Route} from "../abstracts/common";
 
 const masterController = new MasterController();
 const mastersController = new AllMastersController();
@@ -32,7 +32,7 @@ const routes: Route[] = [
     },
 ]
 
-export default class MasterRouter extends AbstractRouter {
+export default class MasterRouter extends AbstractRouter implements IRouter {
     constructor() {
         super(routes);
 

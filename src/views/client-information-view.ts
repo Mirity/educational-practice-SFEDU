@@ -3,7 +3,7 @@ import { Client } from "../abstracts/client";
 import { IView } from "../abstracts/common";
 
 
-const template: string = 'client-information';
+const template = 'client-information';
 
 export default class ClientInformationView extends View implements IView {
     client: null | Client= null;

@@ -2,7 +2,7 @@ import View from "./view.js";
 import { Car } from "../abstracts/car";
 import { IView } from "../abstracts/common";
 
-const template: string = 'cars';
+const template = 'cars';
 
 export default class CarsView extends View implements IView {
     cars: null | Car[] = null;

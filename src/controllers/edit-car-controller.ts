@@ -16,8 +16,10 @@ export default class EditCarController extends AbstractController implements ICo
 
         const carDb = await carResource.getCarById(id);
 
-        if(carDb === undefined) {
-            return this.handleInvalidId(res);
+        if(!this.isCorrectData(carDb)) {
+            res.redirect('/404')
+
+            return;
         }
 
         const carView = new CarView();

@@ -3,7 +3,7 @@ import { Master } from "../abstracts/master";
 import { IView } from "../abstracts/common";
 
 
-const template: string = 'master';
+const template = 'master';
 
 
 export default class MasterView extends View implements IView {

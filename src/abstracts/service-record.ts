@@ -1,13 +1,10 @@
-export interface ServiceRecordFromForm {
+export interface ServiceRecordFromForm extends ServiceRecord {
     csrf_token: string,
-    car: string,
-    client: string,
-    date: string
 }
 
 export interface ServiceRecord {
-    id: number,
-    date: Date,
+    id?: number | string,
+    date: Date | string,
     number: string,
     passport: string,
     clientName: string,

@@ -6,7 +6,7 @@ import ClientCarsController from "../controllers/client-cars-controller.js";
 import ClientInformationController from "../controllers/client-information-controller.js";
 import ClientMenuController from "../controllers/client-menu-controller.js";
 import ClientRecordsController from "../controllers/client-records-controller.js";
-import { Route } from "../abstracts/common";
+import {IRouter, Route} from "../abstracts/common";
 
 
 const clientRecordsController = new ClientRecordsController();
@@ -70,7 +70,7 @@ const routes: Route[] = [
     },
 ]
 
-export default class ClientRouter extends AbstractRouter {
+export default class ClientRouter extends AbstractRouter implements IRouter {
     constructor() {
         super(routes);
         this.createRoutes();

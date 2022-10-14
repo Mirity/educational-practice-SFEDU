@@ -3,7 +3,7 @@ import { ServiceCenter } from "../abstracts/service-center.js";
 import { IView } from "../abstracts/common";
 
 
-const template: string = 'service-centers';
+const template = 'service-centers';
 
 
 export default class ServiceCentersView extends View implements IView {

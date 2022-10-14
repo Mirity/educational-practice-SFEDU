@@ -5,10 +5,12 @@ import ServiceCenterRouter from "./routers/service-center-router.js";
 import ServiceRecordRouter from "./routers/service-record-router.js";
 import ClientRouter from "./routers/client-router.js";
 import ErrorRouter from "./routers/error-router.js";
+import Router404 from "./routers/404-router.js";
 
 
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import {IRouter} from "./abstracts/common";
 
 const __filename = fileURLToPath(import.meta.url);
 global.__dirname = dirname(__filename);
@@ -20,13 +22,14 @@ app.initBodyParser();
 app.initEnv();
 app.initSession();
 
-const routers = [
+const routers: IRouter[] = [
     MasterRouter,
     CarRouter,
     ServiceCenterRouter,
     ServiceRecordRouter,
     ClientRouter,
     ErrorRouter,
+    Router404
 ];
 
 routers.forEach((Router) => {

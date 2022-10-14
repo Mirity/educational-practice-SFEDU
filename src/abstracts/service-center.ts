@@ -1,19 +1,13 @@
-export interface ServiceCenterFromForm {
+export interface ServiceCenterFromForm extends ServiceCenter {
     csrf_token: string,
-    name: string,
-    country: string,
-    city: string,
-    street: string,
-    house: string,
-    number_seats: string
 }
 
 export interface ServiceCenter {
-    id: number,
+    id?: number | string,
     name: string,
     street: string,
-    house: number,
-    numberSeats: number,
+    house: number | string,
+    numberSeats: number | string,
     countryName: string,
     cityName: string
 }

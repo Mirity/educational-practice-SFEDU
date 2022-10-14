@@ -1,0 +1,6 @@
+{% layout "layout/default-layout.liquid", title: '404', isLoggedIn: isLoggedIn %}
+{% block %}
+<div class="wrapper">
+    {% include 'samples/404-sample.liquid', error: error %}
+</div>
+{% endblock %}

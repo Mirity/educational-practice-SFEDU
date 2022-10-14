@@ -15,8 +15,10 @@ export default class ServiceRecordController extends AbstractController implemen
 
         const serviceRecordDb = await serviceRecordResource.getServiceRecordById(id);
 
-        if(serviceRecordDb === undefined) {
-            return this.handleInvalidId(res);
+        if(!this.isCorrectData(serviceRecordDb)) {
+            res.redirect('/404')
+
+            return;
         }
 
         const serviceRecordView = new ServiceRecordView();

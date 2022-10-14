@@ -1,7 +1,7 @@
 //@ts-ignore
 import uniqueString from 'unique-string';
 import url from "url";
-import { IController, RequestMethod, EntityMap, DataFromForm, IView } from "../abstracts/common.js";
+import {IController, RequestMethod, EntityMap, DataFromForm, IView, DataDb} from "../abstracts/common.js";
 
 
 export default abstract class AbstractController implements IController{
@@ -37,6 +37,14 @@ export default abstract class AbstractController implements IController{
 
     public isCorrectId (id: number): boolean {
         return (Boolean(id) && id > 0);
+    }
+
+    public isCorrectData (data: DataDb | undefined): boolean {
+        if(data === undefined) {
+            return false;
+        }
+
+        return true;
     }
 
     public render(res: any, view: IView, isLoggedIn: boolean): void {

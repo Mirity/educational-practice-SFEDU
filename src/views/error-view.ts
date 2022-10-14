@@ -2,7 +2,7 @@ import View from "./view.js";
 import { IView } from "../abstracts/common";
 
 
-const template: string = 'error';
+const template = 'error';
 
 export default class ErrorView extends View implements IView {
     error: null | string = null;

@@ -2,7 +2,7 @@ import ServiceRecordController from "../controllers/service-record-controller.js
 import AllServiceRecordsController from "../controllers/all-service-records-controller.js";
 import AbstractRouter from "./abstract-router.js";
 import DeleteServiceRecordController from "../controllers/delete-service-record-controller.js";
-import { Route } from "../abstracts/common";
+import {IRouter, Route} from "../abstracts/common";
 
 const serviceRecordController = new ServiceRecordController();
 const allServiceRecordsController = new AllServiceRecordsController();
@@ -31,7 +31,7 @@ const routes: Route[] = [
     },
 ]
 
-export default class ServiceRecordRouter extends AbstractRouter {
+export default class ServiceRecordRouter extends AbstractRouter implements IRouter {
     constructor() {
         super(routes);
 

@@ -16,8 +16,10 @@ export default class CarController extends AbstractController implements IContro
 
         const carDb = await carResource.getCarById(req.query.id);
 
-        if(carDb === undefined) {
-            return this.handleInvalidId(res);
+        if(!this.isCorrectData(carDb)) {
+            res.redirect('/404')
+
+            return;
         }
 
         const carView = new CarView();
