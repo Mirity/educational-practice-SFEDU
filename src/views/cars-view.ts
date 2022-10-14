@@ -1,0 +1,23 @@
+import View from "./view.js";
+import { Car } from "../abstracts/car";
+import { IView } from "../abstracts/common";
+
+const template: string = 'cars';
+
+export default class CarsView extends View implements IView {
+    cars: null | Car[] = null;
+
+    constructor() {
+        super(template);
+    }
+
+    public setCars(cars: Car[]): this {
+        this.cars = cars;
+
+        return this;
+    }
+
+    public getCars(): Car[] | null {
+        return this.cars;
+    }
+}

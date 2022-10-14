@@ -1,6 +1,8 @@
 <div class="login">
     <form class="form" action="/login" method="post">
         <div class="form__item">
+            <input name="csrf_token" type="hidden" value={{ csrfToken }}>
+
             <label class="form__label"
                    for="email"
             >

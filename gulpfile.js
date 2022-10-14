@@ -6,10 +6,12 @@ import csso from 'gulp-csso';
 import autoprefixer from 'gulp-autoprefixer';
 import concat from 'gulp-concat';
 import browserSync from 'browser-sync';
-import { deleteSync } from 'del';
+import { deleteAsync, deleteSync } from 'del';
+import ts from 'gulp-typescript';
 
 const { src, dest, series, parallel, watch } = gulp;
 
+const tsProject = ts.createProject('tsconfig.json');
 const sass = gulpSass(dartSass);
 const sync = browserSync.create();
 
@@ -29,29 +31,42 @@ function scss() {
 
 
 function liquid() {
-    src('src/templates/*/*.liquid').pipe(dest('dist/templates'));
-    return src('src/templates/*.liquid').pipe(dest('dist/templates'));
+    return src('src/templates/**/*.liquid').pipe(dest('dist/templates'));
 }
 
 function script() {
-    src('./src/App.js').pipe(dest('dist'));
-
     return src('./src/**/*.js').pipe(dest('dist/'));
 }
 
-function clear() {
-    return deleteSync('dist/**');
+function typescript() {
+    return src('./src/**/**/*.ts')
+        .pipe(tsProject())
+        .pipe(dest('dist/'));
+}
+
+async function clear() {
+    return deleteAsync('dist/**');
 }
 
 // Add watchers here
 function serve() {
-    watch('./src/templates/*/**.liquid', series(liquid)).on('change', sync.reload);
-    watch('./src/templates/**.liquid', series(liquid)).on('change', sync.reload);
-    watch('./src/scss/*/**.scss', series(scss)).on('change', sync.reload);
+    watch('./src/templates/**/**.liquid', series(liquid)).on('change', sync.reload);
+    watch('./src/scss/**.scss', series(scss)).on('change', sync.reload);
     watch('./src/**/**.js', series(script)).on('change', sync.reload);
+    watch('./src/**/**.ts', series(typescript)).on('change', sync.reload);
 }
 
-export default async function watchNode() {
+function startNodemon() {
+    nodemon({
+        ext: 'js',
+        script: './dist/index.js',
+    }).on('start', function () {
+        // run watchers
+        serve();
+    });
+}
+
+function startBrowserSync() {
     // Start browser
     sync.init({
         proxy: {
@@ -59,21 +74,18 @@ export default async function watchNode() {
         },
         open: false,
     });
-
-    clear();
-    liquid();
-    scss();
-    script();
-
-    // Start nodemon
-
-    setTimeout(() => {
-        nodemon({
-            ext: 'js',
-            script: './dist/index.js',
-        }).on('start', function () {
-            // run watchers
-            serve();
-        });
-    }, 1000)
 }
+
+const watchNode = parallel(
+    startBrowserSync,
+    series(
+        clear,
+        liquid,
+        scss,
+        typescript,
+        script,
+        startNodemon
+    )
+)
+
+export default watchNode;
