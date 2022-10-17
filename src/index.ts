@@ -32,6 +32,8 @@ const routers: IRouter[] = [
     Router404
 ];
 
+const routerMaster = new MasterRouter();
+
 routers.forEach((Router) => {
     const router = new Router();
 

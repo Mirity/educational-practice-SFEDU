@@ -10,8 +10,8 @@ export default class Controller404 extends AbstractController implements IContro
         res
             .status(404)
             .render(view.getTemplate(), {
-            'this': view,
-            isLoggedIn: req.session.isLoggedIn
+                'this': view, isLoggedIn:
+                req.session.isLoggedIn
         });
     }
 }

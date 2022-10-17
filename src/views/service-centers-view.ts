@@ -7,7 +7,7 @@ const template = 'service-centers';
 
 
 export default class ServiceCentersView extends View implements IView {
-    serviceCenters: null | ServiceCenter[] = null;
+    serviceCenters: ServiceCenter[] | null = null;
     constructor() {
         super(template);
     }

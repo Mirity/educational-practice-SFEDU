@@ -5,7 +5,7 @@ import { IView } from "../abstracts/common";
 const template = 'error';
 
 export default class ErrorView extends View implements IView {
-    error: null | string = null;
+    error: string | null = null;
 
     constructor() {
         super(template);

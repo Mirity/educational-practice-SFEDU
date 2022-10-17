@@ -6,7 +6,7 @@ import { IView } from "../abstracts/common";
 const template = 'service-center';
 
 export default class ServiceCenterView extends View implements IView {
-    serviceCenter: null | ServiceCenter = null;
+    serviceCenter: ServiceCenter | null = null;
     constructor() {
         super(template);
     }

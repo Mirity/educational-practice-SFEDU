@@ -1,12 +1,12 @@
 //@ts-ignore
 import express from 'express';
-import {IRouter, Route} from "../abstracts/common";
+import { IRouter, Route } from "../abstracts/common";
 
 export default abstract class AbstractRouter implements IRouter {
     routes: Route[];
     router: any;
     
-     protected constructor(routes: Route[]) {
+    constructor(routes: Route[]) {
         this.router = express.Router();
         this.routes = routes;
     }

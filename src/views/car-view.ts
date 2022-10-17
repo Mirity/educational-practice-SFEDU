@@ -5,7 +5,7 @@ import { IView } from "../abstracts/common";
 const template = 'car';
 
 export default class CarView extends View implements IView {
-    car: null | Car = null;
+    car: Car | null = null;
 
     constructor() {
         super(template);

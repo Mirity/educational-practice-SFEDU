@@ -3,6 +3,7 @@ import CarResource from "../models/resource/car-resource.js";
 import AbstractController from "./abstract-controller.js";
 import CarConverter from "../converters/car-converter.js";
 import { IController } from "../abstracts/common";
+import {DbCar} from "../abstracts/car";
 
 
 export default class CarController extends AbstractController implements IController {

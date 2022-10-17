@@ -1,7 +1,3 @@
-export interface MasterFromForm extends Master{
-    csrf_token: string,
-}
-
 export interface Master {
     id?: number | string,
     name: string,

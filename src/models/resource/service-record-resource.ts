@@ -1,5 +1,5 @@
 import Database from "../../database.js";
-import { DbServiceRecord, ServiceRecordFromForm } from "../../abstracts/service-record";
+import {DbServiceRecord, ServiceRecord } from "../../abstracts/service-record";
 
 export default class ServiceRecordResource {
     private getServiceRecordsQuery = `SELECT service_record.id, service_record.date, car.number, client.passport, client.name as client_name, client.surname as client_surname FROM service_record JOIN car ON car.id = service_record.car_id JOIN client on client.id = service_record.client_id`;
@@ -18,7 +18,7 @@ export default class ServiceRecordResource {
         return Database.makeQuery(`${this.getServiceRecordsQuery} WHERE client.id = '${id}' GROUP BY service_record.id`, null);
     }
 
-    public async addNewServiceRecord(params: ServiceRecordFromForm): Promise<void> {
+    public async addNewServiceRecord(params: ServiceRecord): Promise<void> {
         const { number, passport, date } = params;
 
         await Database.makeQuery(

@@ -1,8 +1,8 @@
-import {Client, ClientFromForm} from "./client";
-import { CarFromForm, DbCar} from "./car";
-import {DbMaster, MasterFromForm} from "./master";
-import {DbServiceRecord, ServiceRecordFromForm} from "./service-record";
-import {DbServiceCenter, ServiceCenterFromForm} from "./service-center";
+import { Client } from "./client";
+import { DbCar} from "./car";
+import { DbMaster } from "./master";
+import { DbServiceRecord } from "./service-record";
+import { DbServiceCenter } from "./service-center";
 
 export enum RequestMethod {
     get = 'get',

@@ -1,5 +1,5 @@
 import Database from "../../database.js";
-import { CarFromForm, DbCar } from "../../abstracts/car"
+import {Car, DbCar} from "../../abstracts/car"
 
 export default class CarResource {
     private getCarsQuery = `select car.id, mileage, number, brand.name as brand_name, model, country.name as country_name, client.name as client_name, client.surname as client_surname, year_manifacture FROM car JOIN client ON client.id = client_id JOIN country ON country.id = country_id JOIN brand ON brand.id = brand_id`
@@ -18,7 +18,7 @@ export default class CarResource {
         return Database.makeQuery(`${this.getCarsQuery} where year_manifacture < 2010`, null);
     }
 
-    public async addNewCar(params: CarFromForm) {
+    public async addNewCar(params: Car) {
         const { mileage, number, brandName, countryName, clientName, clientSurname, model, yearManifacture } = params;
 
         await Database.makeQuery(
@@ -26,7 +26,7 @@ export default class CarResource {
             [mileage, number, model, yearManifacture]);
     }
 
-    public async editCarById(params: CarFromForm): Promise<void> {
+    public async editCarById(params: Car): Promise<void> {
         const { id, mileage, number, brandName, countryName, clientName, clientSurname, model, yearManifacture } = params;
 
         await Database.makeQuery

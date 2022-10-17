@@ -7,7 +7,7 @@ const template = 'master';
 
 
 export default class MasterView extends View implements IView {
-    master: null | Master = null;
+    master: Master | null = null;
 
     constructor() {
         super(template);

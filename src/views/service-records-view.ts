@@ -6,7 +6,7 @@ import { IView } from "../abstracts/common";
 const template = 'service-records';
 
 export default class ServiceRecordsView extends View implements IView {
-    serviceRecords: null | ServiceRecord[] = null;
+    serviceRecords: ServiceRecord[] | null = null;
 
     constructor() {
         super(template);

@@ -6,7 +6,7 @@ import { IView } from "../abstracts/common";
 const template = 'client-information';
 
 export default class ClientInformationView extends View implements IView {
-    client: null | Client= null;
+    client: Client | null = null;
 
     constructor() {
         super(template);

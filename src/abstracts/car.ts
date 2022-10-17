@@ -1,7 +1,3 @@
-export interface CarFromForm extends Car {
-    csrfToken: string,
-}
-
 export interface Car {
     id?: number | string,
     mileage: number | string,

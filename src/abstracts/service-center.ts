@@ -1,7 +1,3 @@
-export interface ServiceCenterFromForm extends ServiceCenter {
-    csrf_token: string,
-}
-
 export interface ServiceCenter {
     id?: number | string,
     name: string,

@@ -1,5 +1,5 @@
 import Database from "../../database.js";
-import { Client, ClientFromForm } from "../../abstracts/client";
+import { Client } from "../../abstracts/client";
 
 export default class ClientResource {
     public async getClientById(id: number): Promise<Client> {
@@ -8,7 +8,7 @@ export default class ClientResource {
         return clients[0];
     }
 
-    public async editClient(params: ClientFromForm): Promise<void> {
+    public async editClient(params: Client): Promise<void> {
         const { id, name, surname, email, passport, password } = params;
 
 
@@ -23,7 +23,7 @@ export default class ClientResource {
         return client[0];
     }
 
-    public async addNewClient(params: ClientFromForm): Promise<void> {
+    public async addNewClient(params: Client): Promise<void> {
         const { name, surname, passport, password, email } = params;
 
         await Database.makeQuery(
