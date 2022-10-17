@@ -40,9 +40,7 @@ export default abstract class AbstractController implements IController{
     }
 
     public isCorrectData (data: DataDb | undefined): boolean {
-        return data !== undefined;
-
-
+        return Boolean(data);
     }
 
     public render(res: any, view: IView, isLoggedIn: boolean): void {

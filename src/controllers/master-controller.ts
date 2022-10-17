@@ -3,6 +3,7 @@ import MasterResource from "../models/resource/master-resource.js";
 import AbstractController from "./abstract-controller.js";
 import MasterConverter from "../converters/master-converter.js";
 import { IController } from "../abstracts/common";
+import {DbMaster} from "../abstracts/master";
 
 export default class MasterController extends AbstractController implements IController {
     public async getHandler (res: any, req: any): Promise<void> {
@@ -22,7 +23,7 @@ export default class MasterController extends AbstractController implements ICon
         }
 
         const masterView = new MasterView();
-        masterView.setMaster(MasterConverter.convertDbMaster(masterDb))
+        masterView.setMaster(MasterConverter.convertDbMaster(masterDb as DbMaster))
 
         this.render(res, masterView, req.session.isLoggedIn)
     }

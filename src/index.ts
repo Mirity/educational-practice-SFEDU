@@ -23,20 +23,16 @@ app.initEnv();
 app.initSession();
 
 const routers: IRouter[] = [
-    MasterRouter,
-    CarRouter,
-    ServiceCenterRouter,
-    ServiceRecordRouter,
-    ClientRouter,
-    ErrorRouter,
-    Router404
+    new MasterRouter,
+    new CarRouter,
+    new ServiceCenterRouter,
+    new ServiceRecordRouter,
+    new ClientRouter,
+    new ErrorRouter,
+    new Router404
 ];
 
-const routerMaster = new MasterRouter();
-
-routers.forEach((Router) => {
-    const router = new Router();
-
+routers.forEach((router) => {
     app.initRouter(router.getRouter());
 })
 

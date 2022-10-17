@@ -3,6 +3,7 @@ import ServiceRecordResource from "../models/resource/service-record-resource.js
 import AbstractController from "./abstract-controller.js";
 import ServiceRecordConverter from "../converters/service-record-converter.js";
 import { IController } from "../abstracts/common";
+import {DbServiceRecord} from "../abstracts/service-record";
 
 export default class ServiceRecordController extends AbstractController implements IController {
     public async getHandler (res: any, req: any): Promise<void> {
@@ -22,7 +23,7 @@ export default class ServiceRecordController extends AbstractController implemen
         }
 
         const serviceRecordView = new ServiceRecordView();
-        serviceRecordView.setServiceRecord(ServiceRecordConverter.convertDbServiceRecord(serviceRecordDb));
+        serviceRecordView.setServiceRecord(ServiceRecordConverter.convertDbServiceRecord(serviceRecordDb as DbServiceRecord));
 
         this.render(res, serviceRecordView, req.session.isLoggedIn)
     }

@@ -3,6 +3,7 @@ import ServiceCenterResource from "../models/resource/service-center-resource.js
 import AbstractController from "./abstract-controller.js";
 import ServiceCenterConverter from "../converters/service-center-converter.js";
 import { IController } from "../abstracts/common";
+import {DbServiceCenter} from "../abstracts/service-center";
 
 export default class ServiceCenterController extends AbstractController implements IController {
     public async getHandler (res: any, req: any): Promise<void>  {
@@ -22,7 +23,7 @@ export default class ServiceCenterController extends AbstractController implemen
         }
 
         const serviceCenterView = new ServiceCenterView();
-        serviceCenterView.setServiceCenter(ServiceCenterConverter.convertDbServiceCenter(serviceCenterDb))
+        serviceCenterView.setServiceCenter(ServiceCenterConverter.convertDbServiceCenter(serviceCenterDb as DbServiceCenter))
 
         this.render(res, serviceCenterView, req.session.isLoggedIn)
   }

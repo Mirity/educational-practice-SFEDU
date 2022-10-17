@@ -3,6 +3,7 @@ import CarResource from "../models/resource/car-resource.js";
 import AbstractController from "./abstract-controller.js";
 import CarConverter from "../converters/car-converter.js";
 import { IController } from "../abstracts/common";
+import {DbCar} from "../abstracts/car";
 
 
 export default class EditCarController extends AbstractController implements IController {
@@ -24,7 +25,7 @@ export default class EditCarController extends AbstractController implements ICo
 
         const carView = new CarView();
         carView
-            .setCar(CarConverter.convertDbCar(carDb))
+            .setCar(CarConverter.convertDbCar(carDb as DbCar))
             .setTemplate('edit-car');
 
         carView.setCsrfToken(req.session.csrfToken);
