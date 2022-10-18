@@ -1,17 +1,16 @@
 import { Client } from "./client";
-import { DbCar} from "./car";
+import { DbCar } from "./car";
 import { DbMaster } from "./master";
 import { DbServiceRecord } from "./service-record";
 import { DbServiceCenter } from "./service-center";
+import { NextFunction, Request, Response, Router } from "express";
 
 export enum RequestMethod {
     get = 'get',
     post = 'post'
 }
 
-export interface EntityMap {
-    [key:string]: string,
-}
+export type EntityMap = Record<string, string>;
 
 export interface Route {
     controller: IController,
@@ -20,24 +19,26 @@ export interface Route {
 }
 
 export interface IController {
-    execute: (req: any, res: any, next: any) => void
+    execute: (req: Request, res: Response, next: NextFunction) => void
 }
 
 export interface IView {
     getTemplate: () => string,
     setTemplate: (template: string) => void,
-    getCsrfToken: () => string | null,
-    setCsrfToken: (csrfToken: string | null) => void
+    getCsrfToken: () => string | null | undefined,
+    setCsrfToken: (csrfToken: string | null | undefined) => void
 }
 
 export interface IRouter {
     createRoutes: () => void,
-    getRouter: () => any
+    getRouter: () => Router
 }
 
-export interface DataFromForm {
-    [key: string]: string;
-}
+type DataKey = string;
+type DataForm = string;
+export type DataFromForm = Record<DataKey, DataForm>;
+
+export type ParamsForQuery = (number | string | Date)[];
 
 export type DataDb = DbServiceRecord | DbServiceCenter | DbMaster | DbCar | Client;
 

@@ -5,17 +5,17 @@ export default class ServiceRecordResource {
     private getServiceRecordsQuery = `SELECT service_record.id, service_record.date, car.number, client.passport, client.name as client_name, client.surname as client_surname FROM service_record JOIN car ON car.id = service_record.car_id JOIN client on client.id = service_record.client_id`;
 
     public async getServiceRecords(): Promise<DbServiceRecord[]> {
-        return Database.makeQuery(`${this.getServiceRecordsQuery} GROUP BY service_record.id`, null);
+        return Database.makeQuery<DbServiceRecord[]>(`${this.getServiceRecordsQuery} GROUP BY service_record.id`, null);
     }
 
     public async getServiceRecordById(id: number): Promise<DbServiceRecord | undefined> {
-        const serviceRecords = await Database.makeQuery(`${this.getServiceRecordsQuery} WHERE service_record.id = '${id}' GROUP BY service_record.id`, null);
+        const serviceRecords = await Database.makeQuery<DbServiceRecord[]>(`${this.getServiceRecordsQuery} WHERE service_record.id = '${id}' GROUP BY service_record.id`, null);
 
         return serviceRecords[0];
     }
 
     public async getServiceRecordsByClientId(id: number): Promise<DbServiceRecord[]> {
-        return Database.makeQuery(`${this.getServiceRecordsQuery} WHERE client.id = '${id}' GROUP BY service_record.id`, null);
+        return Database.makeQuery<DbServiceRecord[]>(`${this.getServiceRecordsQuery} WHERE client.id = '${id}' GROUP BY service_record.id`, null);
     }
 
     public async addNewServiceRecord(params: ServiceRecord): Promise<void> {

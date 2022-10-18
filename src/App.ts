@@ -1,18 +1,13 @@
-//@ts-ignore
-import express from 'express';
-//@ts-ignore
+import express, { Router, Application } from 'express';
 import { Liquid } from 'liquidjs';
-//@ts-ignore
 import bodyParser from "body-parser";
 import path from 'path';
-//@ts-ignore
 import * as dotenv from "dotenv";
-//@ts-ignore
 import session from 'express-session';
 
 
 export default class App {
-    app: any;
+    app: Application;
     constructor() {
         this.app = express();
         this.app.use('/css', express.static(__dirname + '/css'));
@@ -22,7 +17,7 @@ export default class App {
         this.app.listen(port);
     }
 
-    public initRouter(router: any): void {
+    public initRouter(router: Router): void {
         this.app.use(router);
     }
 

@@ -24,7 +24,7 @@ export default class CarController extends AbstractController implements IContro
         }
 
         const carView = new CarView();
-        carView.setCar(CarConverter.convertDbCar(carDb as DbCar))
+        carView.setCar(CarConverter.convertDbCar(carDb))
 
 
         this.render(res, carView, req.session.isLoggedIn)

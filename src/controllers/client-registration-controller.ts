@@ -1,12 +1,12 @@
 import ClientResource from "../models/resource/client-resource.js";
 import AbstractController from "./abstract-controller.js";
-//@ts-ignore
 import bcrypt from 'bcrypt';
 import View from "../views/view.js";
 import { IController } from "../abstracts/common";
+import { Request, Response } from "express";
 
 export default class ClientRegistrationController extends AbstractController implements IController {
-    async getHandler (res: any, req: any): Promise<void> {
+    async getHandler (res: Response, req: Request): Promise<void> {
         const view = new View('registration');
         view.setCsrfToken(req.session.csrfToken);
 
@@ -18,7 +18,7 @@ export default class ClientRegistrationController extends AbstractController imp
         this.render(res, view, req.session.isLoggedIn);
     }
 
-    async postHandler (res: any, req: any): Promise<void> {
+    async postHandler (res: Response, req: Request): Promise<void> {
         const params = req.body;
 
         params.password = await bcrypt.hash(params.password, 10);
@@ -35,6 +35,5 @@ export default class ClientRegistrationController extends AbstractController imp
         await clientResource.addNewClient(params);
 
         res.redirect('/login');
-
     }
 }

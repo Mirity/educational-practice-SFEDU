@@ -3,10 +3,12 @@ import CarResource from "../models/resource/car-resource.js";
 import AbstractController from "./abstract-controller.js";
 import CarConverter from "../converters/car-converter.js";
 import { IController } from "../abstracts/common";
+import { Request, Response } from "express";
+
 
 
 export default class CarsController extends AbstractController implements IController {
-    public  async getHandler (res: any, req: any): Promise<void> {
+    public async getHandler(res: Response, req: Request): Promise<void> {
         const carsView = new CarsView();
         const carResource = new CarResource();
 

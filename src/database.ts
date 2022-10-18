@@ -1,11 +1,11 @@
-//@ts-ignore
-import mysql from 'mysql-await';
+import  mysql, { Connection } from 'mysql-await';
 import Environment from "./models/environment.js";
+import { ParamsForQuery } from "./abstracts/common";
 
 export default class Database {
-    static connection: any = null;
+    static connection: Connection;
 
-    static getConnection(): any {
+    static getConnection(): Connection {
         if (this.connection) {
             return this.connection;
         }
@@ -22,7 +22,7 @@ export default class Database {
         return this.connection;
     }
 
-    static makeQuery(query: string, params: any): any {
+    static makeQuery<T>(query: string, params: ParamsForQuery | null): Promise<T | []> {
         const connection = this.getConnection();
 
         return connection.awaitQuery(query, params);

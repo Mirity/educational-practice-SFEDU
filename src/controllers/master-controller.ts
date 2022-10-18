@@ -3,10 +3,10 @@ import MasterResource from "../models/resource/master-resource.js";
 import AbstractController from "./abstract-controller.js";
 import MasterConverter from "../converters/master-converter.js";
 import { IController } from "../abstracts/common";
-import {DbMaster} from "../abstracts/master";
+import { Request, Response } from "express";
 
 export default class MasterController extends AbstractController implements IController {
-    public async getHandler (res: any, req: any): Promise<void> {
+    public async getHandler (res: Response, req: Request): Promise<void> {
         const masterResource = new MasterResource();
         const id = req.query.id;
 
@@ -23,12 +23,12 @@ export default class MasterController extends AbstractController implements ICon
         }
 
         const masterView = new MasterView();
-        masterView.setMaster(MasterConverter.convertDbMaster(masterDb as DbMaster))
+        masterView.setMaster(MasterConverter.convertDbMaster(masterDb))
 
         this.render(res, masterView, req.session.isLoggedIn)
     }
 
-    public async postHandler (res: any, req: any): Promise<void> {
+    public async postHandler (res: Response, req: Request): Promise<void> {
         let params = req.body;
 
         const masterResource = new MasterResource();

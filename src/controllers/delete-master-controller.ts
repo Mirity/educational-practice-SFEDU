@@ -1,11 +1,20 @@
 import AbstractController from "./abstract-controller.js";
 import MasterResource from "../models/resource/master-resource.js";
 import { IController } from "../abstracts/common";
+import {Request, Response} from "express";
 
 export default class DeleteMasterController extends AbstractController implements IController {
-    public  async getHandler (res: any, req: any): Promise<void> {
+    public  async getHandler (res: Response, req: Request): Promise<void> {
         const masterResource = new MasterResource();
-        await masterResource.deleteMaster(req.query.id);
+        const masterId = req.query.id;
+
+        if(!this.isCorrectId(masterId)) {
+            this.redirectToError(res, 'Неверный id');
+
+            return;
+        }
+
+        await masterResource.deleteMaster(masterId);
 
         res.redirect('/masters');
     }

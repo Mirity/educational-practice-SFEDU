@@ -3,7 +3,7 @@ import { Client } from "../../abstracts/client";
 
 export default class ClientResource {
     public async getClientById(id: number): Promise<Client> {
-        const clients = await Database.makeQuery(`select * from client where id=${id}`, null);
+        const clients = await Database.makeQuery<Client[]>(`select * from client where id=${id}`, null);
 
         return clients[0];
     }
@@ -18,7 +18,7 @@ export default class ClientResource {
     }
 
     public async getClientByEmail(email: string): Promise<Client | undefined> {
-        const client = await Database.makeQuery(`SELECT * FROM client WHERE email = '${email}'`, null);
+        const client = await Database.makeQuery<Client[]>(`SELECT * FROM client WHERE email = '${email}'`, null);
 
         return client[0];
     }

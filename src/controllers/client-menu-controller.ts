@@ -1,9 +1,10 @@
 import AbstractController from "./abstract-controller.js";
 import View from "../views/view.js";
 import { IController } from "../abstracts/common";
+import { Request, Response } from "express";
 
 export default class ClientMenuController extends AbstractController implements IController {
-    async getHandler(res: any, req: any): Promise<void> {
+    async getHandler(res: Response, req: Request): Promise<void> {
         const view = new View('client-menu');
 
         if(!req.session.isLoggedIn) {

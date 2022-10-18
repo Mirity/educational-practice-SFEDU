@@ -1,11 +1,11 @@
-//@ts-ignore
 import uniqueString from 'unique-string';
+import { Request, Response, NextFunction } from "express";
 import url from "url";
 import {IController, RequestMethod, EntityMap, DataFromForm, IView, DataDb} from "../abstracts/common.js";
 
 
 export default abstract class AbstractController implements IController{
-    public async execute(req: any, res: any, next: any): Promise<void> {
+    public async execute(req: Request, res: Response, next: NextFunction): Promise<void> {
 
         if(req.session.csrfToken === undefined) {
             req.session.csrfToken = uniqueString();
@@ -26,31 +26,31 @@ export default abstract class AbstractController implements IController{
         }
     }
 
-    abstract getHandler(res: any, req: any): void;
+    abstract getHandler(res: Response, req: Request): void;
 
-    public postHandler(res: any, req: any) {}
+    public postHandler(res: Response, req: Request) {}
 
-    public handleInvalidId (res: any): void {
+    public handleInvalidId (res: Response): void {
         res.status(500)
             .send(`No id provided or id incorrect`);
     }
 
-    public isCorrectId (id: number): boolean {
+    public isCorrectId (id: any): id is number {
         return (Boolean(id) && id > 0);
     }
 
-    public isCorrectData (data: DataDb | undefined): boolean {
+    public isCorrectData (data: DataDb | undefined): data is DataDb {
         return Boolean(data);
     }
 
-    public render(res: any, view: IView, isLoggedIn: boolean): void {
+    public render(res: Response, view: IView, isLoggedIn: boolean | undefined): void {
         res.render(view.getTemplate(), {
             'this': view,
             isLoggedIn: isLoggedIn
         });
     }
 
-    public redirectToError(res: any, textError: string): void {
+    public redirectToError(res: Response, textError: string): void {
         res.redirect(url.format({
             pathname: "/error",
             query: {

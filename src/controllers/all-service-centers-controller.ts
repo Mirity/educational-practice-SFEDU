@@ -3,9 +3,11 @@ import AbstractController from "./abstract-controller.js";
 import ServiceCenterResource from "../models/resource/service-center-resource.js";
 import ServiceCenterConverter from "../converters/service-center-converter.js";
 import { IController } from "../abstracts/common";
+import { Request, Response } from "express";
+
 
 export default class ServiceCentersController extends AbstractController implements IController {
-    public async getHandler (res: any, req: any): Promise<void> {
+    public async getHandler (res: Response, req: Request): Promise<void> {
         const serviceCenterResource = new ServiceCenterResource();
         const serviceCentersDb = await serviceCenterResource.getServiceCenters();
 

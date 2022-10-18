@@ -1,12 +1,12 @@
 import View from "../views/view.js";
 import ClientResource from "../models/resource/client-resource.js";
 import AbstractController from "./abstract-controller.js";
-//@ts-ignore
 import bcrypt from "bcrypt";
 import { IController } from "../abstracts/common";
+import { Request, Response } from "express";
 
 export default class ClientLoginController extends AbstractController implements IController {
-    async getHandler(res: any, req: any): Promise<void> {
+    async getHandler(res: Response, req: Request): Promise<void> {
         const view = new View('login');
         view.setCsrfToken(req.session.csrfToken);
 
@@ -19,7 +19,7 @@ export default class ClientLoginController extends AbstractController implements
         this.render(res, view, req.session.isLoggedIn);
     }
 
-    async postHandler(res: any, req: any): Promise<void> {
+    async postHandler(res: Response, req: Request): Promise<void> {
         const clientResource = new ClientResource();
         const params = req.body;
         const textError = 'Неправильный пароль или email';
@@ -41,7 +41,7 @@ export default class ClientLoginController extends AbstractController implements
         }
 
         req.session.isLoggedIn = true;
-        req.session.userId = client.id;
+        req.session.userId = client.id as number;
 
         res.redirect('/user-profile');
     }

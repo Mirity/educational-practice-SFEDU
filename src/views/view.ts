@@ -2,7 +2,7 @@ import { IView } from "../abstracts/common";
 
 export default class View implements IView{
     template: string;
-    csrfToken: string | null;
+    csrfToken: string | null | undefined;
 
     constructor(template: string) {
         this.template = template;
@@ -17,11 +17,11 @@ export default class View implements IView{
         this.template = template;
     }
 
-    public getCsrfToken(): string | null {
+    public getCsrfToken(): string | null | undefined {
         return this.csrfToken;
     }
 
-    public setCsrfToken(csrfToken: string | null): void {
+    public setCsrfToken(csrfToken: string | null | undefined): void {
         this.csrfToken = csrfToken;
     }
 }

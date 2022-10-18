@@ -3,11 +3,11 @@ import CarResource from "../models/resource/car-resource.js";
 import AbstractController from "./abstract-controller.js";
 import CarConverter from "../converters/car-converter.js";
 import { IController } from "../abstracts/common";
-import {DbCar} from "../abstracts/car";
+import { Request, Response } from "express";
 
 
 export default class EditCarController extends AbstractController implements IController {
-    public async getHandler (res: any, req: any): Promise<void> {
+    public async getHandler (res: Response, req: Request): Promise<void> {
         const carResource = new CarResource();
         const id = req.query.id;
 
@@ -25,7 +25,7 @@ export default class EditCarController extends AbstractController implements ICo
 
         const carView = new CarView();
         carView
-            .setCar(CarConverter.convertDbCar(carDb as DbCar))
+            .setCar(CarConverter.convertDbCar(carDb))
             .setTemplate('edit-car');
 
         carView.setCsrfToken(req.session.csrfToken);
@@ -33,7 +33,7 @@ export default class EditCarController extends AbstractController implements ICo
         this.render(res, carView, req.session.isLoggedIn)
     }
 
-    public async postHandler (res: any, req: any): Promise<void> {
+    public async postHandler (res: Response, req: Request): Promise<void> {
         let params = req.body;
 
         const carResource = new CarResource();
