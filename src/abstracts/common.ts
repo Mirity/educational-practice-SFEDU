@@ -34,6 +34,3 @@ type DataForm = string;
 export type DataFromForm = Record<DataKey, DataForm>;
 
 export type ParamsForQuery = (number | string | Date)[];
-
-export type DataDb = Record<DataKey, number | string | Date>;
-

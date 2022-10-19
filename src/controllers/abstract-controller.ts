@@ -1,7 +1,7 @@
 import uniqueString from 'unique-string';
 import { Request, Response, NextFunction } from "express";
 import url from "url";
-import {IController, RequestMethod, EntityMap, DataFromForm, IView, DataDb} from "../abstracts/common.js";
+import { IController, RequestMethod, EntityMap, DataFromForm, IView } from "../abstracts/common.js";
 
 
 export default abstract class AbstractController implements IController{
@@ -39,7 +39,7 @@ export default abstract class AbstractController implements IController{
         return (Boolean(id) && id > 0);
     }
 
-    public isCorrectData (data: DataDb | undefined): data is DataDb {
+    public isCorrectData<T>(data: T | undefined): data is T {
         return Boolean(data);
     }
 
