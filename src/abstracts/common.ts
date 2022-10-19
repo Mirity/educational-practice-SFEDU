@@ -1,8 +1,3 @@
-import { Client } from "./client";
-import { DbCar } from "./car";
-import { DbMaster } from "./master";
-import { DbServiceRecord } from "./service-record";
-import { DbServiceCenter } from "./service-center";
 import { NextFunction, Request, Response, Router } from "express";
 
 export enum RequestMethod {
@@ -40,5 +35,5 @@ export type DataFromForm = Record<DataKey, DataForm>;
 
 export type ParamsForQuery = (number | string | Date)[];
 
-export type DataDb = DbServiceRecord | DbServiceCenter | DbMaster | DbCar | Client;
+export type DataDb = Record<DataKey, number | string | Date>;
 

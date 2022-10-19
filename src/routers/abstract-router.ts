@@ -1,5 +1,6 @@
 import express, { Router } from 'express';
 import { IRouter, Route } from "../abstracts/common";
+import { RequestMethod } from "../abstracts/common.js";
 
 export default abstract class AbstractRouter implements IRouter {
     routes: Route[];
@@ -12,9 +13,9 @@ export default abstract class AbstractRouter implements IRouter {
 
     public createRoutes(): void {
         this.routes.forEach(({ path, controller, method }) => {
-            if (method === 'post') {
+            if (method === RequestMethod.post) {
                 this.router.post(path, controller.execute.bind(controller));
-            } else if (method === 'get') {
+            } else if (method === RequestMethod.get) {
                 this.router.get(path, controller.execute.bind(controller));
             }
         })

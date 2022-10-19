@@ -10,7 +10,7 @@ declare module 'mysql-await' {
 
     export interface Connection {
         connect(): void;
-        awaitQuery<T>(query: string, params: ParamsForQuery | null): Promise<T | []>;
+        awaitQuery<T>(query: string, params: ParamsForQuery | null): Promise<T>;
     }
 
     function createConnection(params: ConnectionParams): Connection

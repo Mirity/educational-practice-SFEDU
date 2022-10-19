@@ -22,7 +22,7 @@ export default class Database {
         return this.connection;
     }
 
-    static makeQuery<T>(query: string, params: ParamsForQuery | null): Promise<T | []> {
+    static makeQuery<T>(query: string, params: ParamsForQuery | null): Promise<T> {
         const connection = this.getConnection();
 
         return connection.awaitQuery(query, params);
