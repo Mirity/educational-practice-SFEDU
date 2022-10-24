@@ -1,7 +1,7 @@
 import { DbMaster, Master } from "../abstracts/master";
 
 export default class MasterConverter {
-    public static convertDbMaster ({id, name, surname, head_master_name, head_master_surname, service_center_name}: DbMaster): Master {
+    public static convertDbMaster ({ id, name, surname, head_master_name, head_master_surname, service_center_name }: DbMaster): Master {
         return {
             id,
             name,

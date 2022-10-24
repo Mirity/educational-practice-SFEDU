@@ -1,23 +1,23 @@
 import View from "./view.js";
-import { ServiceCenter } from "../abstracts/service-center";
 import { IView } from "../abstracts/common";
+import ServiceCenterEntity from "../models/entity/service-center-entity.js";
 
 
 const template = 'service-center';
 
 export default class ServiceCenterView extends View implements IView {
-    serviceCenter: ServiceCenter | null = null;
+    serviceCenter: ServiceCenterEntity | null = null;
     constructor() {
         super(template);
     }
 
-    public setServiceCenter(serviceCenter: ServiceCenter): this {
+    public setServiceCenter(serviceCenter: ServiceCenterEntity): this {
         this.serviceCenter = serviceCenter;
 
         return this;
     }
 
-    public getServiceCenter(): null | ServiceCenter {
+    public getServiceCenter(): null | ServiceCenterEntity {
         return this.serviceCenter;
     }
 }

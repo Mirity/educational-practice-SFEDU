@@ -1,12 +1,12 @@
 import MastersView from '../views/masters-view.js';
 import MasterResource from "../models/resource/master-resource.js";
-import AbstractController from "./abstract-controller.js";
+import AbstractWebController from "./abstract-web-controller.js";
 import MasterConverter from "../converters/master-converter.js";
 import { IController } from "../abstracts/common";
 import { Request, Response } from "express";
 
 
-export default class MastersController extends AbstractController implements IController{
+export default class MastersController extends AbstractWebController implements IController{
     public  async getHandler(res: Response, req: Request): Promise<void> {
         const masterResource = new MasterResource();
         const mastersDb = await masterResource.getMasters();

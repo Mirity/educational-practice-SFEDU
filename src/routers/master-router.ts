@@ -3,6 +3,8 @@ import AllMastersController from "../controllers/all-masters-controller.js";
 import AbstractRouter from "./abstract-router.js";
 import DeleteMasterController from "../controllers/delete-master-controller.js";
 import {IRouter, Route} from "../abstracts/common";
+import { RequestMethod } from "../abstracts/common.js";
+
 
 const masterController = new MasterController();
 const mastersController = new AllMastersController();
@@ -12,23 +14,23 @@ const routes: Route[] = [
     {
         controller: masterController,
         path: '/master',
-        method: 'post'
+        method: RequestMethod.post
     },
     {
         controller: masterController,
         path: '/master',
-        method: 'get'
+        method: RequestMethod.get
     },
     {
         controller: mastersController,
         path: '/masters',
-        method: 'get'
+        method: RequestMethod.get
     },
 
     {
         controller: deleteMasterController,
         path: '/delete-master',
-        method: 'get'
+        method: RequestMethod.get
     },
 ]
 

@@ -1,11 +1,11 @@
 import MasterView from '../views/master-view.js';
 import MasterResource from "../models/resource/master-resource.js";
-import AbstractController from "./abstract-controller.js";
+import AbstractWebController from "./abstract-web-controller.js";
 import MasterConverter from "../converters/master-converter.js";
 import { IController } from "../abstracts/common";
 import { Request, Response } from "express";
 
-export default class MasterController extends AbstractController implements IController {
+export default class MasterController extends AbstractWebController implements IController {
     public async getHandler (res: Response, req: Request): Promise<void> {
         const masterResource = new MasterResource();
         const id = req.query.id;
@@ -32,7 +32,14 @@ export default class MasterController extends AbstractController implements ICon
         let params = req.body;
 
         const masterResource = new MasterResource();
-        await masterResource.addNewMaster(params);
+
+        try {
+            await masterResource.addNewMaster(params);
+        } catch (err) {
+            this.redirectToError(res, 'Неверно введены данные', 400);
+
+            return;
+        }
 
         res.redirect('/masters');
     }

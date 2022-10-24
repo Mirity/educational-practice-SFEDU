@@ -2,7 +2,9 @@ import ServiceRecordController from "../controllers/service-record-controller.js
 import AllServiceRecordsController from "../controllers/all-service-records-controller.js";
 import AbstractRouter from "./abstract-router.js";
 import DeleteServiceRecordController from "../controllers/delete-service-record-controller.js";
-import {IRouter, Route} from "../abstracts/common";
+import { IRouter, Route } from "../abstracts/common";
+import { RequestMethod } from "../abstracts/common.js";
+
 
 const serviceRecordController = new ServiceRecordController();
 const allServiceRecordsController = new AllServiceRecordsController();
@@ -12,22 +14,22 @@ const routes: Route[] = [
     {
         controller: serviceRecordController,
         path: '/service-record',
-        method: 'get'
+        method: RequestMethod.get
     },
     {
         controller: serviceRecordController,
         path: '/service-record',
-        method: 'post'
+        method: RequestMethod.post
     },
     {
         controller: allServiceRecordsController,
         path: '/service-records',
-        method: 'get'
+        method: RequestMethod.get
     },
     {
         controller: deleteServiceRecordController,
         path: '/delete-service-record',
-        method: 'get'
+        method: RequestMethod.get
     },
 ]
 

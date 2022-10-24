@@ -1,24 +1,24 @@
 import View from "./view.js";
-import { ServiceRecord } from "../abstracts/service-record";
 import { IView } from "../abstracts/common";
+import ServiceRecordEntity from "../models/entity/service-record-entity.js";
 
 
 const template = 'service-record';
 
 export default class ServiceRecordView extends View implements IView {
-    serviceRecord: ServiceRecord | null = null;
+    serviceRecord: ServiceRecordEntity | null = null;
 
     constructor() {
         super(template);
     }
 
-    public setServiceRecord(serviceRecord: ServiceRecord): this {
+    public setServiceRecord(serviceRecord: ServiceRecordEntity): this {
         this.serviceRecord = serviceRecord;
 
         return this;
     }
 
-    public getServiceRecord(): null | ServiceRecord {
+    public getServiceRecord(): null | ServiceRecordEntity {
         return this.serviceRecord;
     }
 }

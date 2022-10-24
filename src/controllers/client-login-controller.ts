@@ -1,11 +1,11 @@
 import View from "../views/view.js";
 import ClientResource from "../models/resource/client-resource.js";
-import AbstractController from "./abstract-controller.js";
+import AbstractWebController from "./abstract-web-controller.js";
 import bcrypt from "bcrypt";
 import { IController } from "../abstracts/common";
 import { Request, Response } from "express";
 
-export default class ClientLoginController extends AbstractController implements IController {
+export default class ClientLoginController extends AbstractWebController implements IController {
     async getHandler(res: Response, req: Request): Promise<void> {
         const view = new View('login');
         view.setCsrfToken(req.session.csrfToken);
@@ -26,6 +26,7 @@ export default class ClientLoginController extends AbstractController implements
 
         const client = await clientResource.getClientByEmail(params.email);
 
+
         if (!client) {
             this.redirectToError(res, textError);
 
@@ -39,6 +40,8 @@ export default class ClientLoginController extends AbstractController implements
 
             return;
         }
+
+
 
         req.session.isLoggedIn = true;
         req.session.userId = client.id as number;

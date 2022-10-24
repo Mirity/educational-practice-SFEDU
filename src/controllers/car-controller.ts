@@ -1,13 +1,13 @@
 import CarView from '../views/car-view.js';
 import CarResource from "../models/resource/car-resource.js";
-import AbstractController from "./abstract-controller.js";
+import AbstractWebController from "./abstract-web-controller.js";
 import CarConverter from "../converters/car-converter.js";
 import { IController } from "../abstracts/common";
-import {DbCar} from "../abstracts/car";
+import { Request, Response } from "express";
 
 
-export default class CarController extends AbstractController implements IController {
-    public async getHandler (res: any, req: any): Promise<void> {
+export default class CarController extends AbstractWebController implements IController {
+    public async getHandler (res: Response, req: Request): Promise<void> {
         const carResource = new CarResource();
         const id = req.query.id;
 
@@ -15,7 +15,7 @@ export default class CarController extends AbstractController implements IContro
             return this.handleInvalidId(res);
         }
 
-        const carDb = await carResource.getCarById(req.query.id);
+        const carDb = await carResource.getCarById(id);
 
         if(!this.isCorrectData(carDb)) {
             res.redirect('/404')
@@ -30,11 +30,18 @@ export default class CarController extends AbstractController implements IContro
         this.render(res, carView, req.session.isLoggedIn)
     }
 
-    public async postHandler (res: any, req: any): Promise<void> {
+    public async postHandler (res: Response, req: Request): Promise<void> {
         let params = req.body;
 
         const carResource = new CarResource();
-        await carResource.addNewCar(params);
+
+        try {
+            await carResource.addNewCar(params);
+        } catch (err) {
+            this.redirectToError(res, 'Неверно введены данные', 400);
+
+            return;
+        }
 
         res.redirect('/cars');
     }

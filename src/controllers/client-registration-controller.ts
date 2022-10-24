@@ -1,11 +1,11 @@
 import ClientResource from "../models/resource/client-resource.js";
-import AbstractController from "./abstract-controller.js";
+import AbstractWebController from "./abstract-web-controller.js";
 import bcrypt from 'bcrypt';
 import View from "../views/view.js";
 import { IController } from "../abstracts/common";
 import { Request, Response } from "express";
 
-export default class ClientRegistrationController extends AbstractController implements IController {
+export default class ClientRegistrationController extends AbstractWebController implements IController {
     async getHandler (res: Response, req: Request): Promise<void> {
         const view = new View('registration');
         view.setCsrfToken(req.session.csrfToken);

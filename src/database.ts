@@ -17,14 +17,21 @@ export default class Database {
             database: Environment.getDbName(),
         })
 
+        this.connection.on(`error`, (err) => {
+            console.error(`Connection error ${err.code}`);
+        });
+
         this.connection.connect();
 
         return this.connection;
     }
 
-    static makeQuery<T>(query: string, params: ParamsForQuery | null): Promise<T> {
+    static async makeQuery<T>(query: string, params: ParamsForQuery | null): Promise<T | any> {
         const connection = this.getConnection();
 
-        return connection.awaitQuery(query, params);
+        return connection.awaitQuery(query, params).catch((error: any) => {
+            throw error;
+        });
+
     }
 }

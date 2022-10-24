@@ -1,10 +1,10 @@
 import ClientInformationView from "../views/client-information-view.js";
 import ClientResource from "../models/resource/client-resource.js";
-import AbstractController from "./abstract-controller.js";
+import AbstractWebController from "./abstract-web-controller.js";
 import { IController } from "../abstracts/common";
 import { Request, Response } from "express";
 
-export default class ClientInformationController extends AbstractController implements IController{
+export default class ClientInformationController extends AbstractWebController implements IController{
     async getHandler (res: Response, req: Request): Promise<void> {
         if(!req.session.isLoggedIn) {
             this.redirectToError(res, 'Войдите, чтобы продолжить');
@@ -35,7 +35,14 @@ export default class ClientInformationController extends AbstractController impl
         const params = req.body;
 
         const clientResource = new ClientResource();
-        await clientResource.editClient(params);
+
+        try {
+            await clientResource.editClient(params);
+        } catch (err) {
+            this.redirectToError(res, 'Неверно введены данные', 400);
+
+            return;
+        }
 
         res.redirect('/user-profile');
     }

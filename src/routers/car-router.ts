@@ -3,7 +3,8 @@ import AllCarsController from "../controllers/all-cars-conroller.js";
 import AbstractRouter from "./abstract-router.js";
 import OldCarsController from "../controllers/old-cars-controller.js";
 import EditCarController from "../controllers/edit-car-controller.js";
-import {IRouter, Route} from "../abstracts/common";
+import { IRouter, Route } from "../abstracts/common";
+import { RequestMethod } from "../abstracts/common.js";
 
 const carController = new CarController();
 const allCarsController = new AllCarsController();
@@ -14,32 +15,32 @@ const routes: Route[] = [
     {
         controller: carController,
         path: '/car',
-        method: 'post'
+        method: RequestMethod.post
     },
     {
         controller: carController,
         path: '/car',
-        method: 'get'
+        method: RequestMethod.get
     },
     {
         controller: allCarsController,
         path: '/cars',
-        method: 'get'
+        method: RequestMethod.get
     },
     {
         controller: oldCarsController,
         path: '/old-cars',
-        method: 'get'
+        method: RequestMethod.get
     },
     {
         controller: editCarController,
         path: '/edit-car',
-        method: 'get'
+        method: RequestMethod.get
     },
     {
         controller: editCarController,
         path: '/edit-car',
-        method: 'post'
+        method: RequestMethod.post
     },
 
 ]

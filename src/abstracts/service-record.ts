@@ -14,5 +14,4 @@ export interface DbServiceRecord {
     passport: string,
     client_name: string,
     client_surname: string
-
 }

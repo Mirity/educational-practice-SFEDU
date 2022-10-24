@@ -15,8 +15,15 @@ export default abstract class AbstractRouter implements IRouter {
         this.routes.forEach(({ path, controller, method }) => {
             if (method === RequestMethod.post) {
                 this.router.post(path, controller.execute.bind(controller));
-            } else if (method === RequestMethod.get) {
+            }
+            if (method === RequestMethod.get) {
                 this.router.get(path, controller.execute.bind(controller));
+            }
+            if (method === RequestMethod.put) {
+                this.router.put(path, controller.execute.bind(controller));
+            }
+            if (method === RequestMethod.delete) {
+                this.router.delete(path, controller.execute.bind(controller));
             }
         })
     }

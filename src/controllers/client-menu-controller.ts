@@ -1,9 +1,9 @@
-import AbstractController from "./abstract-controller.js";
+import AbstractWebController from "./abstract-web-controller.js";
 import View from "../views/view.js";
 import { IController } from "../abstracts/common";
 import { Request, Response } from "express";
 
-export default class ClientMenuController extends AbstractController implements IController {
+export default class ClientMenuController extends AbstractWebController implements IController {
     async getHandler(res: Response, req: Request): Promise<void> {
         const view = new View('client-menu');
 

@@ -1,5 +1,5 @@
 import Database from "../../database.js";
-import {Car, DbCar} from "../../abstracts/car"
+import { Car, DbCar } from "../../abstracts/car"
 
 export default class CarResource {
     private getCarsQuery = `select car.id, mileage, number, brand.name as brand_name, model, country.name as country_name, client.name as client_name, client.surname as client_surname, year_manifacture FROM car JOIN client ON client.id = client_id JOIN country ON country.id = country_id JOIN brand ON brand.id = brand_id`
@@ -36,5 +36,9 @@ export default class CarResource {
 
     public async getCarsByClientId(id: number): Promise<DbCar[]>{
         return Database.makeQuery<DbCar[]>(`${this.getCarsQuery} WHERE client.id='${id}'`, null);
+    }
+
+    public async deleteCar(id: number): Promise<void> {
+        await Database.makeQuery(`DELETE FROM car WHERE id = ${id}`, null);
     }
 }

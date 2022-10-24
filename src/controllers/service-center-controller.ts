@@ -1,11 +1,11 @@
 import ServiceCenterView from '../views/service-center-view.js';
 import ServiceCenterResource from "../models/resource/service-center-resource.js";
-import AbstractController from "./abstract-controller.js";
+import AbstractWebController from "./abstract-web-controller.js";
 import ServiceCenterConverter from "../converters/service-center-converter.js";
 import { IController } from "../abstracts/common";
 import { Request, Response } from "express";
 
-export default class ServiceCenterController extends AbstractController implements IController {
+export default class ServiceCenterController extends AbstractWebController implements IController {
     public async getHandler (res: Response, req: Request): Promise<void>  {
         const serviceCenterResource = new ServiceCenterResource();
         const id = req.query.id;
@@ -32,7 +32,14 @@ export default class ServiceCenterController extends AbstractController implemen
         let params = req.body;
 
         const serviceCenterResource = new ServiceCenterResource();
-        await serviceCenterResource.addNewServiceCenter(params);
+
+        try {
+            await serviceCenterResource.addNewServiceCenter(params);
+        } catch (err) {
+            this.redirectToError(res, 'Неверно введены данные', 400);
+
+            return;
+        }
 
         res.redirect('/service-centers');
     }

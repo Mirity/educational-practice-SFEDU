@@ -1,10 +1,10 @@
-import AbstractController from "./abstract-controller.js";
+import AbstractWebController from "./abstract-web-controller.js";
 import ErrorView from "../views/error-view.js";
 import { IController } from "../abstracts/common";
 import { Request, Response } from "express";
 
 
-export default class ErrorController extends AbstractController implements IController {
+export default class ErrorController extends AbstractWebController implements IController {
     public async getHandler (res: Response, req: Request): Promise<void> {
         const errorView = new ErrorView();
         errorView.setError(req.query.textError as string);

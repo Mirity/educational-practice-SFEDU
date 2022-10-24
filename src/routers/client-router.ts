@@ -6,7 +6,9 @@ import ClientCarsController from "../controllers/client-cars-controller.js";
 import ClientInformationController from "../controllers/client-information-controller.js";
 import ClientMenuController from "../controllers/client-menu-controller.js";
 import ClientRecordsController from "../controllers/client-records-controller.js";
-import {IRouter, Route} from "../abstracts/common";
+import { IRouter, Route } from "../abstracts/common";
+import { RequestMethod } from "../abstracts/common.js";
+
 
 
 const clientRecordsController = new ClientRecordsController();
@@ -21,52 +23,52 @@ const routes: Route[] = [
     {
         controller: clientLoginController,
         path: '/login',
-        method: 'post'
+        method: RequestMethod.post
     },
     {
         controller: clientLoginController,
         path: '/login',
-        method: 'get'
+        method: RequestMethod.get
     },
     {
         controller: clientLogoutController,
         path: '/logout',
-        method: 'get'
+        method: RequestMethod.get
     },
     {
         controller: clientRegistrationController,
         path: '/registration',
-        method: 'post'
+        method: RequestMethod.post
     },
     {
         controller: clientRegistrationController,
         path: '/registration',
-        method: 'get'
+        method: RequestMethod.get
     },
     {
         controller: clientCarsController,
         path: '/my-cars',
-        method: 'get'
+        method: RequestMethod.get
     },
     {
         controller: clientInformationController,
         path: '/my-information',
-        method: 'post'
+        method: RequestMethod.post
     },
     {
         controller: clientInformationController,
         path: '/my-information',
-        method: 'get'
+        method: RequestMethod.get
     },
     {
         controller: clientMenuController,
         path: '/user-profile',
-        method: 'get'
+        method: RequestMethod.get
     },
     {
         controller: clientRecordsController,
         path: '/my-records',
-        method: 'get'
+        method: RequestMethod.get
     },
 ]
 

@@ -1,11 +1,11 @@
 import ServiceRecordView from '../views/service-record-view.js';
 import ServiceRecordResource from "../models/resource/service-record-resource.js";
-import AbstractController from "./abstract-controller.js";
+import AbstractWebController from "./abstract-web-controller.js";
 import ServiceRecordConverter from "../converters/service-record-converter.js";
 import { IController } from "../abstracts/common";
 import { Request, Response } from "express";
 
-export default class ServiceRecordController extends AbstractController implements IController {
+export default class ServiceRecordController extends AbstractWebController implements IController {
     public async getHandler (res: Response, req: Request): Promise<void> {
         const serviceRecordResource = new ServiceRecordResource();
         const id = req.query.id;
@@ -33,7 +33,14 @@ export default class ServiceRecordController extends AbstractController implemen
 
 
         const serviceRecordResource = new ServiceRecordResource();
-        await serviceRecordResource.addNewServiceRecord(params);
+
+        try {
+            await serviceRecordResource.addNewServiceRecord(params);
+        } catch (err) {
+            this.redirectToError(res, 'Неверно введены данные', 400);
+
+            return;
+        }
 
         res.redirect('/service-records')
     }
