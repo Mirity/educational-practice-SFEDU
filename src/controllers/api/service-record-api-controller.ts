@@ -3,41 +3,49 @@ import { IController } from "../../abstracts/common";
 import {Request, Response} from "express";
 import ServiceRecordResource from "../../models/resource/service-record-resource.js";
 import ServiceRecordConverter from "../../converters/service-record-converter.js";
+import ServiceRecordEntity from "../../models/entity/service-record-entity";
 
 export default class ServiceRecordApiController extends AbstractApiController implements IController {
+    private serviceRecordResource: ServiceRecordResource;
+
+    constructor() {
+        super();
+
+        this.serviceRecordResource = new ServiceRecordResource();
+
+    }
+
+
     public async getHandler(res: Response, req: Request): Promise<void> {
-        const serviceRecordResource = new ServiceRecordResource();
         const id = req.params.id;
 
         if (!this.isCorrectId(id)) {
-            this.sendMessageJson(res, 'Invalid id', 500);
+            this.sendErrorMessageJson(res, 'Invalid id');
 
             return
         }
 
-        const serviceRecordDb = await serviceRecordResource.getServiceRecordById(id);
+        const serviceRecordDb = await this.serviceRecordResource.getServiceRecordById(id);
 
         if (!this.isCorrectData(serviceRecordDb)) {
-            this.sendMessageJson(res, 'No serviceRecordDb');
+            this.sendErrorMessageJson(res, 'No serviceRecordDb', 200);
 
             return;
         }
 
         const serviceRecord = ServiceRecordConverter.convertDbServiceRecord(serviceRecordDb);
 
-        this.sendData(res, serviceRecord);
+        this.sendData<ServiceRecordEntity>(res, serviceRecord);
     }
 
     public async postHandler(res: Response, req: Request): Promise<void> {
         let params = req.body;
 
-        const serviceRecordResource = new ServiceRecordResource();
-
         try {
-            await serviceRecordResource.addNewServiceRecord(params);
+            await this.serviceRecordResource.addNewServiceRecord(params);
         } catch (err) {
-            this.sendMessageJson(res, 'Bad request', 400);
-            console.log(err);
+            this.sendErrorMessageJson(res, 'Bad request', 400);
+
             return;
         }
 
@@ -45,62 +53,55 @@ export default class ServiceRecordApiController extends AbstractApiController im
     }
 
     public async putHandler(res: Response, req: Request) {
-        let params = req.body;
         const id = req.params.id;
-        params = {...params, id: id}
+        const params = {...req.body, id: id}
 
         if (!this.isCorrectId(id)) {
-            this.sendMessageJson(res, 'Invalid id', 500);
+            this.sendErrorMessageJson(res, 'Invalid id');
 
             return;
         }
 
-        const serviceRecordResource = new ServiceRecordResource();
-        const serviceRecordDb = await serviceRecordResource.getServiceRecordById(id);
+        const serviceRecordDb = await this.serviceRecordResource.getServiceRecordById(id);
 
         if (!this.isCorrectData(serviceRecordDb)) {
-            this.sendMessageJson(res, 'This id not found');
+            this.sendErrorMessageJson(res, 'This id not found', 200);
 
             return;
         }
 
         try {
-            await serviceRecordResource.editServiceRecordById(params);
+            await this.serviceRecordResource.editServiceRecordById(params);
+
+            this.sendMessageJson(res, 'Ok');
         } catch (err) {
-            this.sendMessageJson(res, 'Bad request', 400);
-
-            return;
+            this.sendErrorMessageJson(res, 'Bad request', 400);
         }
-
-        this.sendMessageJson(res, 'Ok');
     }
 
     public async deleteHandler(res: Response, req: Request) {
         const id = req.params.id;
 
         if (!this.isCorrectId(id)) {
-            this.sendMessageJson(res, 'Invalid id', 500);
+            this.sendErrorMessageJson(res, 'Invalid id');
 
             return;
         }
 
-        const serviceRecordResource = new ServiceRecordResource();
-        const serviceRecordDb = await serviceRecordResource.getServiceRecordById(id);
+        const serviceRecordDb = await this.serviceRecordResource.getServiceRecordById(id);
 
         if (!this.isCorrectData(serviceRecordDb)) {
-            this.sendMessageJson(res, 'This id not found');
+            this.sendErrorMessageJson(res, 'This id not found', 200);
 
             return;
         }
 
         try {
-            await serviceRecordResource.deleteServiceRecord(id);
+            await this.serviceRecordResource.deleteServiceRecord(id);
+
+            this.sendMessageJson(res, 'Ok');
         } catch (err) {
-            this.sendMessageJson(res, 'Bad request', 400);
-
-            return;
+            this.sendErrorMessageJson(res, 'Bad request', 400);
         }
-
-        this.sendMessageJson(res, 'Ok');
     }
 }

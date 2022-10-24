@@ -3,6 +3,7 @@ import { IController } from "../../abstracts/common";
 import { Request, Response } from "express";
 import ServiceCenterResource from "../../models/resource/service-center-resource.js";
 import ServiceCenterConverter from "../../converters/service-center-converter.js";
+import ServiceCenterEntity from "../../models/entity/service-center-entity";
 
 export default class ServiceCentersApiController extends AbstractApiController implements IController {
     public async getHandler(res: Response, req: Request): Promise<void> {
@@ -11,13 +12,13 @@ export default class ServiceCentersApiController extends AbstractApiController i
         const serviceCentersDb = await serviceCenterResource.getServiceCenters();
 
         if(!this.isCorrectData(serviceCentersDb)) {
-            this.sendMessageJson(res, 'No serviceCentersDb');
+            this.sendErrorMessageJson(res, 'No serviceCentersDb', 200);
 
             return;
         }
 
         const serviceCenters = ServiceCenterConverter.convertDbServiceCenters(serviceCentersDb);
 
-        this.sendData(res, serviceCenters);
+        this.sendData<ServiceCenterEntity[]>(res, serviceCenters);
     }
 }

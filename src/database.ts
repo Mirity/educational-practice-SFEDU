@@ -26,10 +26,10 @@ export default class Database {
         return this.connection;
     }
 
-    static async makeQuery<T>(query: string, params: ParamsForQuery | null): Promise<T | any> {
+    static async makeQuery<T>(query: string, params: ParamsForQuery | null): Promise<T> {
         const connection = this.getConnection();
 
-        return connection.awaitQuery(query, params).catch((error: any) => {
+        return connection.awaitQuery<T>(query, params).catch((error: any) => {
             throw error;
         });
 

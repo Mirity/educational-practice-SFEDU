@@ -9,9 +9,9 @@ export default class CarEntity {
     private countryName: string;
     private clientName: string;
     private clientSurname: string;
-    private yearManifacture: number | string;
+    private yearManufacture: number | string;
 
-    constructor({ id, mileage, number, brandName, model, countryName, clientName, clientSurname, yearManifacture }: Car) {
+    constructor({ id, mileage, number, brandName, model, countryName, clientName, clientSurname, yearManufacture }: Car) {
         this.id = id;
         this.mileage = mileage;
         this.model = model;
@@ -20,7 +20,7 @@ export default class CarEntity {
         this.countryName = countryName;
         this.clientSurname = clientSurname;
         this.clientName = clientName;
-        this.yearManifacture = yearManifacture;
+        this.yearManufacture = yearManufacture;
     }
 
     public getId(): number | string | undefined {
@@ -55,7 +55,7 @@ export default class CarEntity {
         return  this.clientSurname;
     }
 
-    public getYearManifacture(): number | string {
-        return this.yearManifacture;
+    public getYearManufacture(): number | string {
+        return this.yearManufacture;
     }
 }

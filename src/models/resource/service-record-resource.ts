@@ -18,9 +18,7 @@ export default class ServiceRecordResource {
         return Database.makeQuery<DbServiceRecord[]>(`${this.getServiceRecordsQuery} WHERE client.id = '${id}' GROUP BY service_record.id`, null);
     }
 
-    public async addNewServiceRecord(params: ServiceRecord): Promise<void> {
-        const { number, passport, date } = params;
-
+    public async addNewServiceRecord({ number, passport, date }: ServiceRecord): Promise<void> {
         await Database.makeQuery(
             `INSERT INTO service_record (car_id, client_id, date) VALUES ((select id from car where number='${number}'), (select id from client where passport='${passport}'), ?)`,
             [date]);
@@ -30,9 +28,7 @@ export default class ServiceRecordResource {
         await Database.makeQuery(`DELETE FROM service_record WHERE id = ${id}`, null);
     }
 
-    public async editServiceRecordById(params: ServiceRecord) {
-        const { number, passport, date, id } = params;
-
+    public async editServiceRecordById({ number, passport, date, id }: ServiceRecord) {
         await Database.makeQuery(
             `UPDATE service_record SET car_id = (select id from car where number = '${number}'), client_id = (select id from client where passport = ${passport}), date = ? where id = ${id}`,
             [date])

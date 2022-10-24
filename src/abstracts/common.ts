@@ -1,7 +1,4 @@
 import { NextFunction, Request, Response, Router } from "express";
-import CarEntity from "../models/entity/car-entity";
-import ServiceRecordEntity from "../models/entity/service-record-entity";
-import ServiceCenterEntity from "../models/entity/service-center-entity";
 
 export enum RequestMethod {
     get = 'get',
@@ -40,5 +37,3 @@ type DataForm = string;
 export type DataFromForm = Record<DataKey, DataForm>;
 
 export type ParamsForQuery = (number | string | Date)[];
-
-export type DataForJson = CarEntity | ServiceRecordEntity | ServiceCenterEntity;

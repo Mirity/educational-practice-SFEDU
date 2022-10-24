@@ -2,7 +2,7 @@ import { DbCar } from "../abstracts/car";
 import CarEntity from "../models/entity/car-entity.js";
 
 export default class CarConverter {
-    public static convertDbCar ({ id, mileage, number, brand_name, model, country_name, client_name, client_surname, year_manifacture }: DbCar): CarEntity {
+    public static convertDbCar ({ id, mileage, number, brand_name, model, country_name, client_name, client_surname, year_manufacture }: DbCar): CarEntity {
         return new CarEntity({
             id,
             mileage,
@@ -12,7 +12,7 @@ export default class CarConverter {
             countryName: country_name,
             clientName: client_name,
             clientSurname: client_surname,
-            yearManifacture: year_manifacture
+            yearManufacture: year_manufacture
         })
     }
 

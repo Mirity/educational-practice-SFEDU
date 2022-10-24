@@ -3,6 +3,7 @@ import CarConverter from "../../converters/car-converter.js";
 import { IController } from "../../abstracts/common";
 import { Request, Response } from "express";
 import AbstractApiController from "./abstract-api-controller.js";
+import CarEntity from "../../models/entity/car-entity";
 
 
 
@@ -13,13 +14,13 @@ export default class CarsApiController extends AbstractApiController implements 
         const carsDb = await carResource.getCars();
 
         if(!this.isCorrectData(carsDb)) {
-            this.sendMessageJson(res, 'No catDb');
+            this.sendErrorMessageJson(res, 'No catDb', 200);
 
             return;
         }
 
         const cars = CarConverter.convertDbCars(carsDb);
 
-        this.sendData(res, cars);
+        this.sendData<CarEntity[]>(res, cars);
     }
 }

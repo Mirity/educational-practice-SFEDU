@@ -6,9 +6,7 @@ import { RequestMethod } from "../abstracts/common.js"
 import uniqueString from "unique-string";
 
 export default abstract class AbstractWebController extends AbstractController implements IController {
-
     public async execute(req: Request, res: Response, next: NextFunction): Promise<void> {
-
         if(req.session.csrfToken === undefined) {
             req.session.csrfToken = uniqueString();
         }

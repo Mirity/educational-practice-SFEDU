@@ -7,7 +7,7 @@ export interface Car {
     countryName: string,
     clientName: string,
     clientSurname: string,
-    yearManifacture: number | string
+    yearManufacture: number | string
 }
 
 export interface DbCar {
@@ -19,5 +19,5 @@ export interface DbCar {
     country_name: string,
     client_name: string,
     client_surname: string,
-    year_manifacture: number
+    year_manufacture: number
 }

@@ -1,4 +1,4 @@
-import {DataForJson, IController} from "../../abstracts/common";
+import { IController } from "../../abstracts/common";
 import { NextFunction, Request, Response } from "express";
 import { RequestMethod } from "../../abstracts/common.js"
 import AbstractController from "../abstract-controller.js";
@@ -6,7 +6,6 @@ import AbstractController from "../abstract-controller.js";
 
 export default abstract class AbstractApiController extends AbstractController implements IController {
     public async execute(req: Request, res: Response, next: NextFunction): Promise<void> {
-
         if (req.method.toLowerCase() === RequestMethod.get) {
             await this.getHandler(res, req);
         }
@@ -30,17 +29,23 @@ export default abstract class AbstractApiController extends AbstractController i
 
     public deleteHandler(res: Response, req: Request) {}
 
-    public sendMessageJson(res: Response, message: string, statusCode: number = 200) {
+    public sendErrorMessageJson(res: Response, errorMessage: string, statusCode: number = 500) {
         res
             .status(statusCode)
             .json({
-                message: message
+                errorMessage
             })
     }
 
-    public sendData(res:Response, data: DataForJson | DataForJson[]) {
+    public sendMessageJson(res: Response, message: string) {
         res.json({
-            data: data
+            message
+        })
+    }
+
+    public sendData<T>(res:Response, data: T) {
+        res.json({
+            data
         });
     }
 }

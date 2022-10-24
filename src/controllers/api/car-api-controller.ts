@@ -3,105 +3,102 @@ import CarConverter from "../../converters/car-converter.js";
 import { IController } from "../../abstracts/common";
 import { Request, Response } from "express";
 import AbstractApiController from "./abstract-api-controller.js";
+import CarEntity from "../../models/entity/car-entity";
 
 
 export default class CarApiController extends AbstractApiController implements IController {
+    private carResource: CarResource;
+
+    constructor() {
+        super();
+
+        this.carResource = new CarResource();
+    }
+
     public async getHandler(res: Response, req: Request): Promise<void> {
-        const carResource = new CarResource();
         const id = req.params.id;
 
         if (!this.isCorrectId(id)) {
-            this.sendMessageJson(res, 'Invalid id', 500);
+            this.sendErrorMessageJson(res, 'Invalid id');
 
-            return
+            return;
         }
 
-        const carDb = await carResource.getCarById(id);
+        const carDb = await this.carResource.getCarById(id);
 
         if (!this.isCorrectData(carDb)) {
-            this.sendMessageJson(res, 'No catDb');
+            this.sendErrorMessageJson(res, 'No catDb', 200);
 
             return;
         }
 
         const car = CarConverter.convertDbCar(carDb);
 
-        this.sendData(res, car);
+        this.sendData<CarEntity>(res, car);
     }
 
     public async postHandler(res: Response, req: Request): Promise<void> {
         let params = req.body;
 
-        const carResource = new CarResource();
-
         try {
-            await carResource.addNewCar(params);
+            await this.carResource.addNewCar(params);
+
+            this.sendMessageJson(res, 'Ok');
         } catch (err) {
-            this.sendMessageJson(res, 'Bad request', 400);
-
-            return;
+            this.sendErrorMessageJson(res, 'Bad request', 400);
         }
-
-        this.sendMessageJson(res, 'Ok');
     }
 
     public async putHandler(res: Response, req: Request) {
-        let params = req.body;
         const id = req.params.id;
-        params = {...params, id: id}
+        const params = {...req.body, id: id}
 
         if (!this.isCorrectId(id)) {
-            this.sendMessageJson(res, 'Invalid id', 500);
+            this.sendErrorMessageJson(res, 'Invalid id');
 
             return;
         }
 
-        const carResource = new CarResource();
-        const carDb = await carResource.getCarById(id);
+        const carDb = await this.carResource.getCarById(id);
 
         if (!this.isCorrectData(carDb)) {
-            this.sendMessageJson(res, 'This id not found');
+            this.sendErrorMessageJson(res, 'This id not found', 200);
 
             return;
         }
 
         try {
-            await carResource.editCarById(params);
+            await this.carResource.editCarById(params);
+
+            this.sendMessageJson(res, 'Ok');
         } catch (err) {
-            this.sendMessageJson(res, 'Bad request', 400);
-
-            return;
+            this.sendErrorMessageJson(res, 'Bad request', 400);
         }
-
-        this.sendMessageJson(res, 'Ok');
     }
 
     public async deleteHandler(res: Response, req: Request) {
         const id = req.params.id;
 
         if (!this.isCorrectId(id)) {
-            this.sendMessageJson(res, 'Invalid id', 500);
+            this.sendErrorMessageJson(res, 'Invalid id');
 
             return;
         }
 
-        const carResource = new CarResource();
-        const carDb = await carResource.getCarById(id);
+        const carDb = await this.carResource.getCarById(id);
 
         if (!this.isCorrectData(carDb)) {
-            this.sendMessageJson(res, 'This id not found');
+            this.sendErrorMessageJson(res, 'This id not found', 200);
 
             return;
         }
 
         try {
-            await carResource.deleteCar(id);
+            await this.carResource.deleteCar(id);
+
+            this.sendMessageJson(res, 'Ok');
         } catch (err) {
-            this.sendMessageJson(res, 'Bad request', 400);
-
-            return;
+            this.sendErrorMessageJson(res, 'Bad request', 400);
         }
-
-        this.sendMessageJson(res, 'Ok');
     }
 }
