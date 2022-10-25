@@ -43,18 +43,18 @@ export default class ServiceRecordApiController extends AbstractApiController im
 
         try {
             await this.serviceRecordResource.addNewServiceRecord(params);
+
+            this.sendMessageJson(res, 'Ok');
         } catch (err) {
             this.sendErrorMessageJson(res, 'Bad request', 400);
 
             return;
         }
-
-        this.sendMessageJson(res, 'Ok');
     }
 
     public async putHandler(res: Response, req: Request) {
         const id = req.params.id;
-        const params = {...req.body, id: id}
+        const params = {...req.body, id}
 
         if (!this.isCorrectId(id)) {
             this.sendErrorMessageJson(res, 'Invalid id');

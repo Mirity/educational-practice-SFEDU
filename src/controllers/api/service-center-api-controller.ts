@@ -49,7 +49,7 @@ export default class ServiceCenterApiController extends AbstractApiController im
 
     public async putHandler(res: Response, req: Request) {
         const id = req.params.id;
-        const params = {...req.body, id: id}
+        const params = {...req.body, id}
 
         if (!this.isCorrectId(id)) {
             this.sendErrorMessageJson(res, 'Invalid id', 500);
