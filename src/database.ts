@@ -1,4 +1,4 @@
-import  mysql, { Connection } from 'mysql-await';
+import mysql, {Connection, DbQueryInfo} from 'mysql-await';
 import Environment from "./models/environment.js";
 import { ParamsForQuery } from "./abstracts/common";
 
@@ -31,7 +31,14 @@ export default class Database {
 
         return connection.awaitQuery<T>(query, params).catch((error: any) => {
             throw error;
-        });
+        }) as Promise<T>;
+    }
 
+    static async makeAddQuery<T>(query: string, params: ParamsForQuery | null): Promise<DbQueryInfo> {
+        const connection = this.getConnection();
+
+        return connection.awaitQuery<T>(query, params).catch((error: any) => {
+            throw error;
+        }) as Promise<DbQueryInfo>;
     }
 }

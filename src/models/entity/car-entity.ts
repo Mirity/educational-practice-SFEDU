@@ -58,4 +58,18 @@ export default class CarEntity {
     public getYearManufacture(): number | string {
         return this.yearManufacture;
     }
+
+    public getCar(): Car {
+        return {
+            id: this.id,
+            mileage: this.mileage,
+            number: this.number,
+            brandName: this.brandName,
+            model: this.model,
+            countryName: this.countryName,
+            clientName: this.clientName,
+            clientSurname: this.clientSurname,
+            yearManufacture: this.yearManufacture
+        }
+    }
 }

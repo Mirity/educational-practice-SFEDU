@@ -1,11 +1,18 @@
 import AbstractWebController from "./abstract-web-controller.js";
-import MasterResource from "../models/resource/master-resource.js";
 import { IController } from "../abstracts/common";
-import {Request, Response} from "express";
+import { Request, Response } from "express";
+import MasterProvider from "../models/provider/master-provider.js";
 
 export default class DeleteMasterController extends AbstractWebController implements IController {
+    private masterProvider: MasterProvider;
+
+    constructor() {
+        super();
+
+        this.masterProvider = new MasterProvider();
+    }
+
     public  async getHandler (res: Response, req: Request): Promise<void> {
-        const masterResource = new MasterResource();
         const masterId = req.query.id;
 
         if(!this.isCorrectId(masterId)) {
@@ -14,8 +21,12 @@ export default class DeleteMasterController extends AbstractWebController implem
             return;
         }
 
-        await masterResource.deleteMaster(masterId);
+        try {
+            await this.masterProvider.deleteMaster(masterId);
 
-        res.redirect('/masters');
+            res.redirect('/masters');
+        } catch (err: any) {
+            this.redirectToError(res, err.message);
+        }
     }
 }

@@ -1,20 +1,31 @@
 import CarsView from '../views/cars-view.js';
-import CarResource from "../models/resource/car-resource.js";
 import AbstractWebController from "./abstract-web-controller.js";
 import CarConverter from "../converters/car-converter.js";
 import { IController } from "../abstracts/common";
 import { Request, Response } from "express";
+import CarProvider from "../models/provider/car-provider.js";
 
 export default class OldCarsController extends AbstractWebController implements IController{
+    private carsView: CarsView;
+    constructor() {
+        super();
+
+        this.carsView = new CarsView();
+    }
+
     public async getHandler(res: Response, req: Request): Promise<void> {
-        const carResource = new CarResource();
-        const carsDb = await carResource.getOldCars();
+        const carProvider = new CarProvider();
 
-        const carsView = new CarsView();
-        carsView
-            .setCars(CarConverter.convertDbCars(carsDb))
-            .setTemplate('old-cars')
+        try{
+            const cars = await carProvider.getOldCars();
 
-        this.render(res, carsView, req.session.isLoggedIn)
+            this.carsView
+                .setCars(CarConverter.convertCarsToEntities(cars))
+                .setTemplate('old-cars')
+
+            this.render(res, this.carsView, req.session.isLoggedIn)
+        } catch (err: any) {
+            this.redirectToError(res, err.message);
+        }
     }
 }

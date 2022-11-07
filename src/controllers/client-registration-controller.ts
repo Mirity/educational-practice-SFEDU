@@ -1,39 +1,39 @@
-import ClientResource from "../models/resource/client-resource.js";
 import AbstractWebController from "./abstract-web-controller.js";
-import bcrypt from 'bcrypt';
 import View from "../views/view.js";
 import { IController } from "../abstracts/common";
 import { Request, Response } from "express";
+import ClientProvider from "../models/provider/client-provider.js";
 
 export default class ClientRegistrationController extends AbstractWebController implements IController {
+    private view: View;
+    private clientProvider: ClientProvider;
+
+    constructor() {
+        super();
+
+        this.clientProvider = new ClientProvider();
+        this.view = new View('registration');
+    }
     async getHandler (res: Response, req: Request): Promise<void> {
-        const view = new View('registration');
-        view.setCsrfToken(req.session.csrfToken);
+        this.view.setCsrfToken(req.session.csrfToken);
 
         if(req.session.isLoggedIn) {
             this.redirectToError(res, 'Вы уже вошли в свой профиль');
 
             return;
         }
-        this.render(res, view, req.session.isLoggedIn);
+        this.render(res, this.view, req.session.isLoggedIn);
     }
 
     async postHandler (res: Response, req: Request): Promise<void> {
         const params = req.body;
 
-        params.password = await bcrypt.hash(params.password, 10);
+        try {
+            await this.clientProvider.clientRegistration(params);
 
-        const clientResource = new ClientResource();
-        const client = await clientResource.getClientByEmail(params.email);
-
-        if(client) {
-            this.redirectToError(res, 'Пользователь с таким email уже существует');
-
-            return;
+            res.redirect('/login');
+        } catch (err: any) {
+            this.redirectToError(res, err.message);
         }
-
-        await clientResource.addNewClient(params);
-
-        res.redirect('/login');
     }
 }

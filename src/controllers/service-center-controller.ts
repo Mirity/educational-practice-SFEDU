@@ -1,46 +1,53 @@
 import ServiceCenterView from '../views/service-center-view.js';
-import ServiceCenterResource from "../models/resource/service-center-resource.js";
 import AbstractWebController from "./abstract-web-controller.js";
 import ServiceCenterConverter from "../converters/service-center-converter.js";
 import { IController } from "../abstracts/common";
 import { Request, Response } from "express";
+import ServiceCenterProvider from "../models/provider/service-center-provider.js";
+
+
 
 export default class ServiceCenterController extends AbstractWebController implements IController {
+    private serviceCenterView: ServiceCenterView;
+
+    constructor() {
+        super();
+
+        this.serviceCenterView = new ServiceCenterView();
+    }
+
     public async getHandler (res: Response, req: Request): Promise<void>  {
-        const serviceCenterResource = new ServiceCenterResource();
         const id = req.query.id;
 
         if (!this.isCorrectId(id)) {
             return this.handleInvalidId(res);
         }
 
-        const serviceCenterDb = await serviceCenterResource.getServiceCenterById(id);
+        const serviceCenterProvider = new ServiceCenterProvider();
 
-        if(!this.isCorrectData(serviceCenterDb)) {
-            res.redirect('/404')
+        try {
+            const serviceCenter = await serviceCenterProvider.getServiceCenterById(id);
 
-            return;
+            this.serviceCenterView.setServiceCenter(ServiceCenterConverter.convertServiceCenterToEntity(serviceCenter))
+
+            this.render(res, this.serviceCenterView, req.session.isLoggedIn)
+        } catch (err: any) {
+            this.redirectToError(res, err.message, 404);
         }
-
-        const serviceCenterView = new ServiceCenterView();
-        serviceCenterView.setServiceCenter(ServiceCenterConverter.convertDbServiceCenter(serviceCenterDb))
-
-        this.render(res, serviceCenterView, req.session.isLoggedIn)
   }
 
     public async postHandler (res: Response, req: Request): Promise<void>  {
         let params = req.body;
 
-        const serviceCenterResource = new ServiceCenterResource();
+        const serviceCenterProvider = new ServiceCenterProvider();
 
         try {
-            await serviceCenterResource.addNewServiceCenter(params);
-        } catch (err) {
-            this.redirectToError(res, 'Неверно введены данные', 400);
+            await serviceCenterProvider.postServiceCenter(params);
 
-            return;
+            res.redirect('/service-centers');
+
+        } catch (err: any) {
+            this.redirectToError(res, err.message, 400);
         }
-
-        res.redirect('/service-centers');
     }
 }

@@ -1,37 +1,44 @@
 import ServiceRecordsView from "../views/service-records-view.js";
-import ServiceRecordResource from "../models/resource/service-record-resource.js";
 import AbstractWebController from "./abstract-web-controller.js";
 import ServiceRecordConverter from "../converters/service-record-converter.js";
 import { IController } from "../abstracts/common";
 import { Request, Response } from "express";
+import ServiceRecordProvider from "../models/provider/service-record-provider.js";
+import ClientProvider from "../models/provider/client-provider.js";
 
 
 export default class ClientRecordsController extends AbstractWebController implements IController {
+    private clientProvider: ClientProvider;
+    private serviceRecordsView: ServiceRecordsView;
+
+    constructor() {
+        super();
+
+        this.clientProvider = new ClientProvider();
+        this.serviceRecordsView = new ServiceRecordsView();
+    }
+
     public async getHandler (res: Response, req: Request): Promise<void> {
-        if(!req.session.isLoggedIn) {
-            this.redirectToError(res, 'Войдите, чтобы продолжить');
-
-            return;
-        }
-
-        const serviceRecordResource = new ServiceRecordResource();
-
         const userId = req.session.userId;
 
-        if(!this.isCorrectId(userId)) {
-            this.redirectToError(res, 'Войдите, чтобы продолжить');
+        if (!this.clientProvider.isLoggedInHandler(req.session.isLoggedIn, userId)) {
+           this.redirectToError(res,'Войдите, чтобы продолжить');
 
-            return;
+           return;
         }
 
-        const recordsDb = await serviceRecordResource.getServiceRecordsByClientId(userId);
+        const serviceRecordsProvider = new ServiceRecordProvider();
 
-        const serviceRecordsView = new ServiceRecordsView();
-        serviceRecordsView
-            .setServiceRecords(ServiceRecordConverter.convertDbServiceRecords(recordsDb))
-            .setTemplate('client-records');
+        try {
+            const serviceRecords = await serviceRecordsProvider.getRecordsByClientId(userId);
 
+            this.serviceRecordsView
+                .setServiceRecords(ServiceRecordConverter.convertServiceRecordsToEntities(serviceRecords))
+                .setTemplate('client-records');
 
-        this.render(res, serviceRecordsView, req.session.isLoggedIn)
+            this.render(res, this.serviceRecordsView, req.session.isLoggedIn);
+        } catch (err: any) {
+            this.redirectToError(res, err.message)
+        }
     }
 }

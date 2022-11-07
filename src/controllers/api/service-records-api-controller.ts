@@ -1,24 +1,20 @@
 import AbstractApiController from "./abstract-api-controller.js";
 import { IController } from "../../abstracts/common";
 import { Request, Response } from "express";
-import ServiceRecordResource from "../../models/resource/service-record-resource.js";
-import ServiceRecordConverter from "../../converters/service-record-converter.js";
-import ServiceRecordEntity from "../../models/entity/service-record-entity";
+import ServiceRecordProvider from "../../models/provider/service-record-provider.js";
+import { ServiceRecord } from "../../abstracts/service-record";
 
 export default class ServiceRecordsApiController extends AbstractApiController implements IController {
     public async getHandler(res: Response, req: Request): Promise<void> {
-        const serviceRecordResource = new ServiceRecordResource();
+        let serviceRecords: ServiceRecord[];
 
-        const serviceRecordsDb = await serviceRecordResource.getServiceRecords();
+        try {
+            const serviceRecordProvider = new ServiceRecordProvider();
+            serviceRecords = await serviceRecordProvider.getServiceRecords();
 
-        if(!this.isCorrectData(serviceRecordsDb)) {
-            this.sendErrorMessageJson(res, 'No serviceRecordsDb', 200);
-
-            return;
+            this.sendData<ServiceRecord[]>(res, serviceRecords);
+        } catch(err: any) {
+            this.sendErrorMessageJson(res, err.message);
         }
-
-        const serviceRecords = ServiceRecordConverter.convertDbServiceRecords(serviceRecordsDb);
-
-        this.sendData<ServiceRecordEntity[]>(res, serviceRecords);
     }
 }

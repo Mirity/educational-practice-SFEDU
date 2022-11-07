@@ -1,48 +1,52 @@
 import CarView from '../views/car-view.js';
-import CarResource from "../models/resource/car-resource.js";
 import AbstractWebController from "./abstract-web-controller.js";
 import CarConverter from "../converters/car-converter.js";
 import { IController } from "../abstracts/common";
 import { Request, Response } from "express";
+import CarProvider from "../models/provider/car-provider.js";
 
 
 export default class CarController extends AbstractWebController implements IController {
+    private carView: CarView;
+
+    constructor() {
+        super();
+
+        this.carView = new CarView();
+    }
+
     public async getHandler (res: Response, req: Request): Promise<void> {
-        const carResource = new CarResource();
         const id = req.query.id;
 
         if (!this.isCorrectId(id)) {
             return this.handleInvalidId(res);
         }
 
-        const carDb = await carResource.getCarById(id);
+        const carProvider = new CarProvider();
 
-        if(!this.isCorrectData(carDb)) {
-            res.redirect('/404')
+        try {
+            const car = await carProvider.getCarById(id);
+            this.carView.setCar(CarConverter.convertCarToEntity(car))
 
-            return;
+
+            this.render(res, this.carView, req.session.isLoggedIn)
+        } catch (err: any) {
+            this.redirectToError(res, err.message, 404);
         }
-
-        const carView = new CarView();
-        carView.setCar(CarConverter.convertDbCar(carDb))
-
-
-        this.render(res, carView, req.session.isLoggedIn)
     }
 
     public async postHandler (res: Response, req: Request): Promise<void> {
         let params = req.body;
 
-        const carResource = new CarResource();
+        const carProvider = new CarProvider();
 
         try {
-            await carResource.addNewCar(params);
-        } catch (err) {
-            this.redirectToError(res, 'Неверно введены данные', 400);
+            await carProvider.postCar(params);
 
-            return;
+            res.redirect('/cars');
+
+        } catch (err: any) {
+            this.redirectToError(res, err.message, 400);
         }
-
-        res.redirect('/cars');
     }
 }

@@ -10,8 +10,13 @@ declare module 'mysql-await' {
 
     export interface Connection {
         connect(): void;
-        awaitQuery<T>(query: string, params: ParamsForQuery | null): Promise<T>;
+        awaitQuery<T>(query: string, params: ParamsForQuery | null): Promise<T | DbQueryInfo>;
         on(errorText: string, callback: (err: any) => void): any;
+    }
+
+
+    type DbQueryInfo = {
+        insertId: number;
     }
 
     function createConnection(params: ConnectionParams): Connection

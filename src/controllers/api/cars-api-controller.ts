@@ -1,26 +1,21 @@
-import CarResource from "../../models/resource/car-resource.js";
-import CarConverter from "../../converters/car-converter.js";
 import { IController } from "../../abstracts/common";
 import { Request, Response } from "express";
 import AbstractApiController from "./abstract-api-controller.js";
-import CarEntity from "../../models/entity/car-entity";
-
+import { Car } from "../../abstracts/car";
+import CarProvider from "../../models/provider/car-provider.js";
 
 
 export default class CarsApiController extends AbstractApiController implements IController {
     public async getHandler(res: Response, req: Request): Promise<void> {
-        const carResource = new CarResource();
+        let cars: Car[];
 
-        const carsDb = await carResource.getCars();
+        try {
+            const carProvider = new CarProvider();
+            cars = await carProvider.getCars();
 
-        if(!this.isCorrectData(carsDb)) {
-            this.sendErrorMessageJson(res, 'No catDb', 200);
-
-            return;
+            this.sendData<Car[]>(res, cars);
+        } catch(err: any) {
+            this.sendErrorMessageJson(res, err.message);
         }
-
-        const cars = CarConverter.convertDbCars(carsDb);
-
-        this.sendData<CarEntity[]>(res, cars);
     }
 }

@@ -1,3 +1,7 @@
+import {CacheType} from "../abstracts/common.js";
+
+type typeCache = typeof CacheType;
+
 export default class Environment {
     static getDbHost(): string | undefined {
         return process.env.DB_HOST;
@@ -15,4 +19,7 @@ export default class Environment {
         return process.env.DB_NAME;
     }
 
+    static getCacheType<T extends keyof typeCache>(): T {
+        return process.env.TYPE_CACHE as T;
+    }
 }

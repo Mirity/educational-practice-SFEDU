@@ -1,18 +1,10 @@
 import AbstractApiController from "./abstract-api-controller.js";
 import { IController } from "../../abstracts/common";
 import { Request, Response } from "express";
-import ServiceCenterResource from "../../models/resource/service-center-resource.js";
-import ServiceCenterConverter from "../../converters/service-center-converter.js";
-import ServiceCenterEntity from "../../models/entity/service-center-entity";
+import ServiceCenterProvider from "../../models/provider/service-center-provider.js";
+import {ServiceCenter} from "../../abstracts/service-center";
 
 export default class ServiceCenterApiController extends AbstractApiController implements IController {
-    private serviceCenterResource: ServiceCenterResource;
-
-    constructor() {
-        super();
-
-        this.serviceCenterResource = new ServiceCenterResource();
-    }
     public async getHandler(res: Response, req: Request): Promise<void> {
         const id = req.params.id;
 
@@ -22,28 +14,27 @@ export default class ServiceCenterApiController extends AbstractApiController im
             return
         }
 
-        const serviceCenterDb = await this.serviceCenterResource.getServiceCenterById(id);
+        try {
+            const serviceCenterProvider = new ServiceCenterProvider();
+            const serviceCenter = await serviceCenterProvider.getServiceCenterById(id);
 
-        if (!this.isCorrectData(serviceCenterDb)) {
-            this.sendErrorMessageJson(res, 'No serviceRecordDb', 200);
-
-            return;
+            this.sendData<ServiceCenter>(res, serviceCenter);
+        } catch (err: any) {
+            this.sendErrorMessageJson(res, err.message, 404);
         }
 
-        const serviceCenter = ServiceCenterConverter.convertDbServiceCenter(serviceCenterDb);
-
-        this.sendData<ServiceCenterEntity>(res, serviceCenter);
     }
 
     public async postHandler(res: Response, req: Request): Promise<void> {
         let params = req.body;
 
         try {
-            await this.serviceCenterResource.addNewServiceCenter(params);
+            const serviceCenterProvider = new ServiceCenterProvider();
+            await serviceCenterProvider.postServiceCenter(params);
 
             this.sendMessageJson(res, 'Ok');
-        } catch (err) {
-            this.sendErrorMessageJson(res, 'Bad request', 400);
+        } catch (err: any) {
+            this.sendErrorMessageJson(res, err.message, 400);
         }
     }
 
@@ -51,26 +42,13 @@ export default class ServiceCenterApiController extends AbstractApiController im
         const id = req.params.id;
         const params = {...req.body, id}
 
-        if (!this.isCorrectId(id)) {
-            this.sendErrorMessageJson(res, 'Invalid id', 500);
-
-            return;
-        }
-
-        const serviceCenterDb = await this.serviceCenterResource.getServiceCenterById(id);
-
-        if (!this.isCorrectData(serviceCenterDb)) {
-            this.sendErrorMessageJson(res, 'This id not found', 200);
-
-            return;
-        }
-
         try {
-            await this.serviceCenterResource.editServiceCenter(params);
+            const serviceCenterProvider = new ServiceCenterProvider();
+            await serviceCenterProvider.putServiceCenter(params, +id);
 
             this.sendMessageJson(res, 'Ok');
-        } catch (err) {
-            this.sendErrorMessageJson(res, 'Bad request', 400);
+        } catch (err: any) {
+            this.sendErrorMessageJson(res, err.message, 400);
         }
     }
 
@@ -83,20 +61,13 @@ export default class ServiceCenterApiController extends AbstractApiController im
             return;
         }
 
-        const serviceCenterDb = await this.serviceCenterResource.getServiceCenterById(id);
-
-        if (!this.isCorrectData(serviceCenterDb)) {
-            this.sendErrorMessageJson(res, 'This id not found', 200);
-
-            return;
-        }
-
         try {
-            await this.serviceCenterResource.deleteServiceCenter(id);
+            const serviceCenterProvider = new ServiceCenterProvider();
+            await serviceCenterProvider.deleteServiceCenter(id);
 
             this.sendMessageJson(res, 'Ok');
-        } catch (err) {
-            this.sendErrorMessageJson(res, 'Bad request', 400);
+        } catch (err: any) {
+            this.sendErrorMessageJson(res, err.message, 400);
         }
     }
 }

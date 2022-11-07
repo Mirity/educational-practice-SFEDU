@@ -1,12 +1,10 @@
-import ServiceRecordResource from "../models/resource/service-record-resource.js";
 import AbstractWebController from "./abstract-web-controller.js";
 import { IController } from "../abstracts/common";
 import { Request, Response } from "express";
+import ServiceRecordProvider from "../models/provider/service-record-provider.js";
 
 export default class DeleteServiceRecordController extends AbstractWebController implements IController {
     public async getHandler (res: Response, req: Request): Promise<void> {
-        const serviceRecordResource = new ServiceRecordResource();
-
         const serviceRecordId = req.query.id;
 
         if(!this.isCorrectId(serviceRecordId)) {
@@ -15,8 +13,13 @@ export default class DeleteServiceRecordController extends AbstractWebController
             return;
         }
 
-        await serviceRecordResource.deleteServiceRecord(serviceRecordId);
+        try {
+            const serviceRecordProvider = new ServiceRecordProvider();
+            await serviceRecordProvider.deleteServiceRecord(serviceRecordId);
+            res.redirect('/service-records');
 
-        res.redirect('/service-records');
+        } catch (err: any) {
+            this.redirectToError(res, err.message, 400);
+        }
     }
 }

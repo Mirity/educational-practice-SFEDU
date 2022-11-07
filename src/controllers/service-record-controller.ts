@@ -1,47 +1,50 @@
 import ServiceRecordView from '../views/service-record-view.js';
-import ServiceRecordResource from "../models/resource/service-record-resource.js";
 import AbstractWebController from "./abstract-web-controller.js";
 import ServiceRecordConverter from "../converters/service-record-converter.js";
 import { IController } from "../abstracts/common";
 import { Request, Response } from "express";
+import ServiceRecordProvider from "../models/provider/service-record-provider.js";
+
 
 export default class ServiceRecordController extends AbstractWebController implements IController {
+    private serviceRecordView: ServiceRecordView;
+
+    constructor() {
+        super();
+
+        this.serviceRecordView = new ServiceRecordView();
+    }
+
     public async getHandler (res: Response, req: Request): Promise<void> {
-        const serviceRecordResource = new ServiceRecordResource();
         const id = req.query.id;
 
         if (!this.isCorrectId(id)) {
             return this.handleInvalidId(res);
         }
+        const serviceRecordProvider = new ServiceRecordProvider();
 
-        const serviceRecordDb = await serviceRecordResource.getServiceRecordById(id);
+        try {
+            const serviceRecord = await serviceRecordProvider.getServiceRecordById(id);
 
-        if(!this.isCorrectData(serviceRecordDb)) {
-            res.redirect('/404')
+            this.serviceRecordView.setServiceRecord(ServiceRecordConverter.convertServiceRecordToEntity(serviceRecord))
 
-            return;
+            this.render(res, this.serviceRecordView, req.session.isLoggedIn)
+        } catch (err: any) {
+            this.redirectToError(res, err.message, 404);
         }
-
-        const serviceRecordView = new ServiceRecordView();
-        serviceRecordView.setServiceRecord(ServiceRecordConverter.convertDbServiceRecord(serviceRecordDb));
-
-        this.render(res, serviceRecordView, req.session.isLoggedIn)
     }
 
     public async postHandler (res: Response, req: Request): Promise<void> {
         let params = req.body;
-
-
-        const serviceRecordResource = new ServiceRecordResource();
+        const serviceRecordProvider = new ServiceRecordProvider();
 
         try {
-            await serviceRecordResource.addNewServiceRecord(params);
-        } catch (err) {
-            this.redirectToError(res, 'Неверно введены данные', 400);
+            await serviceRecordProvider.postServiceRecord(params);
 
-            return;
+            res.redirect('/service-records');
+
+        } catch (err: any) {
+            this.redirectToError(res, err.message, 400);
         }
-
-        res.redirect('/service-records')
     }
 }

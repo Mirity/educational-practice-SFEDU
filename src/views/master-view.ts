@@ -1,25 +1,25 @@
 import View from "./view.js";
-import { Master } from "../abstracts/master";
 import { IView } from "../abstracts/common";
+import MasterEntity from "../models/entity/master-entity.js";
 
 
 const template = 'master';
 
 
 export default class MasterView extends View implements IView {
-    master: Master | null = null;
+    master: MasterEntity | null = null;
 
     constructor() {
         super(template);
     }
 
-    public setMaster(master: Master): this {
+    public setMaster(master: MasterEntity): this {
         this.master = master;
 
         return this;
     }
 
-    public getMaster(): null | Master {
+    public getMaster(): null | MasterEntity {
         return this.master;
     }
 }

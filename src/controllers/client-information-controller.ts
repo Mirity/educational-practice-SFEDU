@@ -3,47 +3,45 @@ import ClientResource from "../models/resource/client-resource.js";
 import AbstractWebController from "./abstract-web-controller.js";
 import { IController } from "../abstracts/common";
 import { Request, Response } from "express";
+import ClientProvider from "../models/provider/client-provider.js";
 
 export default class ClientInformationController extends AbstractWebController implements IController{
+    private clientProvider: ClientProvider;
+    private clientInformationView: ClientInformationView;
+
+    constructor() {
+        super();
+
+        this.clientProvider = new ClientProvider();
+        this.clientInformationView = new ClientInformationView();
+    }
+
     async getHandler (res: Response, req: Request): Promise<void> {
-        if(!req.session.isLoggedIn) {
-            this.redirectToError(res, 'Войдите, чтобы продолжить');
-
-            return;
-        }
-
-        const clientInformationView = new ClientInformationView();
-        const clientResource = new ClientResource();
-
         const userId = req.session.userId;
 
-        if(!this.isCorrectId(userId)) {
-            this.redirectToError(res, 'Войдите, чтобы продолжить');
+        try {
+            const client = await this.clientProvider.getClientInformation(req.session.isLoggedIn, userId);
 
-            return;
+            this.clientInformationView
+                .setClient(client)
+                .setCsrfToken(req.session.csrfToken);
+
+            this.render(res, this.clientInformationView, req.session.isLoggedIn)
+        } catch (err: any) {
+            this.redirectToError(res, err.message);
         }
 
-        const client = await clientResource.getClientById(userId);
-        clientInformationView
-            .setClient(client)
-            .setCsrfToken(req.session.csrfToken);
-
-        this.render(res, clientInformationView, req.session.isLoggedIn)
     }
 
     async postHandler(res: any, req: any): Promise<void> {
         const params = req.body;
 
-        const clientResource = new ClientResource();
-
         try {
-            await clientResource.editClient(params);
-        } catch (err) {
-            this.redirectToError(res, 'Неверно введены данные', 400);
+            await this.clientProvider.editClientInformation(params);
 
-            return;
+            res.redirect('/user-profile');
+        } catch (err: any) {
+            this.redirectToError(res, err.message, 400);
         }
-
-        res.redirect('/user-profile');
     }
 }

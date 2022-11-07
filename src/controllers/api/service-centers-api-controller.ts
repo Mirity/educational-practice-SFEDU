@@ -1,24 +1,24 @@
 import AbstractApiController from "./abstract-api-controller.js";
 import { IController } from "../../abstracts/common";
 import { Request, Response } from "express";
-import ServiceCenterResource from "../../models/resource/service-center-resource.js";
-import ServiceCenterConverter from "../../converters/service-center-converter.js";
-import ServiceCenterEntity from "../../models/entity/service-center-entity";
+import ServiceCenterProvider from "../../models/provider/service-center-provider.js";
+import {ServiceCenter} from "../../abstracts/service-center";
 
 export default class ServiceCentersApiController extends AbstractApiController implements IController {
     public async getHandler(res: Response, req: Request): Promise<void> {
-        const serviceCenterResource = new ServiceCenterResource();
+        const serviceCenterProvider = new ServiceCenterProvider();
+        const serviceCenters = await serviceCenterProvider.getServiceCenters();
 
-        const serviceCentersDb = await serviceCenterResource.getServiceCenters();
-
-        if(!this.isCorrectData(serviceCentersDb)) {
+        if(!this.isCorrectData(serviceCenters)) {
             this.sendErrorMessageJson(res, 'No serviceCentersDb', 200);
 
             return;
         }
 
-        const serviceCenters = ServiceCenterConverter.convertDbServiceCenters(serviceCentersDb);
-
-        this.sendData<ServiceCenterEntity[]>(res, serviceCenters);
+        try{
+            this.sendData<ServiceCenter[]>(res, serviceCenters);
+        } catch (err: any) {
+            this.sendErrorMessageJson(res, err.message);
+        }
     }
 }

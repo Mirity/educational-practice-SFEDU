@@ -1,46 +1,48 @@
 import MasterView from '../views/master-view.js';
-import MasterResource from "../models/resource/master-resource.js";
 import AbstractWebController from "./abstract-web-controller.js";
 import MasterConverter from "../converters/master-converter.js";
 import { IController } from "../abstracts/common";
 import { Request, Response } from "express";
+import MasterProvider from "../models/provider/master-provider.js";
 
 export default class MasterController extends AbstractWebController implements IController {
+    private masterProvider: MasterProvider;
+    private masterView: MasterView;
+
+    constructor() {
+        super();
+
+        this.masterView = new MasterView();
+        this.masterProvider = new MasterProvider();
+    }
+
     public async getHandler (res: Response, req: Request): Promise<void> {
-        const masterResource = new MasterResource();
         const id = req.query.id;
 
         if (!this.isCorrectId(id)) {
             return this.handleInvalidId(res);
         }
 
-        const masterDb = await masterResource.getMasterById(id);
+        try {
+            const master = await this.masterProvider.getMasterById(id);
 
-        if(!this.isCorrectData(masterDb)) {
-            res.redirect('/404')
+            this.masterView.setMaster(MasterConverter.convertMasterToEntity(master))
 
-            return;
+            this.render(res, this.masterView, req.session.isLoggedIn)
+        } catch (err: any) {
+            this.redirectToError(res, err.message, 404);
         }
-
-        const masterView = new MasterView();
-        masterView.setMaster(MasterConverter.convertDbMaster(masterDb))
-
-        this.render(res, masterView, req.session.isLoggedIn)
     }
 
     public async postHandler (res: Response, req: Request): Promise<void> {
         let params = req.body;
 
-        const masterResource = new MasterResource();
-
         try {
-            await masterResource.addNewMaster(params);
-        } catch (err) {
-            this.redirectToError(res, 'Неверно введены данные', 400);
+            await this.masterProvider.postMaster(params);
 
-            return;
+            res.redirect('/masters');
+        } catch (err: any) {
+            this.redirectToError(res, err.message, 400);
         }
-
-        res.redirect('/masters');
     }
 }

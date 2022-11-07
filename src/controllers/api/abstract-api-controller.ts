@@ -45,7 +45,7 @@ export default abstract class AbstractApiController extends AbstractController i
 
     public sendData<T>(res:Response, data: T) {
         res.json({
-            data
+            data,
         });
     }
 }
