@@ -1,19 +1,18 @@
 import { ICache } from "../abstracts/common";
-import {createClient, RedisClientType, RedisDefaultModules, RedisFunctions, RedisModules, RedisScripts} from 'redis';
-
-const client = createClient();
-client.on('error', (err) => console.log('Redis Client Error', err));
-
-(async () => {
-    await client.connect();
-})();
+import { createClient } from 'redis';
 
 
 export default class RedisCache implements ICache {
     private keyRedis: string;
+    private client = createClient();
 
     constructor() {
         this.keyRedis = ``;
+        this.client.on('error', (err) => console.log('Redis Client Error', err));
+
+        (async () => {
+            await this.client.connect();
+        })();
     }
 
     private changeKeyRedis(key: number | undefined, fileName: string) {
@@ -24,11 +23,26 @@ export default class RedisCache implements ICache {
         }
     }
 
+    private async connectClient() {
+        let isConnected = false;
+
+        this.client.on('ready', () => {
+            isConnected = true;
+        })
+
+        if(!isConnected) {
+            try {
+                await this.client.connect();
+            } catch {}
+        }
+    }
+
 
     public async get<T>(dataType: string, key?: number): Promise<T | null> {
         this.changeKeyRedis(key, dataType);
+        await this.connectClient();
 
-        const data = client.get(this.keyRedis);
+        const data = this.client.get(this.keyRedis);
 
         if(data) {
             console.log(`get info ${this.keyRedis}`)
@@ -40,23 +54,27 @@ export default class RedisCache implements ICache {
 
     public async delete(dataType: string, key?: number): Promise<void> {
         this.changeKeyRedis(key, dataType);
+        await this.connectClient();
 
-        await client.del(this.keyRedis);
+
+        await this.client.del(this.keyRedis);
         console.log(`del info ${this.keyRedis}`)
     }
 
     public async save<T>(data: T, dataType: string, key?: number) {
         this.changeKeyRedis(key, dataType);
+        await this.connectClient();
 
-        const dataJSON: any = JSON.stringify(data);
-        await client.set(this.keyRedis, dataJSON);
+        await this.client.set(this.keyRedis, JSON.stringify(data));
         console.log(`save info ${this.keyRedis}`)
     }
 
     public async update<T>(data: T, dataType: string, key: number): Promise<void> {
         this.changeKeyRedis(key, dataType);
+        await this.connectClient();
 
-        await client.set(this.keyRedis, JSON.stringify(data));
+
+        await this.client.set(this.keyRedis, JSON.stringify(data));
         console.log(`update info ${this.keyRedis}`)
     }
 }
