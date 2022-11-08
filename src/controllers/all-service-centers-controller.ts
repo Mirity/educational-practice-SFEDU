@@ -9,19 +9,18 @@ import { ServiceCenter } from "../abstracts/service-center";
 
 export default class ServiceCentersController extends AbstractWebController implements IController {
     private serviceCentersView: ServiceCentersView;
+    private serviceCenterProvider: ServiceCenterProvider;
 
     constructor() {
         super();
 
+        this.serviceCenterProvider = new ServiceCenterProvider();
         this.serviceCentersView = new ServiceCentersView();
     }
 
     public async getHandler (res: Response, req: Request): Promise<void> {
-        const serviceCenterProvider = new ServiceCenterProvider();
-        let serviceCenters: ServiceCenter[];
-
         try {
-            serviceCenters = await serviceCenterProvider.getServiceCenters();
+            const serviceCenters = await this.serviceCenterProvider.getServiceCenters();
 
             this.serviceCentersView
                 .setServiceCenters(ServiceCenterConverter.convertServiceCentersToEntities(serviceCenters))

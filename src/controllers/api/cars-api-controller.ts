@@ -6,12 +6,19 @@ import CarProvider from "../../models/provider/car-provider.js";
 
 
 export default class CarsApiController extends AbstractApiController implements IController {
+    private carProvider: CarProvider;
+
+    constructor() {
+        super();
+
+        this.carProvider = new CarProvider();
+    }
+
     public async getHandler(res: Response, req: Request): Promise<void> {
         let cars: Car[];
 
         try {
-            const carProvider = new CarProvider();
-            cars = await carProvider.getCars();
+            cars = await this.carProvider.getCars();
 
             this.sendData<Car[]>(res, cars);
         } catch(err: any) {

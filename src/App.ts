@@ -21,10 +21,6 @@ export default class App {
         this.app.use(router);
     }
 
-    public initEnv(): void {
-        dotenv.config()
-    }
-
     public initBodyParser(): void {
         this.app.use(bodyParser.urlencoded({ extended: false }))
         this.app.use(bodyParser.json())

@@ -19,18 +19,16 @@ export default class CarProvider {
 
     constructor() {
         this.carResource = new CarResource();
-        this.cache = new (CreatorCache.createCache(Environment.getCacheType()));
+        this.cache = CreatorCache.createCache(Environment.getCacheType());
     }
 
     async getCarById(id: number): Promise<Car> {
-        try {
-            const cachedCar = await this.cache.getCache(CACHE_TYPE_CAR, id);
+        const cachedCar = await this.cache.get<Car>(CACHE_TYPE_CAR, id);
 
-            if(cachedCar) {
-                console.log(`get cache car ${id}`)
-                return JSON.parse(cachedCar)
-            }
-        } catch {}
+        if(cachedCar) {
+            console.log(`get cache car ${id}`)
+            return cachedCar;
+        }
 
         const carDb = await this.carResource.getCarById(id);
 
@@ -40,21 +38,19 @@ export default class CarProvider {
 
         const car = CarConverter.convertDbCar(carDb);
 
-        await this.cache.saveCache<Car>(car, CACHE_TYPE_CAR, id);
+        await this.cache.save<Car>(car, CACHE_TYPE_CAR, id);
 
         return car;
     }
 
     async getCars(): Promise<Car[]> {
-        try {
-            const cachedCars = await this.cache.getCache(CACHE_TYPE_CARS);
+        const cachedCars = await this.cache.get<Car[]>(CACHE_TYPE_CARS);
 
-            if(cachedCars) {
-                console.log(`get cache car ${Date.now()}`)
+        if(cachedCars) {
+            console.log(`get cache cars ${Date.now()}`)
 
-                return JSON.parse(cachedCars)
-            }
-        } catch {}
+            return cachedCars;
+        }
 
         const carsDb = await this.carResource.getCars();
 
@@ -64,7 +60,7 @@ export default class CarProvider {
 
         const cars = CarConverter.convertDbCars(carsDb);
 
-        await this.cache.saveCache<Car[]>(cars, CACHE_TYPE_CARS);
+        await this.cache.save<Car[]>(cars, CACHE_TYPE_CARS);
 
         return cars;
     }
@@ -79,33 +75,38 @@ export default class CarProvider {
 
         if(dbQueryInfo.insertId !== undefined) {
             const clientId = await this.carResource.getClientIdByCarId(dbQueryInfo.insertId);
-            await this.cache.deleteCache(CACHE_TYPE_CLIENT_CARS, clientId);
+            await this.cache.delete(CACHE_TYPE_CLIENT_CARS, clientId);
         }
 
-        await this.cache.saveCache<Car>(params, CACHE_TYPE_CAR, dbQueryInfo.insertId)
-        await this.cache.deleteCache(CACHE_TYPE_CARS);
-        await this.cache.deleteCache(CACHE_TYPE_OLD_CARS);
+        params.id = dbQueryInfo.insertId;
+
+        await this.cache.save<Car>(params, CACHE_TYPE_CAR, dbQueryInfo.insertId)
+        await this.cache.delete(CACHE_TYPE_CARS);
+        await this.cache.delete(CACHE_TYPE_OLD_CARS);
     }
 
-    public async putCar(params: Car, id: number) {
+    public async putCar(params: Car) {
+        if(params.id === undefined) {
+            throw new Error('Id is undefined')
+        }
+
         try {
-            await this.getCarById(id);
+            await this.getCarById(+params.id);
         } catch(err: any) {
-            throw new Error(err.message);
+            throw new Error('Record by this id not found');
         }
 
         try {
             await this.carResource.editCarById(params);
 
-            if(params.id !== undefined) {
-                const clientId = await this.carResource.getClientIdByCarId(+params.id);
+            const clientId = await this.carResource.getClientIdByCarId(+params.id);
 
-                await this.cache.deleteCache(CACHE_TYPE_CLIENT_CARS, clientId);
-            }
+            await this.cache.delete(CACHE_TYPE_CLIENT_CARS, clientId);
 
-            await this.cache.updateCache<Car>(params, CACHE_TYPE_CAR, id);
-            await this.cache.deleteCache(CACHE_TYPE_CARS);
-            await this.cache.deleteCache(CACHE_TYPE_OLD_CARS);
+
+            await this.cache.update<Car>(params, CACHE_TYPE_CAR, +params.id);
+            await this.cache.delete(CACHE_TYPE_CARS);
+            await this.cache.delete(CACHE_TYPE_OLD_CARS);
 
         } catch (err) {
             throw new Error('Bad request');
@@ -116,17 +117,17 @@ export default class CarProvider {
         try {
             await this.getCarById(id);
         } catch {
-            throw new Error('No car')
+            throw new Error('No car with this id')
         }
 
         try {
             const clientId = await this.carResource.getClientIdByCarId(id);
 
-            await this.cache.deleteCache(CACHE_TYPE_CLIENT_CARS, clientId);
+            await this.cache.delete(CACHE_TYPE_CLIENT_CARS, clientId);
             await this.carResource.deleteCar(id);
-            await this.cache.deleteCache(CACHE_TYPE_CAR, id);
-            await this.cache.deleteCache(CACHE_TYPE_CARS);
-            await this.cache.deleteCache(CACHE_TYPE_OLD_CARS);
+            await this.cache.delete(CACHE_TYPE_CAR, id);
+            await this.cache.delete(CACHE_TYPE_CARS);
+            await this.cache.delete(CACHE_TYPE_OLD_CARS);
 
         } catch (err) {
             throw new Error('Bad request');
@@ -134,15 +135,13 @@ export default class CarProvider {
     }
 
     public async getCarsByClientId(userId: number): Promise<Car[]> {
-        try {
-            const cachedCars = await this.cache.getCache(CACHE_TYPE_CLIENT_CARS, userId);
+        const cachedCars = await this.cache.get<Car[]>(CACHE_TYPE_CLIENT_CARS, userId);
 
-            if(cachedCars) {
-                console.log(`get cache client car ${Date.now()}`)
+        if(cachedCars) {
+            console.log(`get cache client car ${Date.now()}`)
 
-                return JSON.parse(cachedCars)
-            }
-        } catch {}
+            return cachedCars;
+        }
 
         const carsDb = await this.carResource.getCarsByClientId(userId);
 
@@ -152,19 +151,17 @@ export default class CarProvider {
 
         const cars = CarConverter.convertDbCars(carsDb);
 
-        await this.cache.saveCache<Car[]>(cars, CACHE_TYPE_CLIENT_CARS, userId);
+        await this.cache.save<Car[]>(cars, CACHE_TYPE_CLIENT_CARS, userId);
 
         return cars;
     }
 
     public async getOldCars(): Promise<Car[]> {
-        try {
-            const cachedCars = await this.cache.getCache(CACHE_TYPE_OLD_CARS);
+        const cachedCars = await this.cache.get<Car[]>(CACHE_TYPE_OLD_CARS);
 
-            if(cachedCars) {
-                return JSON.parse(cachedCars)
-            }
-        } catch {}
+        if(cachedCars) {
+            return cachedCars;
+        }
 
         const carsDb = await this.carResource.getOldCars();
 
@@ -174,7 +171,7 @@ export default class CarProvider {
 
         const cars = CarConverter.convertDbCars(carsDb);
 
-        await this.cache.saveCache<Car[]>(cars, CACHE_TYPE_OLD_CARS);
+        await this.cache.save<Car[]>(cars, CACHE_TYPE_OLD_CARS);
 
         return cars;
     }

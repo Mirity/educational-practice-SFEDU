@@ -8,10 +8,12 @@ import ServiceRecordProvider from "../models/provider/service-record-provider.js
 
 export default class ServiceRecordController extends AbstractWebController implements IController {
     private serviceRecordView: ServiceRecordView;
+    private serviceRecordProvider: ServiceRecordProvider;
 
     constructor() {
         super();
 
+        this.serviceRecordProvider = new ServiceRecordProvider();
         this.serviceRecordView = new ServiceRecordView();
     }
 
@@ -21,10 +23,9 @@ export default class ServiceRecordController extends AbstractWebController imple
         if (!this.isCorrectId(id)) {
             return this.handleInvalidId(res);
         }
-        const serviceRecordProvider = new ServiceRecordProvider();
 
         try {
-            const serviceRecord = await serviceRecordProvider.getServiceRecordById(id);
+            const serviceRecord = await this.serviceRecordProvider.getServiceRecordById(id);
 
             this.serviceRecordView.setServiceRecord(ServiceRecordConverter.convertServiceRecordToEntity(serviceRecord))
 
@@ -36,10 +37,9 @@ export default class ServiceRecordController extends AbstractWebController imple
 
     public async postHandler (res: Response, req: Request): Promise<void> {
         let params = req.body;
-        const serviceRecordProvider = new ServiceRecordProvider();
 
         try {
-            await serviceRecordProvider.postServiceRecord(params);
+            await this.serviceRecordProvider.postServiceRecord(params);
 
             res.redirect('/service-records');
 

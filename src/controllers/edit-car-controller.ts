@@ -8,23 +8,24 @@ import CarProvider from "../models/provider/car-provider.js";
 
 export default class EditCarController extends AbstractWebController implements IController {
     private carView: CarView;
+    private carProvider: CarProvider;
 
     constructor() {
         super();
 
+        this.carProvider = new CarProvider()
         this.carView = new CarView();
     }
 
     public async getHandler (res: Response, req: Request): Promise<void> {
         const id = req.query.id;
-        const carProvider = new CarProvider()
 
         if (!this.isCorrectId(id)) {
             return this.handleInvalidId(res);
         }
 
         try {
-            const car = await carProvider.getCarById(id);
+            const car = await this.carProvider.getCarById(id);
 
             this.carView
                 .setCar(CarConverter.convertCarToEntity(car))
@@ -41,13 +42,10 @@ export default class EditCarController extends AbstractWebController implements 
     public async postHandler (res: Response, req: Request): Promise<void> {
         let params = req.body;
 
-        const carProvider = new CarProvider();
-
         try {
-            await carProvider.putCar(params, params.id);
+            await this.carProvider.putCar(params);
 
             res.redirect('/cars');
-
         } catch (err: any) {
             this.redirectToError(res, err.message, 400);
         }

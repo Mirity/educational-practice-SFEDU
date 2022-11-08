@@ -33,12 +33,4 @@ export default class Database {
             throw error;
         }) as Promise<T>;
     }
-
-    static async makeAddQuery<T>(query: string, params: ParamsForQuery | null): Promise<DbQueryInfo> {
-        const connection = this.getConnection();
-
-        return connection.awaitQuery<T>(query, params).catch((error: any) => {
-            throw error;
-        }) as Promise<DbQueryInfo>;
-    }
 }

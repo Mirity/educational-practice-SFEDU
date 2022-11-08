@@ -1,10 +1,8 @@
 import Database from "../../database.js";
 import { Car, DbCar } from "../../abstracts/car"
-import {DbQueryInfo} from "mysql-await";
+import { DbQueryInfo } from "mysql-await";
 
-type CarClient = {
-    client_id: number;
-}
+
 
 export default class CarResource {
     private getCarsQuery = `select car.id, mileage, number, brand.name as brand_name, model, country.name as country_name, client.name as client_name, client.surname as client_surname, year_manufacture FROM car JOIN client ON client.id = client_id JOIN country ON country.id = country_id JOIN brand ON brand.id = brand_id`
@@ -26,7 +24,7 @@ export default class CarResource {
     public async addNewCar(params: Car): Promise<DbQueryInfo> {
         const { mileage, number, brandName, countryName, clientName, clientSurname, model, yearManufacture } = params;
 
-        return await Database.makeAddQuery<Car>(
+        return await Database.makeQuery<DbQueryInfo>(
             `INSERT INTO car (mileage, number, brand_id, model, country_id, client_id, year_manufacture) VALUES (?, ?, (select id from brand where name = '${brandName}'), ?, (select id from country where name = '${countryName}'), (select id from client where name = '${clientName}' and surname = '${clientSurname}'), ?)`,
             [mileage, number, model, yearManufacture]);
     }
@@ -47,9 +45,9 @@ export default class CarResource {
         await Database.makeQuery(`DELETE FROM car WHERE id = ${id}`, null);
     }
 
-    public async getClientIdByCarId(id: number): Promise<number> {
-        const client = await Database.makeQuery<CarClient[]>(`select client_id from car where id = ${id}`, null);
+    public async getClientIdByCarId(id: number): Promise<number | undefined> {
+        const client = await Database.makeQuery<{client_id: number}[]>(`select client_id from car where id = ${id}`, null);
 
-        return client[0].client_id;
+        return client[0]?.client_id;
     }
 }

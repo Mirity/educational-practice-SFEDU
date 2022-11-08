@@ -4,23 +4,24 @@ import CarConverter from "../converters/car-converter.js";
 import { IController } from "../abstracts/common";
 import { Request, Response } from "express";
 import CarProvider from "../models/provider/car-provider.js";
-import {Car} from "../abstracts/car";
+import { Car } from "../abstracts/car";
 
 
 
 export default class CarsController extends AbstractWebController implements IController {
     private carsView: CarsView;
+    private carProvider: CarProvider;
+
     constructor() {
         super();
 
+        this.carProvider = new CarProvider();
         this.carsView = new CarsView();
     }
-    public async getHandler(res: Response, req: Request): Promise<void> {
-        const carProvider = new CarProvider();
-        let cars: Car[];
 
+    public async getHandler(res: Response, req: Request): Promise<void> {
         try {
-            cars = await carProvider.getCars();
+            const cars = await this.carProvider.getCars();
 
             this.carsView
                 .setCars(CarConverter.convertCarsToEntities(cars))

@@ -5,12 +5,19 @@ import ServiceRecordProvider from "../../models/provider/service-record-provider
 import { ServiceRecord } from "../../abstracts/service-record";
 
 export default class ServiceRecordsApiController extends AbstractApiController implements IController {
+    private serviceRecordProvider: ServiceRecordProvider;
+
+    constructor() {
+        super();
+
+        this.serviceRecordProvider = new ServiceRecordProvider();
+    }
+
     public async getHandler(res: Response, req: Request): Promise<void> {
         let serviceRecords: ServiceRecord[];
 
         try {
-            const serviceRecordProvider = new ServiceRecordProvider();
-            serviceRecords = await serviceRecordProvider.getServiceRecords();
+            serviceRecords = await this.serviceRecordProvider.getServiceRecords();
 
             this.sendData<ServiceRecord[]>(res, serviceRecords);
         } catch(err: any) {

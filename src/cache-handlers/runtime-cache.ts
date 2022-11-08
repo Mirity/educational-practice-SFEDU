@@ -1,64 +1,50 @@
-import {CacheRuntimeTypeData, DataTypes, ICache} from "../abstracts/common";
+import { ICache, IRuntimeCache } from "../abstracts/common";
 
-let cacheData: CacheRuntimeTypeData = {
-    car: {1: undefined},
-    cars: {1: undefined},
-    serviceCenter: {1: undefined},
-    serviceCenters: {1: undefined},
-    serviceRecord: {1: undefined},
-    serviceRecords: {1: undefined},
-    clientCars: {1: undefined},
-    oldCars: {1: undefined},
-    clientRecords: {1: undefined},
-};
+let cacheData: IRuntimeCache = {};
 
 export default class RuntimeCache implements ICache {
-    public async saveCache<T extends DataTypes>(data: T, dataType: keyof CacheRuntimeTypeData, key?: number): Promise<void> {
-        if (key) {
-            cacheData[dataType][key] = data;
+    private keyRuntime: string;
 
-            console.log(`save cache ${dataType} with key: ${key}`, cacheData[dataType][key]);
-            return;
-        }
-
-        cacheData[dataType][1] = data;
-        console.log(`save cache ${dataType} without key:`);
+    constructor() {
+        this.keyRuntime = ``;
     }
 
-    public async getCache(dataType: keyof CacheRuntimeTypeData, key?: number): Promise<string | null> {
+    private changeKeyRuntime(key: number | undefined, dataType: string) {
         if(key) {
-            const data = JSON.stringify(cacheData[dataType][key]);
-
-            if(data) {
-                return data;
-            }
+            this.keyRuntime = `${dataType}${key}`;
+        } else {
+            this.keyRuntime = `${dataType}`;
         }
+    }
 
-        if(!key) {
-            const data = JSON.stringify(cacheData[dataType][1]);
+    public async save<T>(data: T, dataType: string, key?: number): Promise<void> {
+        this.changeKeyRuntime(key, dataType);
+        cacheData[this.keyRuntime] = data;
+        console.log(`save cache ${this.keyRuntime}`, cacheData[this.keyRuntime]);
+    }
 
-            if(data) {
-                return data;
-            }
+    public async get<T>(dataType: string, key?: number): Promise<T | null> {
+        this.changeKeyRuntime(key, dataType);
+        const data = cacheData[this.keyRuntime];
+
+        if(data) {
+            return data;
         }
 
         return null;
     }
 
-    public async deleteCache(dataType: keyof CacheRuntimeTypeData, key?: number): Promise<void> {
-        if(key) {
-            cacheData[dataType][key] = undefined;
-            console.log(`delete cache ${dataType} with key: ${key}`, cacheData[dataType][key]);
+    public async delete(dataType: string, key?: number): Promise<void> {
+        this.changeKeyRuntime(key, dataType);
 
-            return;
-        }
-        cacheData[dataType][1] = undefined;
-        console.log(`delete cache ${dataType} without key`, cacheData[dataType][1]);
-
+        delete cacheData[this.keyRuntime];
+        console.log(`delete cache ${this.keyRuntime}`, cacheData[this.keyRuntime]);
     }
 
-    public async updateCache<T extends DataTypes>(data: T, dataType: keyof CacheRuntimeTypeData, key: number): Promise<void> {
-       cacheData[dataType][key] = data;
-       console.log(`update cache ${dataType} with key: ${key}`, cacheData[dataType][key]);
+    public async update<T>(data: T, dataType: string, key: number): Promise<void> {
+        this.changeKeyRuntime(key, dataType);
+
+        cacheData[this.keyRuntime] = data;
+        console.log(`update cache ${this.keyRuntime} `, cacheData[this.keyRuntime]);
     }
 }

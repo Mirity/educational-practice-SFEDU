@@ -17,18 +17,17 @@ export default class ServiceCenterProvider {
 
     constructor() {
         this.serviceCenterResource = new ServiceCenterResource();
-        this.cache = new (CreatorCache.createCache(Environment.getCacheType()));
+        this.cache = CreatorCache.createCache(Environment.getCacheType());
     }
 
     async getServiceCenterById(id: number): Promise<ServiceCenter> {
-        try {
-            const cachedServiceCenter = await this.cache.getCache(CACHE_TYPE_SERVICE_CENTER, id);
+        const cachedServiceCenter = await this.cache.get<ServiceCenter>(CACHE_TYPE_SERVICE_CENTER, id);
 
-            if(cachedServiceCenter) {
-                console.log(`get cache info ${id}`)
-                return JSON.parse(cachedServiceCenter)
-            }
-        } catch {}
+        if(cachedServiceCenter) {
+            console.log(`get cache info ${id}`)
+            return cachedServiceCenter;
+        }
+
 
         const serviceCenterDb = await this.serviceCenterResource.getServiceCenterById(id);
 
@@ -38,20 +37,18 @@ export default class ServiceCenterProvider {
 
         const serviceCenter = ServiceCenterConverter.convertDbServiceCenter(serviceCenterDb);
 
-        await this.cache.saveCache<ServiceCenter>(serviceCenter, CACHE_TYPE_SERVICE_CENTER, id);
+        await this.cache.save<ServiceCenter>(serviceCenter, CACHE_TYPE_SERVICE_CENTER, id);
 
         return serviceCenter;
     }
 
     async getServiceCenters(): Promise<ServiceCenter[]> {
-        try {
-            const cachedServiceCenters = await this.cache.getCache(CACHE_TYPE_SERVICE_CENTERS);
+        const cachedServiceCenters = await this.cache.get<ServiceCenter[]>(CACHE_TYPE_SERVICE_CENTERS);
 
-            if(cachedServiceCenters) {
-                console.log(`get cache info ${Date.now()}`)
-                return JSON.parse(cachedServiceCenters)
-            }
-        } catch {}
+        if(cachedServiceCenters) {
+            console.log(`get cache info ${Date.now()}`)
+            return cachedServiceCenters;
+        }
 
         const serviceCentersDb = await this.serviceCenterResource.getServiceCenters();
 
@@ -61,35 +58,42 @@ export default class ServiceCenterProvider {
 
         const serviceCenters = ServiceCenterConverter.convertDbServiceCenters(serviceCentersDb);
 
-        await this.cache.saveCache<ServiceCenter[]>(serviceCenters, CACHE_TYPE_SERVICE_CENTERS);
+        await this.cache.save<ServiceCenter[]>(serviceCenters, CACHE_TYPE_SERVICE_CENTERS);
 
         return serviceCenters;
     }
 
     public async postServiceCenter(params: ServiceCenter): Promise<void> {
         let dbQueryInfo;
+
         try {
             dbQueryInfo = await this.serviceCenterResource.addNewServiceCenter(params);
         } catch (err) {
             throw new Error('Bad request');
         }
 
-        await this.cache.saveCache<ServiceCenter>(params, CACHE_TYPE_SERVICE_CENTER, dbQueryInfo.insertId)
-        await this.cache.deleteCache(CACHE_TYPE_SERVICE_CENTERS);
+        params.id = dbQueryInfo.insertId;
+
+        await this.cache.save<ServiceCenter>(params, CACHE_TYPE_SERVICE_CENTER, dbQueryInfo.insertId)
+        await this.cache.delete(CACHE_TYPE_SERVICE_CENTERS);
     }
 
-    public async putServiceCenter(params: ServiceCenter, id: number) {
+    public async putServiceCenter(params: ServiceCenter) {
+        if(params.id === undefined) {
+            throw new Error('Id is undefined')
+        }
+
         try{
-            await this.getServiceCenterById(id);
+            await this.getServiceCenterById(+params.id);
         } catch {
-            throw new Error('No service center')
+            throw new Error('Record by this id not found')
         }
 
         try {
             await this.serviceCenterResource.editServiceCenter(params);
 
-            await this.cache.updateCache<ServiceCenter>(params, CACHE_TYPE_SERVICE_CENTER, id);
-            await this.cache.deleteCache(CACHE_TYPE_SERVICE_CENTERS);
+            await this.cache.update<ServiceCenter>(params, CACHE_TYPE_SERVICE_CENTER, +params.id);
+            await this.cache.delete(CACHE_TYPE_SERVICE_CENTERS);
 
         } catch (err) {
             throw new Error('Bad request');
@@ -105,8 +109,8 @@ export default class ServiceCenterProvider {
 
         try {
             await this.serviceCenterResource.deleteServiceCenter(id);
-            await this.cache.deleteCache(CACHE_TYPE_SERVICE_CENTER, id);
-            await this.cache.deleteCache(CACHE_TYPE_SERVICE_CENTERS);
+            await this.cache.delete(CACHE_TYPE_SERVICE_CENTER, id);
+            await this.cache.delete(CACHE_TYPE_SERVICE_CENTERS);
         } catch (err) {
             throw new Error('Bad request');
         }

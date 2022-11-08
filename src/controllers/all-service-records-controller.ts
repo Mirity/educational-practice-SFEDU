@@ -9,19 +9,18 @@ import ServiceRecordProvider from "../models/provider/service-record-provider.js
 
 export default class ServiceRecordsController extends AbstractWebController implements IController  {
     private serviceRecordsView: ServiceRecordsView;
+    private serviceRecordProvider: ServiceRecordProvider;
 
     constructor() {
         super();
 
+        this.serviceRecordProvider = new ServiceRecordProvider();
         this.serviceRecordsView = new ServiceRecordsView();
     }
 
     public async getHandler (res: Response, req: Request): Promise<void> {
-        const serviceRecordProvider = new ServiceRecordProvider();
-        let serviceRecords: ServiceRecord[];
-
         try {
-            serviceRecords = await serviceRecordProvider.getServiceRecords();
+            const serviceRecords = await this.serviceRecordProvider.getServiceRecords();
 
             this.serviceRecordsView
                 .setServiceRecords(ServiceRecordConverter.convertServiceRecordsToEntities(serviceRecords))

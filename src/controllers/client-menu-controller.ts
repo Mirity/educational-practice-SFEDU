@@ -11,6 +11,7 @@ export default class ClientMenuController extends AbstractWebController implemen
 
         this.view = new View('client-menu');
     }
+
     async getHandler(res: Response, req: Request): Promise<void> {
         if(!req.session.isLoggedIn) {
             this.redirectToError(res, 'Войдите, чтобы продолжить');

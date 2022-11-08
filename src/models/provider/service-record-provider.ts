@@ -18,18 +18,16 @@ export default class ServiceRecordProvider {
 
     constructor() {
         this.serviceRecordResource = new ServiceRecordResource();
-        this.cache = new (CreatorCache.createCache(Environment.getCacheType()));
+        this.cache = CreatorCache.createCache(Environment.getCacheType());
     }
 
     async getServiceRecordById(id: number): Promise<ServiceRecord> {
-        try {
-            const cachedServiceRecord = await this.cache.getCache(CACHE_TYPE_SERVICE_RECORD, id);
+        const cachedServiceRecord = await this.cache.get<ServiceRecord>(CACHE_TYPE_SERVICE_RECORD, id);
 
-            if(cachedServiceRecord) {
-                console.log(`get cache info ${id}`)
-                return JSON.parse(cachedServiceRecord)
-            }
-        } catch {}
+        if(cachedServiceRecord) {
+            console.log(`get cache info ${id}`)
+            return cachedServiceRecord;
+        }
 
         const serviceRecordDb = await this.serviceRecordResource.getServiceRecordById(id);
 
@@ -39,20 +37,18 @@ export default class ServiceRecordProvider {
 
         const serviceRecord = ServiceRecordConverter.convertDbServiceRecord(serviceRecordDb);
 
-        await this.cache.saveCache<ServiceRecord>(serviceRecord, CACHE_TYPE_SERVICE_RECORD, id);
+        await this.cache.save<ServiceRecord>(serviceRecord, CACHE_TYPE_SERVICE_RECORD, id);
 
         return serviceRecord;
     }
 
     async getServiceRecords(): Promise<ServiceRecord[]> {
-        try {
-            const cachedServiceRecords = await this.cache.getCache(CACHE_TYPE_SERVICE_RECORDS);
+        const cachedServiceRecords = await this.cache.get<ServiceRecord[]>(CACHE_TYPE_SERVICE_RECORDS);
 
-            if(cachedServiceRecords) {
-                console.log(`get cache info ${Date.now()}`)
-                return JSON.parse(cachedServiceRecords)
-            }
-        } catch {}
+        if(cachedServiceRecords) {
+            console.log(`get cache info ${Date.now()}`)
+            return cachedServiceRecords;
+        }
 
         const serviceRecordsDb = await this.serviceRecordResource.getServiceRecords();
 
@@ -62,7 +58,7 @@ export default class ServiceRecordProvider {
 
         const serviceRecords = ServiceRecordConverter.convertDbServiceRecords(serviceRecordsDb);
 
-        await this.cache.saveCache<ServiceRecord[]>(serviceRecords, CACHE_TYPE_SERVICE_RECORDS);
+        await this.cache.save<ServiceRecord[]>(serviceRecords, CACHE_TYPE_SERVICE_RECORDS);
 
         return serviceRecords;
     }
@@ -79,31 +75,34 @@ export default class ServiceRecordProvider {
             const clientId = await this.serviceRecordResource.getClientIdByRecordId(dbQueryInfo.insertId);
 
             if(clientId) {
-                await this.cache.deleteCache(CACHE_TYPE_CLIENT_RECORDS, clientId);
+                await this.cache.delete(CACHE_TYPE_CLIENT_RECORDS, clientId);
             }
         }
+        params.id = dbQueryInfo.insertId;
 
-        await this.cache.saveCache<ServiceRecord>(params, CACHE_TYPE_SERVICE_RECORD, dbQueryInfo.insertId)
-        await this.cache.deleteCache(CACHE_TYPE_SERVICE_RECORDS);
+        await this.cache.save<ServiceRecord>(params, CACHE_TYPE_SERVICE_RECORD, dbQueryInfo.insertId)
+        await this.cache.delete(CACHE_TYPE_SERVICE_RECORDS);
     }
 
-    public async putServiceRecord(params: ServiceRecord, id: number) {
+    public async putServiceRecord(params: ServiceRecord) {
+        if(params.id === undefined) {
+            throw new Error('Id is undefined')
+        }
+
         try{
-            await this.getServiceRecordById(id);
+            await this.getServiceRecordById(+params.id);
         } catch {
-            throw new Error('No service record')
+            throw new Error('Record by this id not found')
         }
 
         try {
             await this.serviceRecordResource.editServiceRecordById(params);
 
-            if(params.id !== undefined) {
-                const clientId = await this.serviceRecordResource.getClientIdByRecordId(+params.id);
-                await this.cache.deleteCache(CACHE_TYPE_CLIENT_RECORDS, clientId);
-            }
+            const clientId = await this.serviceRecordResource.getClientIdByRecordId(+params.id);
+            await this.cache.delete(CACHE_TYPE_CLIENT_RECORDS, clientId);
 
-            await this.cache.updateCache<ServiceRecord>(params, CACHE_TYPE_SERVICE_RECORD, id);
-            await this.cache.deleteCache(CACHE_TYPE_SERVICE_RECORDS);
+            await this.cache.update<ServiceRecord>(params, CACHE_TYPE_SERVICE_RECORD, +params.id);
+            await this.cache.delete(CACHE_TYPE_SERVICE_RECORDS);
 
         } catch (err) {
             throw new Error('Bad request');
@@ -120,23 +119,21 @@ export default class ServiceRecordProvider {
         try {
             const clientId = await this.serviceRecordResource.getClientIdByRecordId(id);
 
-            await this.cache.deleteCache(CACHE_TYPE_CLIENT_RECORDS, clientId);
+            await this.cache.delete(CACHE_TYPE_CLIENT_RECORDS, clientId);
             await this.serviceRecordResource.deleteServiceRecord(id);
-            await this.cache.deleteCache(CACHE_TYPE_SERVICE_RECORD, id);
-            await this.cache.deleteCache(CACHE_TYPE_SERVICE_RECORDS);
+            await this.cache.delete(CACHE_TYPE_SERVICE_RECORD, id);
+            await this.cache.delete(CACHE_TYPE_SERVICE_RECORDS);
         } catch (err) {
             throw new Error('Bad request');
         }
     }
 
     public async getRecordsByClientId(userId: number): Promise<ServiceRecord[]> {
-        try {
-            const cachedRecords = await this.cache.getCache(CACHE_TYPE_CLIENT_RECORDS, userId);
+        const cachedRecords = await this.cache.get<ServiceRecord[]>(CACHE_TYPE_CLIENT_RECORDS, userId);
 
-            if(cachedRecords) {
-                return JSON.parse(cachedRecords)
-            }
-        } catch {}
+        if(cachedRecords) {
+            return cachedRecords;
+        }
 
         const serviceRecordsDb = await this.serviceRecordResource.getServiceRecordsByClientId(userId);
 
@@ -146,7 +143,7 @@ export default class ServiceRecordProvider {
 
         const serviceRecords = ServiceRecordConverter.convertDbServiceRecords(serviceRecordsDb);
 
-        await this.cache.saveCache<ServiceRecord[]>(serviceRecords, CACHE_TYPE_CLIENT_RECORDS, userId);
+        await this.cache.save<ServiceRecord[]>(serviceRecords, CACHE_TYPE_CLIENT_RECORDS, userId);
 
         return serviceRecords;
     }

@@ -5,6 +5,14 @@ import ServiceCenterProvider from "../../models/provider/service-center-provider
 import {ServiceCenter} from "../../abstracts/service-center";
 
 export default class ServiceCenterApiController extends AbstractApiController implements IController {
+    private serviceCenterProvider: ServiceCenterProvider;
+
+    constructor() {
+        super();
+
+        this.serviceCenterProvider = new ServiceCenterProvider();
+    }
+
     public async getHandler(res: Response, req: Request): Promise<void> {
         const id = req.params.id;
 
@@ -15,8 +23,7 @@ export default class ServiceCenterApiController extends AbstractApiController im
         }
 
         try {
-            const serviceCenterProvider = new ServiceCenterProvider();
-            const serviceCenter = await serviceCenterProvider.getServiceCenterById(id);
+            const serviceCenter = await this.serviceCenterProvider.getServiceCenterById(id);
 
             this.sendData<ServiceCenter>(res, serviceCenter);
         } catch (err: any) {
@@ -29,8 +36,7 @@ export default class ServiceCenterApiController extends AbstractApiController im
         let params = req.body;
 
         try {
-            const serviceCenterProvider = new ServiceCenterProvider();
-            await serviceCenterProvider.postServiceCenter(params);
+            await this.serviceCenterProvider.postServiceCenter(params);
 
             this.sendMessageJson(res, 'Ok');
         } catch (err: any) {
@@ -43,8 +49,7 @@ export default class ServiceCenterApiController extends AbstractApiController im
         const params = {...req.body, id}
 
         try {
-            const serviceCenterProvider = new ServiceCenterProvider();
-            await serviceCenterProvider.putServiceCenter(params, +id);
+            await this.serviceCenterProvider.putServiceCenter(params);
 
             this.sendMessageJson(res, 'Ok');
         } catch (err: any) {
@@ -62,8 +67,7 @@ export default class ServiceCenterApiController extends AbstractApiController im
         }
 
         try {
-            const serviceCenterProvider = new ServiceCenterProvider();
-            await serviceCenterProvider.deleteServiceCenter(id);
+            await this.serviceCenterProvider.deleteServiceCenter(id);
 
             this.sendMessageJson(res, 'Ok');
         } catch (err: any) {

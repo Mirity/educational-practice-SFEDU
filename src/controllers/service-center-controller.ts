@@ -9,10 +9,12 @@ import ServiceCenterProvider from "../models/provider/service-center-provider.js
 
 export default class ServiceCenterController extends AbstractWebController implements IController {
     private serviceCenterView: ServiceCenterView;
+    private serviceCenterProvider: ServiceCenterProvider;
 
     constructor() {
         super();
 
+        this.serviceCenterProvider = new ServiceCenterProvider();
         this.serviceCenterView = new ServiceCenterView();
     }
 
@@ -23,10 +25,9 @@ export default class ServiceCenterController extends AbstractWebController imple
             return this.handleInvalidId(res);
         }
 
-        const serviceCenterProvider = new ServiceCenterProvider();
 
         try {
-            const serviceCenter = await serviceCenterProvider.getServiceCenterById(id);
+            const serviceCenter = await this.serviceCenterProvider.getServiceCenterById(id);
 
             this.serviceCenterView.setServiceCenter(ServiceCenterConverter.convertServiceCenterToEntity(serviceCenter))
 
@@ -39,10 +40,8 @@ export default class ServiceCenterController extends AbstractWebController imple
     public async postHandler (res: Response, req: Request): Promise<void>  {
         let params = req.body;
 
-        const serviceCenterProvider = new ServiceCenterProvider();
-
         try {
-            await serviceCenterProvider.postServiceCenter(params);
+            await this.serviceCenterProvider.postServiceCenter(params);
 
             res.redirect('/service-centers');
 

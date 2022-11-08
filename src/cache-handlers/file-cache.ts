@@ -1,89 +1,75 @@
-import {CacheRuntimeTypeData, DataTypes, ICache} from "../abstracts/common";
+import { ICache } from "../abstracts/common";
 import fs from "fs";
 
 
-
 export default class FileCache implements ICache {
+    private fileName: string;
+
     constructor() {
         fs.stat('./cache', async (err, stats) => {
             if (err) {
                 await fs.promises.mkdir('./cache', {recursive: true})
             }
         })
+
+        this.fileName = ``;
     }
 
-    public async saveCache<T extends DataTypes>(data: T, fileName: keyof CacheRuntimeTypeData, key?: number) {
+    private changeFileName(key: number | undefined, fileName: string) {
         if(key) {
-            await fs.promises.writeFile(`./cache/${fileName}${key}.json`, JSON.stringify(data))
-            console.log(`save cache info ${fileName}${key}`)
-
-            return;
+            this.fileName = `./cache/${fileName}${key}.json`;
+        } else {
+            this.fileName = `./cache/${fileName}.json`;
         }
-
-        await fs.promises.writeFile(`./cache/${fileName}.json`, JSON.stringify(data))
-        console.log(`save cache info ${fileName}${Date.now()}`)
-
     }
 
-    public async getCache(fileName: keyof CacheRuntimeTypeData, key?: number ): Promise<string | null> {
-        if(key){
-            const data = fs.promises.readFile(`./cache/${fileName}${key}.json`, { encoding: 'utf-8' });
+    public async save<T>(data: T, fileName: string, key?: number) {
+        this.changeFileName(key, fileName);
+
+        try {
+            await fs.promises.writeFile(this.fileName, JSON.stringify(data))
+            console.log(`save cache info ${this.fileName}`)
+        } catch {}
+    }
+
+    public async get<T>(fileName: string, key?: number ): Promise<T | null> {
+        this.changeFileName(key, fileName);
+
+        try {
+            const data = fs.promises.readFile(this.fileName, { encoding: 'utf-8' });
 
             if(data) {
-                return data;
+                return JSON.parse(await data);
             }
+
+            return null;
+        } catch {
+            console.log(`no such file ${this.fileName}`);
+            return null;
         }
-
-        if(!key) {
-            const data = fs.promises.readFile(`./cache/${fileName}.json`, { encoding: 'utf-8' });
-
-            if(data) {
-                return data;
-            }
-        }
-
-        return null;
     }
 
-    public async deleteCache(fileName: keyof CacheRuntimeTypeData, key?: number): Promise<void> {
-        if (key) {
-            await fs.access(`./cache/${fileName}${key}.json`, async (err) => {
-                if (err) {
-                    console.log(err.message)
+    public async delete(fileName: string, key?: number): Promise<void> {
+        this.changeFileName(key, fileName);
 
-                    console.log(`err ${fileName}${key}`)
-                    return;
-                }
-
-                await fs.promises.unlink(`./cache/${fileName}${key}.json`);
-                console.log(`delete info ${fileName}${key}`)
-            })
-
-            return;
+        try {
+            await fs.promises.unlink(this.fileName);
+            console.log(`delete info ${this.fileName}`);
+        } catch {
+            console.log(`no such file ${this.fileName}`);
         }
-
-        await fs.access(`./cache/${fileName}.json`, async (err) => {
-            if (err) {
-                console.log(err.message)
-
-                return;
-            }
-
-            await fs.promises.unlink(`./cache/${fileName}.json`);
-            console.log(`delete info ${fileName}`)
-        })
     }
 
-    public async updateCache<T extends DataTypes>(data: T, fileName: keyof CacheRuntimeTypeData, key: number): Promise<void> {
-        await fs.access(`./cache/${fileName}${key}.json`, async (err) => {
-            if (err) {
-                console.log(err.message)
+    public async update<T>(data: T, fileName: string, key: number): Promise<void> {
+        this.changeFileName(key, fileName);
 
-                return;
-            }
-            console.log(`update info ${fileName}${key}`)
-            await fs.promises.truncate(`./cache/${fileName}${key}.json`);
-            await fs.promises.writeFile(`./cache/${fileName}${key}.json`, JSON.stringify(data))
-        })
+        try {
+            await fs.promises.truncate(this.fileName);
+            await fs.promises.writeFile(this.fileName, JSON.stringify(data));
+            console.log(`update info ${this.fileName}`);
+        } catch {
+            console.log(`no such file ${this.fileName}`);
+        }
+
     }
 }

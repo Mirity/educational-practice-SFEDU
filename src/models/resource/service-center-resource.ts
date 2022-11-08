@@ -1,6 +1,6 @@
 import Database from "../../database.js";
 import { DbServiceCenter, ServiceCenter } from "../../abstracts/service-center";
-import {DbQueryInfo} from "mysql-await";
+import { DbQueryInfo } from "mysql-await";
 
 export default class ServiceCenterResource {
     private getServiceCentersQuery = `SELECT service_center.id, service_center.name, street, house, number_seats, country.name AS country_name, city.name AS city_name FROM service_center JOIN country ON country.id = service_center.country_id JOIN city ON city.id = service_center.city_id `
@@ -18,7 +18,7 @@ export default class ServiceCenterResource {
     public async addNewServiceCenter(params: ServiceCenter): Promise<DbQueryInfo> {
         const { name, countryName, cityName, street, house, numberSeats } = params;
 
-        return await Database.makeAddQuery(
+        return await Database.makeQuery<DbQueryInfo>(
             `INSERT INTO service_center (name, country_id, city_id, street, house, number_seats) VALUES (?, (select id from country where name='${countryName}'), (select id from city where name='${cityName}'), ?, ?, ?)`,
             [name, street, house, numberSeats]);
     }

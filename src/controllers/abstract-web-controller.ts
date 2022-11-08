@@ -17,6 +17,7 @@ export default abstract class AbstractWebController extends AbstractController i
 
         if (req.method.toLowerCase() === RequestMethod.post) {
             if(!this.verifyCsrfToken(req.body.csrf_token, req.session.csrfToken)) {
+                console.log(req.body.csrf_token, '<- body', req.session.csrfToken, '<- session')
                 return this.redirectToError(res, 'Отказано в доступе', 403);
             }
 

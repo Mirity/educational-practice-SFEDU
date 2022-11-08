@@ -7,17 +7,18 @@ import CarProvider from "../models/provider/car-provider.js";
 
 export default class OldCarsController extends AbstractWebController implements IController{
     private carsView: CarsView;
+    private carProvider: CarProvider;
+    
     constructor() {
         super();
 
+        this.carProvider = new CarProvider();
         this.carsView = new CarsView();
     }
 
     public async getHandler(res: Response, req: Request): Promise<void> {
-        const carProvider = new CarProvider();
-
-        try{
-            const cars = await carProvider.getOldCars();
+        try {
+            const cars = await this.carProvider.getOldCars();
 
             this.carsView
                 .setCars(CarConverter.convertCarsToEntities(cars))

@@ -2,9 +2,6 @@ import Database from "../../database.js";
 import { DbServiceRecord, ServiceRecord } from "../../abstracts/service-record";
 import { DbQueryInfo } from "mysql-await";
 
-type ServiceRecordClient = {
-    client_id: number;
-}
 
 export default class ServiceRecordResource {
     private getServiceRecordsQuery = `SELECT service_record.id, service_record.date, car.number, client.passport, client.name as client_name, client.surname as client_surname FROM service_record JOIN car ON car.id = service_record.car_id JOIN client on client.id = service_record.client_id`;
@@ -24,7 +21,7 @@ export default class ServiceRecordResource {
     }
 
     public async addNewServiceRecord({ number, passport, date }: ServiceRecord): Promise<DbQueryInfo> {
-        return await Database.makeAddQuery(
+        return await Database.makeQuery<DbQueryInfo>(
             `INSERT INTO service_record (car_id, client_id, date) VALUES ((select id from car where number='${number}'), (select id from client where passport='${passport}'), ?)`,
             [date]);
     }
@@ -39,13 +36,9 @@ export default class ServiceRecordResource {
             [date])
     }
 
-    public async getClientIdByRecordId(id: number): Promise<number> {
-        const client = await Database.makeQuery<ServiceRecordClient[]>(`select client_id from service_record where id = ${id}`, null);
+    public async getClientIdByRecordId(id: number): Promise<number | undefined> {
+        const client = await Database.makeQuery<{client_id: number}[]>(`select client_id from service_record where id = ${id}`, null);
 
-        return client[0].client_id;
-    }
-
-    public async getRecordsByClientId(id: number): Promise<DbServiceRecord[]>{
-        return Database.makeQuery<DbServiceRecord[]>(`${this.getServiceRecordsQuery} WHERE client.id='${id}'`, null);
+        return client[0]?.client_id;
     }
 }

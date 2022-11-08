@@ -5,9 +5,16 @@ import { ServiceRecord } from "../../abstracts/service-record";
 import ServiceRecordProvider from "../../models/provider/service-record-provider.js";
 
 export default class ServiceRecordApiController extends AbstractApiController implements IController {
+    private serviceRecordProvider: ServiceRecordProvider;
+
+    constructor() {
+        super();
+
+        this.serviceRecordProvider = new ServiceRecordProvider();
+    }
+
     public async getHandler(res: Response, req: Request): Promise<void> {
         const id = req.params.id;
-        let serviceRecord: ServiceRecord;
 
         if (!this.isCorrectId(id)) {
             this.sendErrorMessageJson(res, 'Invalid id');
@@ -16,8 +23,7 @@ export default class ServiceRecordApiController extends AbstractApiController im
         }
 
         try {
-            const serviceRecordProvider = new ServiceRecordProvider();
-            serviceRecord = await serviceRecordProvider.getServiceRecordById(id);
+            const serviceRecord = await this.serviceRecordProvider.getServiceRecordById(id);
 
             this.sendData<ServiceRecord>(res, serviceRecord);
         } catch(err: any) {
@@ -29,8 +35,7 @@ export default class ServiceRecordApiController extends AbstractApiController im
         let params = req.body;
 
         try {
-            const serviceRecordProvider = new ServiceRecordProvider();
-            await serviceRecordProvider.postServiceRecord(params);
+            await this.serviceRecordProvider.postServiceRecord(params);
 
             this.sendMessageJson(res, 'Ok');
         } catch (err: any) {
@@ -48,10 +53,8 @@ export default class ServiceRecordApiController extends AbstractApiController im
             return;
         }
 
-        const serviceRecordProvider = new ServiceRecordProvider();
-
         try {
-            await serviceRecordProvider.putServiceRecord(params, id);
+            await this.serviceRecordProvider.putServiceRecord(params);
 
             this.sendMessageJson(res, 'Ok');
         } catch (err: any) {
@@ -61,7 +64,6 @@ export default class ServiceRecordApiController extends AbstractApiController im
 
     public async deleteHandler(res: Response, req: Request) {
         const id = req.params.id;
-        const serviceRecordProvider = new ServiceRecordProvider();
 
         if (!this.isCorrectId(id)) {
             this.sendErrorMessageJson(res, 'Invalid id');
@@ -70,7 +72,7 @@ export default class ServiceRecordApiController extends AbstractApiController im
         }
 
         try {
-            await serviceRecordProvider.deleteServiceRecord(id);
+            await this.serviceRecordProvider.deleteServiceRecord(id);
 
             this.sendMessageJson(res, 'Ok');
         } catch (err: any) {

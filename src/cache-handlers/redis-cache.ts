@@ -1,74 +1,62 @@
-import {CacheRuntimeTypeData, DataTypes, ICache} from "../abstracts/common";
+import { ICache } from "../abstracts/common";
 import {createClient, RedisClientType, RedisDefaultModules, RedisFunctions, RedisModules, RedisScripts} from 'redis';
+
+const client = createClient();
+client.on('error', (err) => console.log('Redis Client Error', err));
+
+(async () => {
+    await client.connect();
+})();
 
 
 export default class RedisCache implements ICache {
-    private client: RedisClientType<RedisDefaultModules & RedisModules, RedisFunctions, RedisScripts> = createClient();
+    private keyRedis: string;
 
     constructor() {
-        this.client.on('error', (err) => console.log('Redis Client Error', err));
-
-        (async () => {
-            await this.client.connect();
-        })();
+        this.keyRedis = ``;
     }
 
-    public async getCache(dataType: keyof CacheRuntimeTypeData, key?: number): Promise<string | null> {
+    private changeKeyRedis(key: number | undefined, fileName: string) {
         if(key) {
-            const keyRedis: any = `${dataType}${key}`;
-            const data = this.client.get(keyRedis);
-
-            if(data) {
-                return data;
-            }
+            this.keyRedis = `${fileName}${key}`;
+        } else {
+            this.keyRedis = `${fileName}`;
         }
+    }
 
-        if(!key) {
-            const keyRedis: any = `${dataType}`;
-            const data = this.client.get(keyRedis);
 
-            if(data) {
-                return data;
-            }
+    public async get<T>(dataType: string, key?: number): Promise<T | null> {
+        this.changeKeyRedis(key, dataType);
+
+        const data = client.get(this.keyRedis);
+
+        if(data) {
+            console.log(`get info ${this.keyRedis}`)
+            return JSON.parse(<string>await data);
         }
 
         return null;
     }
 
-    public async deleteCache(dataType: keyof CacheRuntimeTypeData, key?: number): Promise<void> {
-        if(key) {
-            const keyRedis: any = `${dataType}${key}`;
-            await this.client.del(keyRedis);
-            console.log(`del info ${dataType}${key}`)
+    public async delete(dataType: string, key?: number): Promise<void> {
+        this.changeKeyRedis(key, dataType);
 
-            return;
-        }
-        const keyRedis: any = `${dataType}`;
-        await this.client.del(keyRedis);
-        console.log(`del info ${dataType}`)
-
+        await client.del(this.keyRedis);
+        console.log(`del info ${this.keyRedis}`)
     }
 
-    public async saveCache<T extends DataTypes>(data: T, dataType: keyof CacheRuntimeTypeData, key?: number) {
-        if(key) {
-            const keyRedis: any = `${dataType}${key}`;
-            const dataJSON: any = JSON.stringify(data);
-            await this.client.set(keyRedis, dataJSON);
-            console.log(`save info ${dataType}${key}`)
+    public async save<T>(data: T, dataType: string, key?: number) {
+        this.changeKeyRedis(key, dataType);
 
-            return;
-        }
-        const keyRedis: any = `${dataType}`;
         const dataJSON: any = JSON.stringify(data);
-        await this.client.set(keyRedis, dataJSON);
-        console.log(`save info ${dataType}`)
+        await client.set(this.keyRedis, dataJSON);
+        console.log(`save info ${this.keyRedis}`)
     }
 
-    public async updateCache<T extends DataTypes>(data: T, dataType: keyof CacheRuntimeTypeData, key: number): Promise<void> {
-        const keyRedis: any = `${dataType}${key}`;
-        const dataJSON: any = JSON.stringify(data);
+    public async update<T>(data: T, dataType: string, key: number): Promise<void> {
+        this.changeKeyRedis(key, dataType);
 
-        await this.client.set(keyRedis, dataJSON);
-        console.log(`update info ${dataType}${key}`)
+        await client.set(this.keyRedis, JSON.stringify(data));
+        console.log(`update info ${this.keyRedis}`)
     }
 }

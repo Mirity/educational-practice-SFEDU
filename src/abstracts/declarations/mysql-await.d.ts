@@ -15,7 +15,7 @@ declare module 'mysql-await' {
     }
 
 
-    type DbQueryInfo = {
+    interface DbQueryInfo {
         insertId: number;
     }
 

@@ -10,10 +10,12 @@ import ClientProvider from "../models/provider/client-provider.js";
 export default class ClientRecordsController extends AbstractWebController implements IController {
     private clientProvider: ClientProvider;
     private serviceRecordsView: ServiceRecordsView;
+    private serviceRecordsProvider: ServiceRecordProvider;
 
     constructor() {
         super();
 
+        this.serviceRecordsProvider = new ServiceRecordProvider();
         this.clientProvider = new ClientProvider();
         this.serviceRecordsView = new ServiceRecordsView();
     }
@@ -27,10 +29,9 @@ export default class ClientRecordsController extends AbstractWebController imple
            return;
         }
 
-        const serviceRecordsProvider = new ServiceRecordProvider();
 
         try {
-            const serviceRecords = await serviceRecordsProvider.getRecordsByClientId(userId);
+            const serviceRecords = await this.serviceRecordsProvider.getRecordsByClientId(userId);
 
             this.serviceRecordsView
                 .setServiceRecords(ServiceRecordConverter.convertServiceRecordsToEntities(serviceRecords))

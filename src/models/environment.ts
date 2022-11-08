@@ -1,6 +1,6 @@
-import {CacheType} from "../abstracts/common.js";
+import * as dotenv from "dotenv";
 
-type typeCache = typeof CacheType;
+dotenv.config();
 
 export default class Environment {
     static getDbHost(): string | undefined {
@@ -19,7 +19,7 @@ export default class Environment {
         return process.env.DB_NAME;
     }
 
-    static getCacheType<T extends keyof typeCache>(): T {
-        return process.env.TYPE_CACHE as T;
+    static getCacheType(): string | undefined {
+        return process.env.TYPE_CACHE;
     }
 }

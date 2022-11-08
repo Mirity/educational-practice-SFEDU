@@ -10,10 +10,12 @@ import ClientProvider from "../models/provider/client-provider.js";
 export default class ClientCarsController extends AbstractWebController implements IController {
     private clientProvider: ClientProvider;
     private carsView: CarsView;
+    private carProvider: CarProvider;
 
     constructor() {
         super();
 
+        this.carProvider = new CarProvider();
         this.clientProvider = new ClientProvider();
         this.carsView = new CarsView();
     }
@@ -27,10 +29,9 @@ export default class ClientCarsController extends AbstractWebController implemen
             return;
         }
 
-        const carProvider = new CarProvider();
 
         try {
-            const cars = await carProvider.getCarsByClientId(userId);
+            const cars = await this.carProvider.getCarsByClientId(userId);
 
             this.carsView
                 .setCars(CarConverter.convertCarsToEntities(cars))

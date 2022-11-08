@@ -1,4 +1,3 @@
-import CarResource from "../../models/resource/car-resource.js";
 import { IController } from "../../abstracts/common";
 import { Request, Response } from "express";
 import AbstractApiController from "./abstract-api-controller.js";
@@ -7,9 +6,15 @@ import CarProvider from "../../models/provider/car-provider.js";
 
 
 export default class CarApiController extends AbstractApiController implements IController {
+    private carProvider: CarProvider;
+
+    constructor() {
+        super();
+
+        this.carProvider = new CarProvider();
+    }
     public async getHandler(res: Response, req: Request): Promise<void> {
         const id = req.params.id;
-        let car: Car;
 
         if (!this.isCorrectId(id)) {
             this.sendErrorMessageJson(res, 'Invalid id');
@@ -18,8 +23,7 @@ export default class CarApiController extends AbstractApiController implements I
         }
 
         try {
-            const carProvider = new CarProvider();
-            car = await carProvider.getCarById(id);
+            const car = await this.carProvider.getCarById(id);
 
             this.sendData<Car>(res, car);
         } catch(err: any) {
@@ -31,8 +35,7 @@ export default class CarApiController extends AbstractApiController implements I
         let params = req.body;
 
         try {
-            const carProvider = new CarProvider();
-            await carProvider.postCar(params);
+            await this.carProvider.postCar(params);
 
             this.sendMessageJson(res, 'Ok');
         } catch (err: any) {
@@ -50,10 +53,8 @@ export default class CarApiController extends AbstractApiController implements I
             return;
         }
 
-        const carProvider = new CarProvider();
-
         try {
-            await carProvider.putCar(params, id);
+            await this.carProvider.putCar(params);
 
             this.sendMessageJson(res, 'Ok');
         } catch (err: any) {
@@ -63,7 +64,6 @@ export default class CarApiController extends AbstractApiController implements I
 
     public async deleteHandler(res: Response, req: Request) {
         const id = req.params.id;
-        const carProvider = new CarProvider();
 
         if (!this.isCorrectId(id)) {
             this.sendErrorMessageJson(res, 'Invalid id');
@@ -72,7 +72,7 @@ export default class CarApiController extends AbstractApiController implements I
         }
 
         try {
-            await carProvider.deleteCar(id);
+            await this.carProvider.deleteCar(id);
 
             this.sendMessageJson(res, 'Ok');
         } catch (err: any) {

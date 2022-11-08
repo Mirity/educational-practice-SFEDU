@@ -4,6 +4,14 @@ import { Request, Response } from "express";
 import ServiceRecordProvider from "../models/provider/service-record-provider.js";
 
 export default class DeleteServiceRecordController extends AbstractWebController implements IController {
+    private serviceRecordProvider: ServiceRecordProvider;
+
+    constructor() {
+        super();
+
+        this.serviceRecordProvider = new ServiceRecordProvider();
+    }
+
     public async getHandler (res: Response, req: Request): Promise<void> {
         const serviceRecordId = req.query.id;
 
@@ -14,8 +22,7 @@ export default class DeleteServiceRecordController extends AbstractWebController
         }
 
         try {
-            const serviceRecordProvider = new ServiceRecordProvider();
-            await serviceRecordProvider.deleteServiceRecord(serviceRecordId);
+            await this.serviceRecordProvider.deleteServiceRecord(serviceRecordId);
             res.redirect('/service-records');
 
         } catch (err: any) {
