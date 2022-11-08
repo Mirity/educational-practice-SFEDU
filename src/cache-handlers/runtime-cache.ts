@@ -1,50 +1,34 @@
 import { ICache, IRuntimeCache } from "../abstracts/common";
+import AbstractCache from "./abstract-cache.js";
 
 let cacheData: IRuntimeCache = {};
 
-export default class RuntimeCache implements ICache {
-    private keyRuntime: string;
-
-    constructor() {
-        this.keyRuntime = ``;
-    }
-
-    private changeKeyRuntime(key: number | undefined, dataType: string) {
-        if(key) {
-            this.keyRuntime = `${dataType}${key}`;
-        } else {
-            this.keyRuntime = `${dataType}`;
-        }
-    }
-
+export default class RuntimeCache extends AbstractCache implements ICache {
     public async save<T>(data: T, dataType: string, key?: number): Promise<void> {
-        this.changeKeyRuntime(key, dataType);
-        cacheData[this.keyRuntime] = data;
-        console.log(`save cache ${this.keyRuntime}`, cacheData[this.keyRuntime]);
+        this.changeKeyCache(key, dataType);
+
+        cacheData[this.keyCache] = data;
+        console.log(`save cache ${this.keyCache}`, cacheData[this.keyCache]);
     }
 
     public async get<T>(dataType: string, key?: number): Promise<T | null> {
-        this.changeKeyRuntime(key, dataType);
-        const data = cacheData[this.keyRuntime];
+        this.changeKeyCache(key, dataType);
+        const data = cacheData[this.keyCache];
 
-        if(data) {
-            return data;
-        }
-
-        return null;
+        return data || null
     }
 
     public async delete(dataType: string, key?: number): Promise<void> {
-        this.changeKeyRuntime(key, dataType);
+        this.changeKeyCache(key, dataType);
 
-        delete cacheData[this.keyRuntime];
-        console.log(`delete cache ${this.keyRuntime}`, cacheData[this.keyRuntime]);
+        delete cacheData[this.keyCache];
+        console.log(`delete cache ${this.keyCache}`, cacheData[this.keyCache]);
     }
 
     public async update<T>(data: T, dataType: string, key: number): Promise<void> {
-        this.changeKeyRuntime(key, dataType);
+        this.changeKeyCache(key, dataType);
 
-        cacheData[this.keyRuntime] = data;
-        console.log(`update cache ${this.keyRuntime} `, cacheData[this.keyRuntime]);
+        cacheData[this.keyCache] = data;
+        console.log(`update cache ${this.keyCache} `, cacheData[this.keyCache]);
     }
 }

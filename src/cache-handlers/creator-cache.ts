@@ -5,7 +5,7 @@ import RedisCache from "./redis-cache.js";
 
 
 export default class CreatorCache {
-    static createCache(type: string | undefined) {
+    static createCache(type: CacheType | undefined) {
         if(type === CacheType.file) {
             return new FileCache();
         }
@@ -18,6 +18,6 @@ export default class CreatorCache {
             return new RedisCache();
         }
 
-        return new FileCache();
+        throw new Error('Invalid cache type in env file')
     }
 }

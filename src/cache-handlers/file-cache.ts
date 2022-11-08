@@ -1,11 +1,14 @@
 import { ICache } from "../abstracts/common";
 import fs from "fs";
+import AbstractCache from "./abstract-cache.js";
 
 
-export default class FileCache implements ICache {
+export default class FileCache extends AbstractCache implements ICache {
     private fileName: string;
 
     constructor() {
+        super();
+
         fs.stat('./cache', async (err, stats) => {
             if (err) {
                 await fs.promises.mkdir('./cache', {recursive: true})
@@ -15,16 +18,12 @@ export default class FileCache implements ICache {
         this.fileName = ``;
     }
 
-    private changeFileName(key: number | undefined, fileName: string) {
-        if(key) {
-            this.fileName = `./cache/${fileName}${key}.json`;
-        } else {
-            this.fileName = `./cache/${fileName}.json`;
-        }
+    private createFileName(keyCache: string) {
+        this.fileName = `./cache/${keyCache}.json`;
     }
 
     public async save<T>(data: T, fileName: string, key?: number) {
-        this.changeFileName(key, fileName);
+        this.createFileName(this.changeKeyCache(key, fileName));
 
         try {
             await fs.promises.writeFile(this.fileName, JSON.stringify(data))
@@ -33,16 +32,12 @@ export default class FileCache implements ICache {
     }
 
     public async get<T>(fileName: string, key?: number ): Promise<T | null> {
-        this.changeFileName(key, fileName);
+        this.createFileName(this.changeKeyCache(key, fileName));
 
         try {
             const data = fs.promises.readFile(this.fileName, { encoding: 'utf-8' });
 
-            if(data) {
-                return JSON.parse(await data);
-            }
-
-            return null;
+            return JSON.parse(await data) || null
         } catch {
             console.log(`no such file ${this.fileName}`);
             return null;
@@ -50,7 +45,7 @@ export default class FileCache implements ICache {
     }
 
     public async delete(fileName: string, key?: number): Promise<void> {
-        this.changeFileName(key, fileName);
+        this.createFileName(this.changeKeyCache(key, fileName));
 
         try {
             await fs.promises.unlink(this.fileName);
@@ -61,7 +56,7 @@ export default class FileCache implements ICache {
     }
 
     public async update<T>(data: T, fileName: string, key: number): Promise<void> {
-        this.changeFileName(key, fileName);
+        this.createFileName(this.changeKeyCache(key, fileName));
 
         try {
             await fs.promises.truncate(this.fileName);
