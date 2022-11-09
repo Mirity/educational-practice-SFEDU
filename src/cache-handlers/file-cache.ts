@@ -4,8 +4,6 @@ import AbstractCache from "./abstract-cache.js";
 
 
 export default class FileCache extends AbstractCache implements ICache {
-    private fileName: string;
-
     constructor() {
         super();
 
@@ -14,56 +12,55 @@ export default class FileCache extends AbstractCache implements ICache {
                 await fs.promises.mkdir('./cache', {recursive: true})
             }
         })
-
-        this.fileName = ``;
     }
 
-    private createFileName(keyCache: string) {
-        this.fileName = `./cache/${keyCache}.json`;
+
+    protected changeKeyCache(key: number | undefined, dataType: string): string {
+        return this.keyCache = `./cache/${super.changeKeyCache(key, dataType)}.json`;
     }
 
     public async save<T>(data: T, fileName: string, key?: number) {
-        this.createFileName(this.changeKeyCache(key, fileName));
+        this.changeKeyCache(key, fileName);
 
         try {
-            await fs.promises.writeFile(this.fileName, JSON.stringify(data))
-            console.log(`save cache info ${this.fileName}`)
+            await fs.promises.writeFile(this.keyCache, JSON.stringify(data))
+            console.log(`save cache info ${this.keyCache}`)
         } catch {}
     }
 
     public async get<T>(fileName: string, key?: number ): Promise<T | null> {
-        this.createFileName(this.changeKeyCache(key, fileName));
+        this.changeKeyCache(key, fileName);
 
         try {
-            const data = fs.promises.readFile(this.fileName, { encoding: 'utf-8' });
+            const data = fs.promises.readFile(this.keyCache, { encoding: 'utf-8' });
 
             return JSON.parse(await data) || null
         } catch {
-            console.log(`no such file ${this.fileName}`);
+            console.log(`no such file ${this.keyCache}`);
             return null;
         }
     }
 
     public async delete(fileName: string, key?: number): Promise<void> {
-        this.createFileName(this.changeKeyCache(key, fileName));
+        this.changeKeyCache(key, fileName);
 
         try {
-            await fs.promises.unlink(this.fileName);
-            console.log(`delete info ${this.fileName}`);
+            await fs.promises.unlink(this.keyCache);
+            console.log(`delete info ${this.keyCache}`);
         } catch {
-            console.log(`no such file ${this.fileName}`);
+            console.log(`no such file ${this.keyCache}`);
         }
     }
 
     public async update<T>(data: T, fileName: string, key: number): Promise<void> {
-        this.createFileName(this.changeKeyCache(key, fileName));
+        this.changeKeyCache(key, fileName);
 
         try {
-            await fs.promises.truncate(this.fileName);
-            await fs.promises.writeFile(this.fileName, JSON.stringify(data));
-            console.log(`update info ${this.fileName}`);
+            await fs.promises.truncate(this.keyCache);
+            await fs.promises.writeFile(this.keyCache, JSON.stringify(data));
+            console.log(`update info ${this.keyCache}`);
         } catch {
-            console.log(`no such file ${this.fileName}`);
+            console.log(`no such file ${this.keyCache}`);
         }
 
     }

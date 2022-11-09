@@ -18,6 +18,10 @@ export default class RedisCache extends AbstractCache implements ICache {
 
 
     private async connectClient() {
+        if(this.isConnected) {
+            return;
+        }
+
         this.client.on('ready', () => {
             this.isConnected = true;
         })

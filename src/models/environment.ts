@@ -1,4 +1,5 @@
 import * as dotenv from "dotenv";
+import { CacheType } from "../abstracts/common.js";
 
 dotenv.config();
 
@@ -19,7 +20,7 @@ export default class Environment {
         return process.env.DB_NAME;
     }
 
-    static getCacheType(): string | undefined {
-        return process.env.TYPE_CACHE;
+    static getCacheType(): CacheType | undefined {
+        return process.env.TYPE_CACHE as CacheType;
     }
 }
