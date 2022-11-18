@@ -66,6 +66,10 @@ export default class ServiceRecordProvider {
     public async postServiceRecord(params: ServiceRecord): Promise<void> {
         let dbQueryInfo;
         try {
+            const dateNow = Date.now();
+            if(new Date(params.date).getTime() < dateNow) {
+                throw new Error('Bad request');
+            }
             dbQueryInfo = await this.serviceRecordResource.addNewServiceRecord(params);
         } catch (err) {
             throw new Error('Bad request');

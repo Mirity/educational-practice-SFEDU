@@ -33,4 +33,13 @@
             text-decoration: underline;
         }
     }
+
+    &__delete {
+        padding: 10px 0;
+        width: 100px;
+
+        text-align: center;
+
+        border: 1px $main-color solid;
+    }
 }

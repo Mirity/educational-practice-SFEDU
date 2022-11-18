@@ -1,13 +1,13 @@
 import {DbServiceRecord, ServiceRecord} from "../abstracts/service-record";
 import ServiceRecordEntity from "../models/entity/service-record-entity.js";
-import {DbServiceCenter, ServiceCenter} from "../abstracts/service-center";
-import ServiceCenterEntity from "../models/entity/service-center-entity";
+
+
 
 export default class ServiceRecordConverter {
     public static convertDbServiceRecord ({ id, date, number, passport, client_name, client_surname }: DbServiceRecord): ServiceRecord {
         return {
             id,
-            date,
+            date: date.toDateString(),
             number,
             passport,
             clientName: client_name,
