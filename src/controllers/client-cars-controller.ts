@@ -28,7 +28,7 @@ export default class ClientCarsController extends AbstractWebController implemen
 
             return;
         }
-
+        this.carsView.setCsrfToken(req.session.csrfToken)
 
         try {
             const cars = await this.carProvider.getCarsByClientId(userId);
@@ -36,6 +36,7 @@ export default class ClientCarsController extends AbstractWebController implemen
             this.carsView
                 .setCars(CarConverter.convertCarsToEntities(cars))
                 .setTemplate('client-cars');
+
 
             this.render(res, this.carsView, req.session.isLoggedIn);
         } catch (err: any) {

@@ -42,7 +42,7 @@ export default class CarController extends AbstractWebController implements ICon
         try {
             await this.carProvider.postCar(params);
 
-            res.redirect('/cars');
+            res.redirect('/my-cars');
 
         } catch (err: any) {
             this.redirectToError(res, err.message, 400);

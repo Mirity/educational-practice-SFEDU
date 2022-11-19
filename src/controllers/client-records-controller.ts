@@ -29,6 +29,8 @@ export default class ClientRecordsController extends AbstractWebController imple
            return;
         }
 
+        this.serviceRecordsView.setCsrfToken(req.session.csrfToken)
+
 
         try {
             const serviceRecords = await this.serviceRecordsProvider.getRecordsByClientId(userId);

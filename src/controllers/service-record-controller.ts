@@ -41,7 +41,7 @@ export default class ServiceRecordController extends AbstractWebController imple
         try {
             await this.serviceRecordProvider.postServiceRecord(params);
 
-            res.redirect('/service-records');
+            res.redirect('/my-records');
 
         } catch (err: any) {
             this.redirectToError(res, err.message, 400);

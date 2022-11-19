@@ -14,7 +14,7 @@ const editCarController = new EditCarController()
 const routes: Route[] = [
     {
         controller: carController,
-        path: '/car',
+        path: '/my-cars',
         method: RequestMethod.post
     },
     {

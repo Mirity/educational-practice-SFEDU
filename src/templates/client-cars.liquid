@@ -4,7 +4,126 @@
         {% include 'samples/table-header-car.liquid' %}
         {% assign cars = this.getCars %}
         {% for car in cars %}
-            {% include 'samples/car-sample.liquid', car: car %}
+            {% include 'samples/client-car-sample.liquid', car: car %}
         {% endfor %}
     </div>
+
+
+    <form id="form"
+          class="form"
+          action="/my-cars"
+          method="post">
+        {% assign csrfToken = this.getCsrfToken %}
+
+        <input name="csrf_token" type="hidden" value={{ csrfToken }}>
+
+        <div class="form__item">
+            <label class="form__label"
+                   for="mileage"
+            >
+                Пробег:
+            </label>
+            <input class="form__input"
+                   type="number"
+                   id="mileage"
+                   name="mileage"
+            >
+        </div>
+
+        <div class="form__item">
+            <label class="form__label"
+                   for="number"
+            >
+                Номер:
+            </label>
+            <input class="form__input"
+                   type="text"
+                   id="number"
+                   name="number"
+            >
+        </div>
+
+        <div class="form__item">
+            <label class="form__label"
+                   for="brandName"
+            >
+                Бренд:
+            </label>
+            <input class="form__input"
+                   type="text"
+                   id="brandName"
+                   name="brandName"
+            >
+        </div>
+
+        <div class="form__item">
+            <label class="form__label"
+                   for="model"
+            >
+                Модель:
+            </label>
+            <input class="form__input"
+                   type="text"
+                   id="model"
+                   name="model">
+        </div>
+
+        <div class="form__item">
+            <label class="form__label"
+                   for="countryName"
+            >
+                Страна:
+            </label>
+            <input class="form__input"
+                   type="text"
+                   id="countryName"
+                   name="countryName"
+            >
+        </div>
+
+        <div class="form__item">
+            <label class="form__label"
+                   for="clientName"
+            >
+                Имя клиента:
+            </label>
+            <input class="form__input"
+                   type="text"
+                   id="clientName"
+                   name="clientName"
+            >
+        </div>
+
+        <div class="form__item">
+            <label class="form__label"
+                   for="clientSurname"
+            >
+                Фамилия клиента:
+            </label>
+            <input class="form__input"
+                   type="text"
+                   id="clientSurname"
+                   name="clientSurname"
+            >
+        </div>
+
+        <div class="form__item">
+            <label class="form__label"
+                   for="yearManufacture"
+            >
+                Год выпуска:
+            </label>
+            <input class="form__input"
+                   type="number"
+                   id="yearManufacture"
+                   name="yearManufacture"
+            >
+        </div>
+
+        <button class="button button_submit"
+                type="submit"
+        >
+            Добавить
+        </button>
+    </form>
 {% endblock %}

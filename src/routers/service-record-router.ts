@@ -18,7 +18,7 @@ const routes: Route[] = [
     },
     {
         controller: serviceRecordController,
-        path: '/service-record',
+        path: '/my-records',
         method: RequestMethod.post
     },
     {
