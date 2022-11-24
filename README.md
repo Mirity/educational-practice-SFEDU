@@ -1,4 +1,4 @@
-# 7 MVC JS - Alisa
+# Alisa Balackaya
 
 # Версия Node 
 v16.13.2
